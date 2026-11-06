@@ -1,0 +1,5 @@
+# Lista blanca: todo queda fuera salvo lo permitido abajo.
+# Para publicar algo nuevo, agregar una excepción explícita.
+/*
+!/.gitignore
+!/README.md
