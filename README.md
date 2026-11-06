@@ -2,7 +2,7 @@
 
 Demo local de programación académica: asigna cada sección a un patrón semanal y una sala, con datos sintéticos, restricciones obligatorias, preferencias explícitas y auditoría independiente.
 
-> **Estado:** Hito 0 terminado. Existe el paquete Python con su ayuda de línea de comandos. Todavía no hay carga de datos, solver, ejecuciones ni resultados de optimización.
+> **Estado:** Hito 1 en revisión. Existen la validación de datos, la carga en SQLite y la generación de los casos micro y demo. Todavía no hay candidatos, solver, ejecuciones ni resultados de optimización.
 >
 > Prototipo independiente con **datos sintéticos**. No usa información, registros ni sistemas de ninguna institución.
 
@@ -15,7 +15,13 @@ uv sync --locked
 uv run python -m academic_timetabling_demo --help
 ```
 
-La ayuda es por ahora la única función del programa.
+## Generar datos sintéticos
+
+```bash
+uv run python -m academic_timetabling_demo generate --case demo --seed 42 --out data/generado/demo
+```
+
+La salida debe ser una carpeta nueva o vacía. Los casos `micro` y `demo` de semilla 42 ya están en `data/synthetic/`. `generate` es por ahora el único comando funcional.
 
 ## Decisiones técnicas de la versión 0.1
 

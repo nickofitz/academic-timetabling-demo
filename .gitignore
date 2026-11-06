@@ -37,6 +37,21 @@
 /tests/*
 !/tests/test_cli.py
 
+# Hito 1: datos y validación.
+!/docs/entregas/hito-1.md
+!/src/academic_timetabling_demo/domain.py
+!/src/academic_timetabling_demo/db.py
+!/src/academic_timetabling_demo/synthetic.py
+!/tests/test_domain.py
+!/tests/test_db.py
+!/tests/test_synthetic.py
+!/data/
+/data/*
+!/data/synthetic/
+/data/synthetic/*
+!/data/synthetic/micro/
+!/data/synthetic/demo/
+
 # Siempre excluidos, aunque una regla anterior abra su carpeta.
 .venv/
 __pycache__/

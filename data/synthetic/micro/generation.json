@@ -1,0 +1,49 @@
+{
+  "case": "micro",
+  "format_version": 1,
+  "hash": {
+    "algorithm": "sha256",
+    "line_endings": "LF"
+  },
+  "seed": 42,
+  "sources": {
+    "blocks.csv": "fa994ea9354edb89d88c0e470693f608220a5c24cfbab1c1a152fc05a7efcf07",
+    "config.json": "5499e259e488a10efc6098c2e8a6796885ef9fd4cd90b6fc3c26b645d8e3e1d9",
+    "days.csv": "1d1c91d15ace6e21ea5f551e16e717f326992bdf800f6696628859be29b906bf",
+    "features.csv": "8c51cd831236f00da2da395884a73e9d27119958ddab94a880f180647f4f69c2",
+    "groups.csv": "16d2315645acf9238cb35c0e667379a6e0b1d75df075cfca8277c93e9ca73b03",
+    "pattern_sessions.csv": "1d10dac06ba512ea2d698f59585cf7f00db1e46599f388fcb05f107be613020e",
+    "patterns.csv": "a44d639e2eefb01d4a4def5ffff69b8e24cebf3f367992b984e22872343adfff",
+    "room_available.csv": "1e3ed7f42fe45dd2b91e6b5742f1c952f9cc474c34fdcbd4b07ab604844a0f0f",
+    "room_features.csv": "3d2425d23c27fc9fad5be541771d9599099b69357e431e403b2ba6ba57c64951",
+    "room_reservations.csv": "5bccd2631fdc465184e7bb5b75a6d3ce68fc25237826c36dbbb5eed8432cbc79",
+    "rooms.csv": "007965e144f0e2cf203044dcc69f655295eb44260891a1928ead58a83c531d3e",
+    "section_blocked.csv": "958e4b75f155ba0a9bb05275d12efbccb1f9fc3fd461042a738a9e698c5714ee",
+    "section_features.csv": "82067f107ab4dfc4fa84f7bdeb1b8e54c0d92d89a4ed0fedd52f086273ea5145",
+    "section_groups.csv": "fd36fac2d2387656924417634ba4c4d5d56a656d45c7888f8374ad650ddf7b44",
+    "section_patterns.csv": "a4aaa6c851780c80aa8c11f0b1dbd4c57578ef3e699d1485819b26956cdd5ade",
+    "section_weeks.csv": "13f7796cc5083ec478ae3717995bb06365a4635fdc5d9a10d15baa7c0b85996b",
+    "sections.csv": "98f2e89af24f6a2284db0c2e9d7b7b05b55e4858985a80b2f59464da537b09f0",
+    "teacher_available.csv": "04e187e4e3a528a4e3959f084d3151450e5afb90764bb0d2a7412503e8adf511",
+    "teacher_penalties.csv": "34809aa6039192f62fb6c400b49229b76ec15130dc20f260fee3c529fe6ae212",
+    "teachers.csv": "5620fcee0045828d346bea56843390688c82bae233ab5f73ca700edde09f5408",
+    "weeks.csv": "1d1c91d15ace6e21ea5f551e16e717f326992bdf800f6696628859be29b906bf"
+  },
+  "witness": [
+    {
+      "pattern_id": "P2",
+      "room_id": "R1",
+      "section_id": "S1"
+    },
+    {
+      "pattern_id": "P3",
+      "room_id": "R2",
+      "section_id": "S2"
+    },
+    {
+      "pattern_id": "P5",
+      "room_id": "R1",
+      "section_id": "S3"
+    }
+  ]
+}

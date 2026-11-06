@@ -1,0 +1,9 @@
+pattern_id,session_id,day_id,start_block_id,duration_blocks
+P1,1,1,1,1
+P2,1,1,2,1
+P3,1,1,1,2
+P4,1,2,2,2
+P5,1,1,3,1
+P5,2,2,1,1
+P6,1,1,1,1
+P6,2,2,1,1
