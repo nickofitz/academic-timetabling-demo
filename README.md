@@ -2,9 +2,20 @@
 
 Demo local de programación académica: asigna cada sección a un patrón semanal y una sala, con datos sintéticos, restricciones obligatorias, preferencias explícitas y auditoría independiente.
 
-> **Estado:** en planificación. Este repositorio contiene por ahora solo el plan de trabajo. Todavía no hay código, ejecuciones ni resultados.
+> **Estado:** Hito 0 terminado. Existe el paquete Python con su ayuda de línea de comandos. Todavía no hay carga de datos, solver, ejecuciones ni resultados de optimización.
 >
 > Prototipo independiente con **datos sintéticos**. No usa información, registros ni sistemas de ninguna institución.
+
+## Instalación
+
+Requiere [uv](https://docs.astral.sh/uv/), que obtiene Python 3.12 si no está disponible.
+
+```bash
+uv sync --locked
+uv run python -m academic_timetabling_demo --help
+```
+
+La ayuda es por ahora la única función del programa.
 
 ## Decisiones técnicas de la versión 0.1
 
@@ -26,7 +37,15 @@ Reservas y franjas protegidas son restricciones duras. Los costos se cuentan una
 
 ## Plan de trabajo
 
-Antes de programar se unifica la documentación: la especificación será la fuente de verdad de reglas, modelo, costos, estados y criterios de aceptación; la guía describirá el orden de construcción; y el esquema se alineará con semanas y disponibilidad explícitas.
+La documentación técnica preparada para revisión está organizada así:
+
+- [Especificación normativa](especificacion.md): reglas, datos, modelo, costos, estados y aceptación.
+- [Guía de trabajo](Guia_MVP_Timetabling_Codex.md): secuencia, entregables y comandos previstos.
+- [Esquema SQLite](schema.sql): tablas fuente y derivadas; su validación no acredita una aplicación terminada.
+- [Decisiones](docs/decisiones.md) y [colaboración](docs/colaboracion.md).
+- [Encargo del Hito 0 para Claude](docs/encargos/hito-0.md).
+
+Los comandos funcionales de la guía están pendientes de implementación. Los documentos personales y antecedentes se conservan localmente y quedan fuera del repositorio público.
 
 | Hito | Trabajo | Condición para aprobar |
 |---|---|---|

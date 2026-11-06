@@ -3,3 +3,45 @@
 /*
 !/.gitignore
 !/README.md
+
+# Documentación técnica neutra preparada para revisión; no implica publicación.
+!/especificacion.md
+!/schema.sql
+!/Guia_MVP_Timetabling_Codex.md
+!/AGENTS.md
+!/CLAUDE.md
+!/docs/
+/docs/*
+!/docs/decisiones.md
+!/docs/colaboracion.md
+!/docs/encargos/
+/docs/encargos/*
+!/docs/encargos/hito-0.md
+!/docs/encargos/hito-1.md
+!/docs/entregas/
+/docs/entregas/*
+!/docs/entregas/hito-0.md
+
+# Hito 0: paquete y entorno. Cada hito agrega solo sus rutas.
+!/pyproject.toml
+!/.python-version
+!/uv.lock
+!/src/
+/src/*
+!/src/academic_timetabling_demo/
+/src/academic_timetabling_demo/*
+!/src/academic_timetabling_demo/__init__.py
+!/src/academic_timetabling_demo/__main__.py
+!/src/academic_timetabling_demo/cli.py
+!/tests/
+/tests/*
+!/tests/test_cli.py
+
+# Siempre excluidos, aunque una regla anterior abra su carpeta.
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+/runs/
+# El material local y los PDF siguen excluidos por la lista blanca raíz.
