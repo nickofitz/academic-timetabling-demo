@@ -47,6 +47,7 @@ La demo inicial tendrá cuatro semanas y semilla 42. Los casos de 16 semanas y m
 - Cada encargo identifica objetivo, archivos permitidos, pruebas y evidencia requerida.
 - Se trabaja en una rama por hito y se revisa antes de integrar en `main`.
 - Se evitan las ediciones simultáneas de los mismos archivos.
+- Las instrucciones de ambos agentes comparten las mismas reglas y remiten a la especificación.
 
 ## Evidencia de aceptación
 
