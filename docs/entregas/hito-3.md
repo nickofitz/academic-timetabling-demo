@@ -1,11 +1,87 @@
 # Entrega del Hito 3: CP-SAT y auditoría independiente
 
-Estado: terminado por Claude, pendiente de revisión de Codex y aprobación del autor. Sin push ni integración en `main`.
+Estado: terminado por Claude, con las dos correcciones de la revisión de Codex aplicadas. Pendiente de nueva revisión de Codex y aprobación del autor. Sin push ni integración en `main`.
+
+## Correcciones tras la revisión de Codex
+
+Codex revisó `1c9b3cb` y pidió dos correcciones. Están en `e89bfc0`, sobre la misma rama. Solo se tocaron las rutas permitidas: `runner.py`, `validate.py`, `cli.py`, sus pruebas y esta entrega. No cambiaron el modelo, el preprocesamiento ni las reglas de datos.
+
+### 1. Integridad final del snapshot
+
+- **Antes:** si `input/` cambiaba después de resolver y auditar, la corrida anotaba `snapshot_verified=false` pero terminaba con código 0 y `result_valid=true`. Si la relectura final fallaba, el error escapaba sin diagnóstico.
+- **Ahora:** `metrics.status` tiene un campo propio, `integrity`, con los valores `VERIFIED`, `FAILED` o `NOT_VERIFIED`.
+  - Con `FAILED` o `NOT_VERIFIED`, la corrida termina con código 5, `result_valid=false` y un mensaje que nombra los archivos cambiados o la causa del error de lectura.
+  - Los estados de solver y auditoría no se reescriben: siguen diciendo, por ejemplo, `OPTIMAL` y `PASSED`. Así se distingue un fallo de integridad de uno matemático.
+  - Se conservan todas las salidas, incluido `assignments.csv`.
+  - Un `OSError` al releer se informa como `NOT_VERIFIED` con su causa, y los informes se escriben igual.
+- **Detalle:** `diagnostics.json` agrega `integrity` con `snapshot_changed`, `snapshot_check_error`, `source_changed` y `source_check_error`.
+- **Fuente original:** si cambia el directorio original pero el snapshot sigue intacto, solo se registra (`source_unchanged=false`, `source_changed`) y la corrida sigue siendo válida.
+- **Fuente ilegible al copiar** (cambio adicional): ya no escapa como error interno. Se registra en `input.unreadable`, `complete=false`, y la corrida termina como datos inválidos con código 2.
+
+### 2. Errores de lectura en `audit`
+
+- **`read_assignments`:** ahora traduce cualquier `OSError` (carpeta, permiso denegado, E/S) a `AssignmentsError`, con la ruta y la causa.
+- **CLI de `audit`:** en el límite de entrada se traducen los `OSError` al leer `--input`, `--config` o `--assignments` a código 2, con un mensaje que nombra la opción, la ruta y la causa. `domain.read_config` no podía tocarse en este encargo, por eso se resolvió en la CLI.
+- **Lo que no cambia:** la auditoría se ejecuta fuera de ese bloque, así que un error del auditor no se informa como dato inválido. Los hallazgos de una auditoría ejecutada siguen devolviendo código 4.
+- **Reproducción de Codex:** con una carpeta existente como `--assignments` o como `--config`, ahora el comando termina con código 2 y `no se pudo leer ... PermissionError: Permission denied`, sin traceback.
+
+### Regresiones nuevas
+
+Las 11 regresiones nuevas fallan contra el código de `7e1b87c` y pasan con `e89bfc0`; se comprobó en el clon anterior.
+
+| Archivo | Prueba | Qué comprueba |
+|---|---|---|
+| `test_runner.py` | `test_modified_snapshot_blocks_success` | Reproducción de Codex (capacidad 30 cambiada a 31 en `input/rooms.csv` tras auditar): código 5, `OPTIMAL`/`PASSED`, `integrity=FAILED`, `result_valid=false` |
+| `test_runner.py` | `test_unverifiable_snapshot_blocks_success` | `PermissionError` simulado al releer: código 5, `NOT_VERIFIED`, causa registrada, informes escritos |
+| `test_runner.py` | `test_changed_source_with_intact_snapshot_is_only_recorded` | Original modificado tras copiarlo: código 0, `VERIFIED`, `source_unchanged=false` |
+| `test_runner.py` | `test_unreadable_source_is_invalid_data` | Fuente ilegible al copiar: código 2, `unreadable` registrado |
+| `test_audit.py` | `test_directory_as_assignments_is_a_read_error` | Carpeta como asignaciones |
+| `test_audit.py` | `test_simulated_read_failure_is_a_read_error` | `OSError` de E/S simulado |
+| `test_cli.py` | `test_audit_directory_as_assignments_returns_two` | Carpeta en `--assignments`: código 2, sin traceback |
+| `test_cli.py` | `test_audit_directory_as_config_returns_two` | Carpeta en `--config`: código 2, sin traceback |
+| `test_cli.py` | `test_audit_unreadable_source_returns_two` | `rooms.csv` es una carpeta en `--input`: código 2 |
+| `test_cli.py` | `test_audit_simulated_read_failure` | `OSError` simulado al abrir las asignaciones: código 2 |
+| `test_cli.py` | `test_audit_logic_errors_are_not_reported_as_bad_data` | Un error dentro del auditor no se convierte en código 2. Esta prueba pasa también con el código anterior, como corresponde |
+
+Además, la corrida micro normal ahora exige `integrity=VERIFIED`; esa prueba ya existía y se amplió. Siguen pasando las regresiones previas de archivos ausentes, mal formados y no UTF-8.
+
+### Evidencia tras las correcciones
+
+| Comando | Dónde | Código | Resultado |
+|---|---|---|---|
+| `uv sync --locked` (`UV_LINK_MODE=copy`) | Clon limpio de `e89bfc0` | 0 | Entorno desde el lock |
+| `uv run pytest` | Clon limpio | 0 | 266 aprobadas |
+| `uv run python -m academic_timetabling_demo --help`, `run --help`, `audit --help` | Clon limpio | 0 | Ayuda de los tres |
+| `uv run ruff check src tests` y `uv run ruff format --check src tests` | Clon limpio | 0 | 19 archivos versionados sin hallazgos |
+| `uv run python -m academic_timetabling_demo run --input data/synthetic/micro ...` | Clon limpio | 0 | OPTIMAL, objetivo 3 |
+| `uv sync --locked` | Carpeta de trabajo | 0 | 23 paquetes verificados |
+| `uv run python -m pytest` con los 8 archivos versionados | Carpeta de trabajo | 0 | 266 aprobadas |
+| `uv run pytest ...` | Carpeta de trabajo | 2 | Sigue bloqueado: la directiva afecta al lanzador `pytest.exe` del `.venv` |
+| `uv run ruff check src tests` y `format --check` | Carpeta de trabajo | 0 | Sin hallazgos |
+
+**Cambio en el entorno:** a diferencia de la primera entrega, `uv run` ya funciona en el clon nuevo y, en la carpeta, para `python` y `ruff`. No se modificó ninguna política; solo se observa el cambio. En el clon, sin borradores ignorados, `uv run pytest` reúne exactamente las 266 pruebas versionadas.
+
+Conteo: 255 pruebas anteriores más 11 nuevas, 266 en total. En la tabla de la sección «Pruebas», `test_runner.py` pasa de 24 a 28, `test_audit.py` de 31 a 33 y `test_cli.py` de 31 a 36.
+
+Corridas repetidas tras las correcciones:
+
+| Corrida | Dónde | Código | Resultado | Integridad | Hash global de `input/` |
+|---|---|---|---|---|---|
+| micro (`runs/hito3c-micro`) | Carpeta | 0 | OPTIMAL, 3, cota 3, PASSED | VERIFIED | `9db85f36798143e17d3f9a5d89bfef2205cd731751732dedeb45cfd83912f36b` |
+| demo (`runs/hito3c-demo`, `--time-limit 30 --seed 42`) | Carpeta | 0 | OPTIMAL, 17, cota 17, PASSED | VERIFIED | `2fd989b234c13f9fbab50ba18ee18d9a782a0782b676b954c18745721e5d27c2` |
+| micro y demo | Clon limpio de `e89bfc0` | 0 | Mismos objetivos | VERIFIED | Mismos hashes; Git registra `e89bfc0` con `dirty=false` |
+
+Auditorías independientes repetidas:
+
+- Contra el snapshot `input/` de cada corrida, con `--config effective_config.json` y `--reported-objective`, sin reconstruir candidatos: micro con 3 y demo con 17, ambas con código 0.
+- Asignaciones manipuladas del micro: código 4, con los mismos cuatro hallazgos.
+
+Los hashes de `effective_config.json` no cambiaron: `5499e259…` en micro y `26a3b784…` en demo.
 
 ## Rama, commits y punto de partida
 
 - Rama `hito/3-optimizacion`, creada desde `main` en `0ed2285`, igual a `origin/main` al empezar.
-- Código, pruebas y documentación en `7e1b87c`. Esta entrega va en un commit posterior de la misma rama.
+- Código, pruebas y documentación en `7e1b87c`; primera entrega en `1c9b3cb`; correcciones en `e89bfc0`. Esta actualización de la entrega va en un commit posterior.
 - El encargo se copió sin cambios a `docs/encargos/hito-3.md`.
 - **Respaldo:** antes de editar se copiaron los cuatro borradores locales (`model.py`, `validate.py`, `demo_run.py`, `tests/test_optimization.py`) a una carpeta local ignorada, con un `SHA256SUMS`. Eran idénticos a los del respaldo previo al Hito 2. No se tocaron el respaldo anterior, el stash ni `candidates.py`.
 
@@ -37,9 +113,11 @@ Estado: terminado por Claude, pendiente de revisión de Codex y aprobación del 
 - **Clon limpio:** con `autocrlf` activo, el clon también obtuvo los 44 archivos con LF.
 - **Hashes:** `generation.json` conserva su hash normalizado a LF. Las corridas hashean los bytes exactos de `input/` y lo declaran en `hash_policy`. Una prueba compara entradas LF y CRLF: los hashes de corrida difieren y los del manifiesto coinciden. La decisión quedó en `docs/decisiones.md`.
 
-## Entorno y comandos
+## Entorno y comandos (primera entrega, `7e1b87c`)
 
-`uv run` sigue bloqueado: Windows impide ejecutar `.venv\Scripts\python.exe` por una directiva de Control de aplicaciones (error 4551), en la carpeta de trabajo y en el clon. No se modificó ninguna política. Se usó la alternativa documentada:
+Esta sección conserva la evidencia original. El estado actual del entorno está en «Evidencia tras las correcciones».
+
+En ese momento `uv run` estaba bloqueado: Windows impide ejecutar `.venv\Scripts\python.exe` por una directiva de Control de aplicaciones (error 4551), en la carpeta de trabajo y en el clon. No se modificó ninguna política. Se usó la alternativa documentada:
 
 ```text
 C:\Users\<usuario>\.local\share\uv\python\cpython-3.12-windows-x86_64-none\python.exe
@@ -66,15 +144,15 @@ pytest informa 2 advertencias `DeprecationWarning` sobre `~` aplicado a un boole
 
 | Archivo | En `main` | En la rama |
 |---|---|---|
-| `test_cli.py` | 14 | 31 |
+| `test_cli.py` | 14 | 36 |
 | `test_db.py` | 10 | 10 |
 | `test_domain.py` | 66 | 66 |
 | `test_synthetic.py` | 34 | 34 |
 | `test_candidates.py` | 31 | 31 |
 | `test_model.py` | — | 28 |
-| `test_audit.py` | — | 31 |
-| `test_runner.py` | — | 24 |
-| **Total** | **155** | **255** |
+| `test_audit.py` | — | 33 |
+| `test_runner.py` | — | 28 |
+| **Total** | **155** | **266** |
 
 En `test_cli.py`, la prueba que rechazaba `run`, `audit` y `compare` como comandos futuros ahora rechaza solo `compare`. Sus otros dos casos pasaron a una prueba que exige `--input` en `run` y `audit`, así que se conserva el conteo de casos.
 
@@ -144,7 +222,7 @@ La asignación óptima de la demo no coincide con el horario testigo del generad
 
 ## Limitaciones y pruebas no ejecutadas
 
-- No se ejecutó `uv run` en ninguna parte, por el bloqueo de Windows.
+- En la primera entrega no se pudo usar `uv run`. Tras las correcciones funciona en el clon limpio; en la carpeta de trabajo sigue bloqueado `uv run pytest` (lanzador `pytest.exe`), y se usó `uv run python -m pytest`.
 - No se forzó un `UNKNOWN` ni un `MODEL_INVALID` reales: se probaron con el adaptador simulado y con stubs en el runner, como pide el encargo.
 - No se probó con más de un trabajador, donde CP-SAT no garantiza el mismo recorrido de búsqueda.
 - Solo se probó en Windows.
