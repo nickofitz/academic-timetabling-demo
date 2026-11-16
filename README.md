@@ -2,7 +2,7 @@
 
 Demo local de programación académica: asigna cada sección a un patrón semanal y una sala, con datos sintéticos, restricciones obligatorias, preferencias explícitas y auditoría independiente.
 
-> **Estado:** Hito 1 en revisión. Existen la validación de datos, la carga en SQLite y la generación de los casos micro y demo. Todavía no hay candidatos, solver, ejecuciones ni resultados de optimización.
+> **Estado:** Hito 2 en revisión. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, y la preparación de alternativas en SQL con su diagnóstico previo. Todavía no hay solver, ejecuciones ni resultados de optimización.
 >
 > Prototipo independiente con **datos sintéticos**. No usa información, registros ni sistemas de ninguna institución.
 
@@ -22,6 +22,21 @@ uv run python -m academic_timetabling_demo generate --case demo --seed 42 --out 
 ```
 
 La salida debe ser una carpeta nueva o vacía. Los casos `micro` y `demo` de semilla 42 ya están en `data/synthetic/`. `generate` es por ahora el único comando funcional.
+
+## Preparar alternativas
+
+La preparación de alternativas existe como API de Python, todavía sin comando propio:
+
+```python
+from pathlib import Path
+from academic_timetabling_demo.candidates import build_candidates
+from academic_timetabling_demo.db import connect, load_instance
+from academic_timetabling_demo.domain import read_instance
+
+connection = connect("base.sqlite")
+load_instance(connection, read_instance(Path("data/synthetic/demo")))
+precheck = build_candidates(connection)  # READY o NO_CANDIDATES, con conteos por sección
+```
 
 ## Decisiones técnicas de la versión 0.1
 

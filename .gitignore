@@ -52,6 +52,11 @@
 !/data/synthetic/micro/
 !/data/synthetic/demo/
 
+# Hito 2: candidatos SQL.
+!/docs/entregas/hito-2.md
+!/src/academic_timetabling_demo/candidates.py
+!/tests/test_candidates.py
+
 # Siempre excluidos, aunque una regla anterior abra su carpeta.
 .venv/
 __pycache__/
