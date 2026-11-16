@@ -1,6 +1,6 @@
 # Entrega del Hito 2: candidatos SQL
 
-Estado: terminado por Claude, pendiente de revisión de Codex y aprobación del autor. Sin push ni integración en `main`.
+Estado: revisado por Codex el 16 de noviembre de 2026; 155 pruebas versionadas y Ruff aprobados. El autor autorizó integrar y publicar el hito. Los comandos y limitaciones de la entrega original se conservan abajo.
 
 ## Rama y punto de partida
 
