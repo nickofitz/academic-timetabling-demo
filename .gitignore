@@ -58,6 +58,18 @@
 !/src/academic_timetabling_demo/candidates.py
 !/tests/test_candidates.py
 
+# Hito 3: CP-SAT, auditoría y corridas.
+!/.gitattributes
+!/docs/encargos/hito-3.md
+!/docs/entregas/hito-3.md
+!/src/academic_timetabling_demo/model.py
+!/src/academic_timetabling_demo/validate.py
+!/src/academic_timetabling_demo/runner.py
+!/src/academic_timetabling_demo/metrics.py
+!/tests/test_model.py
+!/tests/test_audit.py
+!/tests/test_runner.py
+
 # Siempre excluidos, aunque una regla anterior abra su carpeta.
 .venv/
 __pycache__/

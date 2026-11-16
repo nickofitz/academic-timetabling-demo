@@ -1,0 +1,3 @@
+# Los datasets versionados se conservan con finales LF en todo sistema operativo.
+data/synthetic/**/*.csv text eol=lf
+data/synthetic/**/*.json text eol=lf

@@ -1,0 +1,383 @@
+"""Corridas: salidas, estados, códigos, snapshots y hashes."""
+
+import hashlib
+import json
+from pathlib import Path
+
+import pytest
+
+from academic_timetabling_demo import runner
+from academic_timetabling_demo.domain import (
+    TABLES,
+    Instance,
+    SectionGroup,
+    read_instance,
+)
+from academic_timetabling_demo.metrics import combined_hash, relative_gap
+from academic_timetabling_demo.model import Assignment, SolveResult
+from academic_timetabling_demo.synthetic import (
+    MANIFEST_FILE,
+    GeneratedCase,
+    manifest,
+    source_files,
+)
+
+DATA = Path(__file__).resolve().parents[1] / "data" / "synthetic"
+SOURCE_NAMES = {spec.file for spec in TABLES} | {"config.json"}
+
+
+@pytest.fixture
+def micro() -> Instance:
+    return read_instance(DATA / "micro")
+
+
+def write_input(directory: Path, instance: Instance, *, crlf: bool = False) -> Path:
+    files = source_files(GeneratedCase("micro", 42, instance, ()))
+    directory.mkdir(parents=True)
+    for name, content in files.items():
+        (directory / name).write_bytes(content.replace(b"\n", b"\r\n") if crlf else content)
+    return directory
+
+
+def strict_json(path: Path) -> dict:
+    def reject(name: str) -> None:
+        raise AssertionError(f"JSON no estricto: {name}")
+
+    return json.loads(path.read_text(encoding="utf-8"), parse_constant=reject)
+
+
+def outputs(out: Path) -> tuple[dict, dict, dict]:
+    return (
+        strict_json(out / "metrics.json"),
+        strict_json(out / "diagnostics.json"),
+        strict_json(out / "audit.json"),
+    )
+
+
+def fake_result(status: str, assignments: tuple[Assignment, ...] = (), objective=None):
+    has_solution = status in ("OPTIMAL", "FEASIBLE")
+    return SolveResult(
+        status=status,
+        objective=objective,
+        cost_d=0 if has_solution else None,
+        cost_e=objective if has_solution else None,
+        solver_objective=float(objective) if has_solution else None,
+        best_bound=float(objective) if has_solution else None,
+        assignments=assignments,
+        num_variables=5,
+        num_constraints=7,
+        num_conflict_constraints=4,
+        build_seconds=0.0,
+        solve_seconds=0.0,
+    )
+
+
+# Corrida completa -----------------------------------------------------------------------
+
+
+def test_micro_run_produces_audited_solution(tmp_path: Path) -> None:
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out)
+
+    metrics, diagnostics, audit = outputs(out)
+    assert outcome.exit_code == 0
+    assert sorted(p.name for p in out.iterdir()) == [
+        "assignments.csv",
+        "audit.json",
+        "diagnostics.json",
+        "effective_config.json",
+        "input",
+        "metrics.json",
+    ]
+    assert (out / "assignments.csv").read_text(encoding="utf-8") == (
+        "section_id,pattern_id,room_id\nS1,P2,R1\nS2,P3,R2\nS3,P5,R1\n"
+    )
+    assert metrics["status"] == {
+        "data": "VALID",
+        "precheck": "READY",
+        "solver": "OPTIMAL",
+        "audit": "PASSED",
+        "result_valid": True,
+    }
+    assert metrics["costs"] == {
+        "cost_d": 0,
+        "cost_e": 3,
+        "objective": 3,
+        "solver_objective": 3.0,
+        "best_bound": 3.0,
+        "relative_gap": 0.0,
+    }
+    assert metrics["counts"]["coverage"] == 1.0
+    assert metrics["model"]["variables"] == 5
+    assert audit["status"] == "PASSED"
+    assert audit["objective"] == 3
+    assert diagnostics["precheck"]["alternatives_after"] == 5
+    assert len(diagnostics["discarded_alternatives"]) == 7
+    assert set(metrics["timings_seconds"]) >= {
+        "snapshot",
+        "validation",
+        "load",
+        "candidates",
+        "build",
+        "solve",
+        "audit",
+        "total",
+    }
+    assert metrics["environment"]["ortools"]
+    assert metrics["environment"]["sqlite"]
+
+
+def test_snapshot_has_exact_sources_and_no_witness(tmp_path: Path) -> None:
+    out = tmp_path / "corrida"
+    runner.run(DATA / "micro", out)
+    metrics = strict_json(out / "metrics.json")
+    snapshot = out / "input"
+
+    assert {p.name for p in snapshot.iterdir()} == SOURCE_NAMES
+    assert not (snapshot / MANIFEST_FILE).exists()
+    for name, digest in metrics["input"]["files"].items():
+        assert (snapshot / name).read_bytes() == (DATA / "micro" / name).read_bytes()
+        assert hashlib.sha256((snapshot / name).read_bytes()).hexdigest() == digest
+    assert metrics["input"]["combined_sha256"] == combined_hash(metrics["input"]["files"])
+    assert metrics["input"]["complete"] is True
+    assert metrics["input"]["snapshot_verified"] is True
+    assert metrics["input"]["source_unchanged"] is True
+    effective = (out / "effective_config.json").read_bytes()
+    assert metrics["input"]["effective_config_sha256"] == hashlib.sha256(effective).hexdigest()
+
+
+def test_overrides_are_recorded_and_used(tmp_path: Path, monkeypatch) -> None:
+    seen = []
+    real = runner.build_and_solve
+
+    def spy(connection, config):
+        seen.append(config)
+        return real(connection, config)
+
+    monkeypatch.setattr(runner, "build_and_solve", spy)
+    out = tmp_path / "corrida"
+
+    runner.run(DATA / "micro", out, time_limit=5.5, seed=7)
+
+    metrics = strict_json(out / "metrics.json")
+    effective = strict_json(out / "effective_config.json")
+    assert (seen[0].time_limit_seconds, seen[0].random_seed) == (5.5, 7)
+    assert (effective["time_limit_seconds"], effective["random_seed"]) == (5.5, 7)
+    assert metrics["parameters"]["applied_overrides"] == {
+        "time_limit_seconds": 5.5,
+        "random_seed": 7,
+    }
+    assert metrics["parameters"]["original_config"]["random_seed"] == 42
+    assert strict_json(out / "input" / "config.json")["random_seed"] == 42
+
+
+def test_each_run_gets_its_own_identity(tmp_path: Path) -> None:
+    first = runner.run(DATA / "micro", tmp_path / "a")
+    second = runner.run(DATA / "micro", tmp_path / "b")
+
+    assert first.metrics["run_id"] != second.metrics["run_id"]
+
+
+# Finales de línea -----------------------------------------------------------------------
+
+
+def test_snapshot_hashes_exact_bytes_for_lf_and_crlf(tmp_path: Path, micro: Instance) -> None:
+    lf = runner.run(write_input(tmp_path / "lf", micro), tmp_path / "out-lf")
+    crlf = runner.run(write_input(tmp_path / "crlf", micro, crlf=True), tmp_path / "out-crlf")
+
+    assert (tmp_path / "out-crlf" / "input" / "rooms.csv").read_bytes().count(b"\r\n") == 3
+    assert lf.metrics["input"]["files"] != crlf.metrics["input"]["files"]
+    assert lf.metrics["costs"]["objective"] == crlf.metrics["costs"]["objective"] == 3
+    # El manifiesto del generador mantiene su política normalizada a LF para ambos.
+    files = source_files(GeneratedCase("micro", 42, micro, ()))
+    crlf_files = {k: v.replace(b"\n", b"\r\n") for k, v in files.items()}
+    generated = GeneratedCase("micro", 42, micro, ())
+    assert manifest(generated, files)["sources"] == manifest(generated, crlf_files)["sources"]
+
+
+# Casos sin solución ---------------------------------------------------------------------
+
+
+def test_empty_domain_never_calls_solver(tmp_path: Path, micro: Instance, monkeypatch) -> None:
+    def forbidden(*args, **kwargs):
+        raise AssertionError("no debía invocarse el solver")
+
+    monkeypatch.setattr(runner, "build_and_solve", forbidden)
+    sections = tuple(
+        s.model_copy(update={"enrollment": 60}) if s.id == "S2" else s for s in micro.sections
+    )
+    source = write_input(tmp_path / "entrada", micro.model_copy(update={"sections": sections}))
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(source, out)
+
+    metrics, diagnostics, audit = outputs(out)
+    assert outcome.exit_code == 3
+    assert metrics["status"]["precheck"] == "NO_CANDIDATES"
+    assert metrics["status"]["solver"] is None
+    assert diagnostics["precheck"]["empty_sections"] == {"S2": ["CAPACITY", "ROOM_RESERVED"]}
+    assert audit == {
+        "status": "NOT_RUN",
+        "audit_valid": None,
+        "cost_d": None,
+        "cost_e": None,
+        "objective": None,
+        "reported_objective": None,
+        "findings": [],
+    }
+    assert not (out / "assignments.csv").exists()
+    assert metrics["costs"]["objective"] is None
+
+
+def test_globally_infeasible_run(tmp_path: Path, micro: Instance) -> None:
+    groups = (*micro.section_groups, SectionGroup(section_id="S1", group_id="G2"))
+    source = write_input(tmp_path / "entrada", micro.model_copy(update={"section_groups": groups}))
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(source, out)
+
+    metrics, _, audit = outputs(out)
+    assert outcome.exit_code == 3
+    assert metrics["status"]["solver"] == "INFEASIBLE"
+    assert metrics["status"]["audit"] == "NOT_RUN"
+    assert metrics["costs"]["objective"] is None
+    assert metrics["costs"]["relative_gap"] is None
+    assert audit["status"] == "NOT_RUN"
+    assert not (out / "assignments.csv").exists()
+
+
+@pytest.mark.parametrize(("status", "code"), [("UNKNOWN", 3), ("MODEL_INVALID", 5)])
+def test_statuses_without_solution(tmp_path: Path, monkeypatch, status: str, code: int) -> None:
+    monkeypatch.setattr(runner, "build_and_solve", lambda connection, config: fake_result(status))
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out)
+
+    metrics = strict_json(out / "metrics.json")
+    assert outcome.exit_code == code
+    assert metrics["status"]["solver"] == status
+    assert not (out / "assignments.csv").exists()
+
+
+def test_failed_audit_blocks_success(tmp_path: Path, monkeypatch) -> None:
+    clashing = (
+        Assignment("S1", "P1", "R1"),
+        Assignment("S2", "P3", "R2"),
+        Assignment("S3", "P6", "R1"),
+    )
+    monkeypatch.setattr(
+        runner, "build_and_solve", lambda c, config: fake_result("OPTIMAL", clashing, 3)
+    )
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out)
+
+    metrics, _, audit = outputs(out)
+    assert outcome.exit_code == 4
+    assert metrics["status"]["solver"] == "OPTIMAL"  # el estado del solver no se reescribe
+    assert metrics["status"]["audit"] == "FAILED"
+    assert metrics["status"]["result_valid"] is False
+    assert audit["audit_valid"] is False
+    assert {"ROOM_CLASH", "OBJECTIVE_MISMATCH"} <= {f["rule"] for f in audit["findings"]}
+    assert (out / "assignments.csv").exists()  # conservado como evidencia inválida
+    assert "inválida" in metrics["error"]
+
+
+# Datos y rutas inválidos ----------------------------------------------------------------
+
+
+def test_invalid_data_writes_diagnostics(tmp_path: Path, micro: Instance) -> None:
+    source = write_input(tmp_path / "entrada", micro)
+    (source / "rooms.csv").write_text("id,name,capacity\nR1,Sala,0\n", encoding="utf-8")
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(source, out)
+
+    metrics, diagnostics, audit = outputs(out)
+    assert outcome.exit_code == 2
+    assert metrics["status"]["data"] == "INVALID"
+    assert diagnostics["data_errors"][0]["file"] == "rooms.csv"
+    assert audit["status"] == "NOT_RUN"
+    assert not (out / "effective_config.json").exists()
+
+
+def test_missing_source_file_is_recorded(tmp_path: Path, micro: Instance) -> None:
+    source = write_input(tmp_path / "entrada", micro)
+    (source / "teachers.csv").unlink()
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(source, out)
+
+    metrics = strict_json(out / "metrics.json")
+    assert outcome.exit_code == 2
+    assert metrics["input"]["complete"] is False
+    assert metrics["input"]["missing"] == ["teachers.csv"]
+
+
+def test_non_empty_output_is_left_intact(tmp_path: Path) -> None:
+    out = tmp_path / "corrida"
+    out.mkdir()
+    (out / "assignments.csv").write_text("antiguo", encoding="utf-8")
+
+    with pytest.raises(runner.RunInputError, match="no está vacía"):
+        runner.run(DATA / "micro", out)
+
+    assert [p.name for p in out.iterdir()] == ["assignments.csv"]
+    assert (out / "assignments.csv").read_text(encoding="utf-8") == "antiguo"
+
+
+@pytest.mark.parametrize("relative", [".", "corrida"])
+def test_output_inside_input_is_rejected(tmp_path: Path, micro: Instance, relative: str) -> None:
+    source = write_input(tmp_path / "entrada", micro)
+
+    with pytest.raises(runner.RunInputError, match="dentro"):
+        runner.run(source, source / relative)
+
+    assert {p.name for p in source.iterdir()} == SOURCE_NAMES
+
+
+def test_other_solvers_are_not_implemented(tmp_path: Path) -> None:
+    with pytest.raises(runner.RunInputError, match="no implementado"):
+        runner.run(DATA / "micro", tmp_path / "corrida", solver="greedy")
+
+    assert not (tmp_path / "corrida").exists()
+
+
+def test_unsupported_sqlite_is_an_environment_error(tmp_path: Path, monkeypatch) -> None:
+    def unsupported() -> None:
+        raise runner.EnvironmentCheckError("SQLite 3.40.0 no admite ORDER BY")
+
+    monkeypatch.setattr(runner, "check_sqlite", unsupported)
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out)
+
+    assert outcome.exit_code == 5
+    assert "3.40.0" in strict_json(out / "metrics.json")["error"]
+
+
+def test_parameters_beyond_solver_range_are_invalid(tmp_path: Path) -> None:
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out, seed=2**31)
+
+    assert outcome.exit_code == 2
+    assert "random_seed" in strict_json(out / "metrics.json")["error"]
+    assert not (out / "assignments.csv").exists()
+
+
+# Brecha ---------------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("objective", "bound", "gap"),
+    [(10, 8.0, 0.2), (10, 10.0, 0.0), (0, 0.0, 0.0), (10, 11.0, 0.0), (None, 3.0, None)],
+)
+def test_relative_gap(objective, bound, gap) -> None:
+    assert relative_gap(objective, bound) == gap
+
+
+def test_gap_without_finite_bound() -> None:
+    assert relative_gap(5, float("inf")) is None
+    assert relative_gap(5, None) is None

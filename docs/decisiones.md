@@ -14,6 +14,10 @@ Acordadas el 5 de noviembre de 2026. La especificación raíz es normativa.
 | Grupos | Membresía y origen explícitos | Mismo nivel de malla no implica incompatibilidad automática |
 | Ruido | Fuera de 0.1 | Requiere interacciones entre secciones/salas y validación de reglas |
 | Hitos | 0 a 5 de la guía | La organización anterior queda como antecedente histórico |
+| Finales de línea de datos | `.gitattributes` fija LF en `data/synthetic/**/*.csv` y `*.json` (Hito 3) | Normalizar contenido al calcular hashes oculta diferencias de bytes |
+| Hashes | Dos categorías separadas: `generation.json` conserva su hash normalizado a LF; las corridas hashean los bytes exactos de su snapshot `input/` | Una sola política obligaría a reescribir el manifiesto histórico o a perder exactitud en las corridas |
+| Objetivo publicado | Entero reconstruido desde los costos de las alternativas elegidas y contrastado con CP-SAT; se rechaza un objetivo posible sobre 2**53 | `round(float)` podría ocultar diferencias |
+| Asignaciones con auditoría fallida | Se conserva `assignments.csv` como evidencia; `metrics.json` y `audit.json` lo marcan inválido (`result_valid=false`, `audit_valid=false`) | Borrarlo impediría diagnosticar |
 
 No se afirma superioridad de CP-SAT ni ahorro institucional. Los tamaños son objetivos de diseño, no mediciones. Los plazos y repartos del documento inicial son antecedentes históricos.
 

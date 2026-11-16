@@ -6,7 +6,7 @@ Academic Timetabling Demo · versión documental 0.2 · 5 de noviembre de 2026.
 
 Reglas, datos, costos, estados y aceptación: `especificacion.md` (fuente de verdad). Esquema: `schema.sql`. Decisiones y alternativas: `docs/decisiones.md`. Reparto y Git: `docs/colaboracion.md`. Esta guía organiza la implementación, sin redefinir esas reglas.
 
-Estado: preparación documental terminada cuando el paquete sea revisado; Hito 0 pendiente. No existen aún comandos de optimización ni resultados. Los comandos siguientes son interfaces por implementar, no evidencia de software terminado.
+Estado: existen `generate`, `run --solver cp-sat` y `audit` (Hito 3 en revisión). `run --solver greedy` y `compare` siguen pendientes. Los comandos de la sección 4 que aún no existen son interfaces por implementar, no evidencia de software terminado.
 
 ## 2. Secuencia y puertas de salida
 

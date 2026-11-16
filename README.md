@@ -2,7 +2,7 @@
 
 Demo local de programación académica: asigna cada sección a un patrón semanal y una sala, con datos sintéticos, restricciones obligatorias, preferencias explícitas y auditoría independiente.
 
-> **Estado:** Hito 2 implementado y revisado. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, y la preparación de alternativas en SQL con su diagnóstico previo. Todavía no hay solver, ejecuciones ni resultados de optimización.
+> **Estado:** Hito 3 en revisión. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, la preparación de alternativas en SQL, la optimización con CP-SAT y una auditoría independiente. Todavía no hay heurística, comparación ni HTML.
 >
 > Prototipo independiente con **datos sintéticos**. No usa información, registros ni sistemas de ninguna institución.
 
@@ -21,11 +21,32 @@ uv run python -m academic_timetabling_demo --help
 uv run python -m academic_timetabling_demo generate --case demo --seed 42 --out data/generado/demo
 ```
 
-La salida debe ser una carpeta nueva o vacía. Los casos `micro` y `demo` de semilla 42 ya están en `data/synthetic/`. `generate` es por ahora el único comando funcional.
+La salida debe ser una carpeta nueva o vacía. Los casos `micro` y `demo` de semilla 42 ya están en `data/synthetic/`.
+
+## Resolver y auditar
+
+```bash
+uv run python -m academic_timetabling_demo run --input data/synthetic/demo --solver cp-sat --time-limit 30 --seed 42 --out runs/demo
+uv run python -m academic_timetabling_demo audit --input data/synthetic/demo --assignments runs/demo/assignments.csv --config runs/demo/effective_config.json
+```
+
+`run` copia la entrada a `input/` y trabaja solo desde esa copia. Escribe `metrics.json`, `diagnostics.json`, `audit.json`, `effective_config.json` y, si CP-SAT encuentra solución, `assignments.csv`. `--time-limit` y `--seed` sustituyen los valores de `config.json` y quedan registrados.
+
+| Código | Significado |
+|---|---|
+| 0 | Solución completa y auditada, o auditoría válida |
+| 2 | Argumentos o datos inválidos |
+| 3 | Sin solución completa: `NO_CANDIDATES`, `INFEASIBLE` o `UNKNOWN` |
+| 4 | Auditoría fallida; las asignaciones se conservan solo como evidencia inválida |
+| 5 | `MODEL_INVALID`, error del entorno o error interno |
+
+`audit` imprime su informe en JSON y no modifica la corrida. Solo `cp-sat` está implementado; `greedy` y `compare` se rechazan.
+
+**Requisito comprobado:** SQLite 3.44 o posterior, porque la preparación ordena dentro de `json_group_array`. `run` lo verifica al empezar; el entorno de desarrollo usa SQLite 3.53.1.
 
 ## Preparar alternativas
 
-La preparación de alternativas existe como API de Python, todavía sin comando propio:
+`run` ejecuta esta preparación; también existe como API de Python:
 
 ```python
 from pathlib import Path
