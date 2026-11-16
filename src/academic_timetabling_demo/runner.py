@@ -80,6 +80,7 @@ class _Run:
             "precheck": None,
             "solver": None,
             "audit": "NOT_RUN",
+            "integrity": None,
             "result_valid": None,
         }
     )
@@ -140,12 +141,18 @@ def _snapshot(input_dir: Path, target: Path) -> dict[str, object]:
     target.mkdir()
     hashes: dict[str, str] = {}
     missing = []
+    unreadable: dict[str, str] = {}
     for name in INPUT_FILES:
         source = input_dir / name
         if not source.is_file():
             missing.append(name)
             continue
-        content = source.read_bytes()
+        try:
+            content = source.read_bytes()
+        except OSError as error:
+            # Queda fuera del snapshot; la validación lo informará como fuente ausente.
+            unreadable[name] = _os_error(error)
+            continue
         (target / name).write_bytes(content)
         hashes[name] = sha256_bytes(content)
     return {
@@ -153,8 +160,13 @@ def _snapshot(input_dir: Path, target: Path) -> dict[str, object]:
         "files": hashes,
         "combined_sha256": combined_hash(hashes),
         "missing": missing,
-        "complete": not missing,
+        "unreadable": unreadable,
+        "complete": not missing and not unreadable,
     }
+
+
+def _os_error(error: OSError) -> str:
+    return f"{type(error).__name__}: {error.strerror or error}"
 
 
 def _rehash(directory: Path, names: list[str]) -> dict[str, str | None]:
@@ -164,6 +176,44 @@ def _rehash(directory: Path, names: list[str]) -> dict[str, str | None]:
         else None
         for name in names
     }
+
+
+def _compare(
+    directory: Path, expected: dict[str, str]
+) -> tuple[bool | None, list[str], str | None]:
+    """Compara hashes actuales con los esperados: (coinciden, archivos distintos, error)."""
+    try:
+        actual = _rehash(directory, sorted(expected))
+    except OSError as error:
+        return None, [], _os_error(error)
+    changed = sorted(name for name, digest in expected.items() if actual.get(name) != digest)
+    return not changed, changed, None
+
+
+def _check_integrity(state: _Run, input_dir: Path, snapshot: dict[str, object]) -> bool:
+    """Verifica al final que el snapshot conservado es el que se resolvió y auditó.
+
+    Un cambio solo en el directorio original se registra, pero no invalida la corrida.
+    Devuelve False si el snapshot cambió o no pudo verificarse.
+    """
+    expected = snapshot.get("files")
+    if not expected:
+        return True
+    verified, changed, problem = _compare(state.out / "input", expected)
+    unchanged, source_changed, source_problem = _compare(input_dir, expected)
+    snapshot["snapshot_verified"] = verified
+    snapshot["source_unchanged"] = unchanged
+    state.diagnostics["integrity"] = {
+        "snapshot_changed": changed,
+        "snapshot_check_error": problem,
+        "source_changed": source_changed,
+        "source_check_error": source_problem,
+    }
+    if verified:
+        state.status["integrity"] = "VERIFIED"
+        return True
+    state.status["integrity"] = "FAILED" if verified is False else "NOT_VERIFIED"
+    return False
 
 
 def _assignments_csv(rows: list[tuple[str, str, str]]) -> bytes:
@@ -222,11 +272,19 @@ def run(
         state.error = f"error interno: {type(error).__name__}: {error}"
         exit_code = EXIT_INTERNAL
 
+    if not _check_integrity(state, input_dir, snapshot):
+        # Fallo de integridad, no matemático: los estados de solver y auditoría se conservan.
+        integrity = state.diagnostics["integrity"]
+        if state.status["integrity"] == "FAILED":
+            detail = f"el snapshot cambió tras copiarse: {', '.join(integrity['snapshot_changed'])}"
+        else:
+            detail = f"no se pudo verificar el snapshot: {integrity['snapshot_check_error']}"
+        problem = f"integridad: {detail}; la corrida no es reproducible ni válida"
+        state.error = f"{state.error}; {problem}" if state.error else problem
+        if state.status["result_valid"] is True:
+            state.status["result_valid"] = False
+        exit_code = EXIT_INTERNAL
     state.timings["total"] = time.perf_counter() - state.started
-    if snapshot.get("files"):
-        names = sorted(snapshot["files"])
-        snapshot["snapshot_verified"] = _rehash(out / "input", names) == snapshot["files"]
-        snapshot["source_unchanged"] = _rehash(input_dir, names) == snapshot["files"]
     metrics = {
         "run_id": state.run_id,
         "created_utc": state.created_utc,

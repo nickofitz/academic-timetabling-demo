@@ -153,17 +153,26 @@ def _audit(args: argparse.Namespace) -> int:
     from academic_timetabling_demo.domain import Issue, read_config, read_instance
     from academic_timetabling_demo.validate import AssignmentsError, audit, read_assignments
 
+    # Solo la lectura de entradas traduce errores; la auditoría queda fuera de estos bloques.
+    option = "--input"
     try:
         instance = read_instance(args.input)
         config = instance.config
         if args.config is not None:
+            option = "--config"
             issues: list[Issue] = []
             config = read_config(args.config, issues)
             if config is None:
                 raise DataValidationError(issues)
+        option = "--assignments"
         assignments = read_assignments(args.assignments)
     except (DataValidationError, AssignmentsError) as error:
         print(f"error: {error}", file=sys.stderr)
+        return EXIT_INVALID
+    except OSError as error:
+        path = error.filename or getattr(args, option.removeprefix("--"))
+        cause = f"{type(error).__name__}: {error.strerror or error}"
+        print(f"error: no se pudo leer {option} ({path}): {cause}", file=sys.stderr)
         return EXIT_INVALID
     report = audit(instance, assignments, args.reported_objective, config)
     print(json.dumps(report.as_dict(), ensure_ascii=False, indent=2, allow_nan=False))

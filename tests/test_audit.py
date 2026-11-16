@@ -292,6 +292,27 @@ def test_auditor_detects_altered_derived_cost(micro: Instance) -> None:
 # Lectura de assignments.csv -------------------------------------------------------------
 
 
+def test_directory_as_assignments_is_a_read_error(tmp_path: Path) -> None:
+    with pytest.raises(AssignmentsError, match="no se pudo leer"):
+        read_assignments(tmp_path)
+
+
+def test_simulated_read_failure_is_a_read_error(tmp_path: Path, monkeypatch) -> None:
+    path = tmp_path / "assignments.csv"
+    path.write_text("section_id,pattern_id,room_id\nS1,P2,R1\n", encoding="utf-8")
+    real = Path.open
+
+    def failing_open(self: Path, *args, **kwargs):
+        if self == path:
+            raise OSError(5, "Input/output error", str(self))
+        return real(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "open", failing_open)
+
+    with pytest.raises(AssignmentsError, match="OSError: Input/output error"):
+        read_assignments(path)
+
+
 def test_read_assignments_keeps_duplicates(tmp_path: Path) -> None:
     path = tmp_path / "assignments.csv"
     path.write_text("section_id,pattern_id,room_id\nS1,P2,R1\nS1,P2,R1\n", encoding="utf-8")

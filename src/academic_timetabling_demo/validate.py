@@ -105,6 +105,11 @@ def read_assignments(path: Path) -> list[tuple[str, str, str]]:
                 rows.append((values[0], values[1], values[2]))
     except FileNotFoundError:
         raise AssignmentsError([Issue(name, "falta el archivo de asignaciones")]) from None
+    except OSError as error:
+        # Carpeta, permiso denegado u otro fallo de E/S: error de entrada, no del auditor.
+        cause = f"{type(error).__name__}: {error.strerror or error}"
+        message = f"no se pudo leer {path}: {cause}"
+        raise AssignmentsError([Issue(name, message)]) from None
     except UnicodeDecodeError:
         raise AssignmentsError([Issue(name, "el archivo no está codificado en UTF-8")]) from None
     except csv.Error as error:

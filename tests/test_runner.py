@@ -98,7 +98,15 @@ def test_micro_run_produces_audited_solution(tmp_path: Path) -> None:
         "precheck": "READY",
         "solver": "OPTIMAL",
         "audit": "PASSED",
+        "integrity": "VERIFIED",
         "result_valid": True,
+    }
+    assert metrics["input"]["snapshot_verified"] is True
+    assert strict_json(out / "diagnostics.json")["integrity"] == {
+        "snapshot_changed": [],
+        "snapshot_check_error": None,
+        "source_changed": [],
+        "source_check_error": None,
     }
     assert metrics["costs"] == {
         "cost_d": 0,
@@ -282,6 +290,117 @@ def test_failed_audit_blocks_success(tmp_path: Path, monkeypatch) -> None:
     assert {"ROOM_CLASH", "OBJECTIVE_MISMATCH"} <= {f["rule"] for f in audit["findings"]}
     assert (out / "assignments.csv").exists()  # conservado como evidencia inválida
     assert "inválida" in metrics["error"]
+
+
+# Integridad final del snapshot -----------------------------------------------------------
+
+
+def audit_then(action, monkeypatch) -> None:
+    """Ejecuta la auditoría real y luego `action`, devolviendo el informe real sin cambios."""
+    real = runner.audit
+
+    def wrapped(instance, rows, objective, config):
+        report = real(instance, rows, objective, config)
+        action()
+        return report
+
+    monkeypatch.setattr(runner, "audit", wrapped)
+
+
+def test_modified_snapshot_blocks_success(tmp_path: Path, monkeypatch) -> None:
+    out = tmp_path / "corrida"
+    rooms = out / "input" / "rooms.csv"
+
+    def tamper() -> None:
+        rooms.write_bytes(rooms.read_bytes().replace(b",30\n", b",31\n"))
+
+    audit_then(tamper, monkeypatch)
+
+    outcome = runner.run(DATA / "micro", out)
+
+    metrics, diagnostics, audit = outputs(out)
+    assert outcome.exit_code == 5
+    # Los estados describen lo ocurrido: el solver y la auditoría no fallaron.
+    assert metrics["status"]["solver"] == "OPTIMAL"
+    assert metrics["status"]["audit"] == "PASSED"
+    assert audit["status"] == "PASSED"
+    assert metrics["status"]["integrity"] == "FAILED"
+    assert metrics["status"]["result_valid"] is False
+    assert metrics["input"]["snapshot_verified"] is False
+    assert metrics["input"]["source_unchanged"] is True
+    assert diagnostics["integrity"]["snapshot_changed"] == ["rooms.csv"]
+    assert "integridad" in metrics["error"] and "rooms.csv" in metrics["error"]
+    assert (out / "assignments.csv").exists()  # la evidencia se conserva
+
+
+def test_unverifiable_snapshot_blocks_success(tmp_path: Path, monkeypatch) -> None:
+    out = tmp_path / "corrida"
+    real = runner._rehash
+
+    def failing(directory: Path, names: list[str]):
+        if directory == out / "input":
+            raise PermissionError(13, "Permission denied", str(directory / "rooms.csv"))
+        return real(directory, names)
+
+    monkeypatch.setattr(runner, "_rehash", failing)
+
+    outcome = runner.run(DATA / "micro", out)
+
+    metrics, diagnostics, _ = outputs(out)
+    assert outcome.exit_code == 5
+    assert metrics["status"]["solver"] == "OPTIMAL"
+    assert metrics["status"]["audit"] == "PASSED"
+    assert metrics["status"]["integrity"] == "NOT_VERIFIED"
+    assert metrics["status"]["result_valid"] is False
+    assert metrics["input"]["snapshot_verified"] is None
+    assert "PermissionError" in diagnostics["integrity"]["snapshot_check_error"]
+    assert "no se pudo verificar" in metrics["error"]
+
+
+def test_changed_source_with_intact_snapshot_is_only_recorded(
+    tmp_path: Path, micro: Instance, monkeypatch
+) -> None:
+    source = write_input(tmp_path / "entrada", micro)
+    out = tmp_path / "corrida"
+
+    def edit_original() -> None:
+        (source / "rooms.csv").write_text("id,name,capacity\nR1,Sala,99\n", encoding="utf-8")
+
+    audit_then(edit_original, monkeypatch)
+
+    outcome = runner.run(source, out)
+
+    metrics, diagnostics, _ = outputs(out)
+    assert outcome.exit_code == 0
+    assert metrics["status"]["integrity"] == "VERIFIED"
+    assert metrics["status"]["result_valid"] is True
+    assert metrics["input"]["snapshot_verified"] is True
+    assert metrics["input"]["source_unchanged"] is False
+    assert diagnostics["integrity"]["source_changed"] == ["rooms.csv"]
+    assert metrics["error"] is None
+
+
+def test_unreadable_source_is_invalid_data(tmp_path: Path, micro: Instance, monkeypatch) -> None:
+    source = write_input(tmp_path / "entrada", micro)
+    blocked = source / "rooms.csv"
+    real = Path.read_bytes
+
+    def read_bytes(path: Path) -> bytes:
+        if path == blocked:
+            raise PermissionError(13, "Permission denied", str(path))
+        return real(path)
+
+    monkeypatch.setattr(Path, "read_bytes", read_bytes)
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(source, out)
+
+    metrics, diagnostics, _ = outputs(out)
+    assert outcome.exit_code == 2
+    assert metrics["status"]["data"] == "INVALID"
+    assert metrics["input"]["complete"] is False
+    assert metrics["input"]["unreadable"] == {"rooms.csv": "PermissionError: Permission denied"}
+    assert any(e["file"] == "rooms.csv" for e in diagnostics["data_errors"])
 
 
 # Datos y rutas inválidos ----------------------------------------------------------------

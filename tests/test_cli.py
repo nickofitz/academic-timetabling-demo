@@ -192,6 +192,90 @@ def test_run_greedy_is_not_implemented(tmp_path: Path) -> None:
     assert not out.exists()
 
 
+MICRO_ASSIGNMENTS = "section_id,pattern_id,room_id\nS1,P2,R1\nS2,P3,R2\nS3,P5,R1\n"
+
+
+def test_audit_directory_as_assignments_returns_two(tmp_path: Path) -> None:
+    folder = tmp_path / "carpeta"
+    folder.mkdir()
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "audit", "--input", str(DATA / "micro"), "--assignments", str(folder)
+    )
+
+    assert result.returncode == 2
+    assert "no se pudo leer" in result.stderr
+    assert "Traceback" not in result.stderr
+
+
+def test_audit_directory_as_config_returns_two(tmp_path: Path) -> None:
+    folder = tmp_path / "carpeta"
+    folder.mkdir()
+    assignments = tmp_path / "assignments.csv"
+    assignments.write_text(MICRO_ASSIGNMENTS, "utf-8")
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "audit", "--input", str(DATA / "micro"),
+        "--assignments", str(assignments), "--config", str(folder),
+    )  # fmt: skip
+
+    assert result.returncode == 2
+    assert "--config" in result.stderr
+    assert "Traceback" not in result.stderr
+
+
+def test_audit_unreadable_source_returns_two(tmp_path: Path) -> None:
+    source = tmp_path / "entrada"
+    source.mkdir()
+    for path in (DATA / "micro").iterdir():
+        if path.name != "rooms.csv":
+            (source / path.name).write_bytes(path.read_bytes())
+    (source / "rooms.csv").mkdir()  # una fuente que existe pero no se puede leer como archivo
+    assignments = tmp_path / "assignments.csv"
+    assignments.write_text(MICRO_ASSIGNMENTS, "utf-8")
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "audit", "--input", str(source), "--assignments", str(assignments)
+    )
+
+    assert result.returncode == 2
+    assert "--input" in result.stderr
+    assert "Traceback" not in result.stderr
+
+
+def test_audit_simulated_read_failure(tmp_path: Path, monkeypatch, capsys) -> None:
+    assignments = tmp_path / "assignments.csv"
+    assignments.write_text(MICRO_ASSIGNMENTS, "utf-8")
+    real = Path.open
+
+    def failing_open(self: Path, *args, **kwargs):
+        if self == assignments:
+            raise OSError(5, "Input/output error", str(self))
+        return real(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "open", failing_open)
+
+    code = cli.main(["audit", "--input", str(DATA / "micro"), "--assignments", str(assignments)])
+
+    assert code == 2
+    assert "Input/output error" in capsys.readouterr().err
+
+
+def test_audit_logic_errors_are_not_reported_as_bad_data(tmp_path: Path, monkeypatch) -> None:
+    from academic_timetabling_demo import validate
+
+    assignments = tmp_path / "assignments.csv"
+    assignments.write_text(MICRO_ASSIGNMENTS, "utf-8")
+
+    def broken(*args, **kwargs):
+        raise OSError("fallo dentro del auditor")
+
+    monkeypatch.setattr(validate, "audit", broken)
+
+    with pytest.raises(OSError, match="fallo dentro del auditor"):
+        cli.main(["audit", "--input", str(DATA / "micro"), "--assignments", str(assignments)])
+
+
 def test_run_rejects_non_empty_output(tmp_path: Path) -> None:
     (tmp_path / "assignments.csv").write_text("antiguo", "utf-8")
 
