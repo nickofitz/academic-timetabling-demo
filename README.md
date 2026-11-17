@@ -2,7 +2,7 @@
 
 Demo local de programación académica: asigna cada sección a un patrón semanal y una sala, con datos sintéticos, restricciones obligatorias, preferencias explícitas y auditoría independiente.
 
-> **Estado:** Hito 3 en revisión. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, la preparación de alternativas en SQL, la optimización con CP-SAT y una auditoría independiente. Todavía no hay heurística, comparación ni HTML.
+> **Estado:** Hito 3 implementado y revisado. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, la preparación de alternativas en SQL, la optimización con CP-SAT y una auditoría independiente. Todavía no hay heurística, comparación ni HTML.
 >
 > Prototipo independiente con **datos sintéticos**. No usa información, registros ni sistemas de ninguna institución.
 
