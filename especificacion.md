@@ -6,7 +6,7 @@ Versión documental 0.2 · 5 de noviembre de 2026 · Academic Timetabling Demo.
 
 Demo local independiente de asignación de secciones a patrones semanales y salas, exclusivamente con datos sintéticos. Esta especificación es la fuente de verdad funcional. `schema.sql` materializa el contrato de datos; `Guia_MVP_Timetabling_Codex.md` organiza la ejecución. Si discrepan, detener el cambio afectado y corregir los documentos antes de implementarlo. Los antecedentes en `local/historico/` no son normativos.
 
-Estado: implementados y revisados los hitos 0 a 3; Hito 4 (heurística voraz, `compare` y procedencia de datos) en revisión. El HTML sigue pendiente. Los resultados medidos constan en `docs/entregas/`, no en esta especificación.
+Estado: implementados y revisados los hitos 0 a 4, incluida la heurística voraz, `compare` y la procedencia de datos. El HTML sigue pendiente. Los resultados medidos constan en `docs/entregas/`, no en esta especificación.
 
 ## 2. Alcance y modelo temporal
 

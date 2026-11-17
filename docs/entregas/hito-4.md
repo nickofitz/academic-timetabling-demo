@@ -1,6 +1,6 @@
 # Entrega del Hito 4: heurística voraz y comparación
 
-Estado: terminado por Claude, con las dos correcciones de la revisión de Codex aplicadas. Pendiente de nueva revisión de Codex y aprobación del autor. Sin push ni integración en `main`.
+Estado: aprobado técnicamente por Codex el 16 de noviembre de 2026, con 361 pruebas versionadas y Ruff aprobados. Las dos correcciones están verificadas; el autor autorizó integrar y publicar el hito. Se conserva abajo la evidencia de las entregas y revisiones anteriores.
 
 ## Correcciones tras la revisión de Codex
 

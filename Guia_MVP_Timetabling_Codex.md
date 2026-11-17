@@ -6,7 +6,7 @@ Academic Timetabling Demo · versión documental 0.2 · 5 de noviembre de 2026.
 
 Reglas, datos, costos, estados y aceptación: `especificacion.md` (fuente de verdad). Esquema: `schema.sql`. Decisiones y alternativas: `docs/decisiones.md`. Reparto y Git: `docs/colaboracion.md`. Esta guía organiza la implementación, sin redefinir esas reglas.
 
-Estado: existen `generate`, `run --solver cp-sat`, `run --solver greedy`, `audit` y `compare` (Hito 4 en revisión). La presentación HTML del Hito 5 sigue pendiente.
+Estado: existen `generate`, `run --solver cp-sat`, `run --solver greedy`, `audit` y `compare` (Hito 4 implementado y revisado). La presentación HTML del Hito 5 sigue pendiente.
 
 ## 2. Secuencia y puertas de salida
 
