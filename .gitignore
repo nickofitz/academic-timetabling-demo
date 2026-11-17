@@ -70,6 +70,14 @@
 !/tests/test_audit.py
 !/tests/test_runner.py
 
+# Hito 4: heurística voraz y comparación.
+!/docs/encargos/hito-4.md
+!/docs/entregas/hito-4.md
+!/src/academic_timetabling_demo/baseline.py
+!/src/academic_timetabling_demo/compare.py
+!/tests/test_baseline.py
+!/tests/test_compare.py
+
 # Siempre excluidos, aunque una regla anterior abra su carpeta.
 .venv/
 __pycache__/

@@ -16,8 +16,8 @@ DESCRIPTION = (
     "y una sala, usando exclusivamente datos sintéticos."
 )
 EPILOG = (
-    "Estado: generación, optimización con CP-SAT y auditoría disponibles. "
-    "La heurística, la comparación y el HTML aún no existen."
+    "Estado: generación, optimización con CP-SAT, heurística voraz, auditoría y comparación "
+    "disponibles. El HTML aún no existe."
 )
 
 EXIT_OK = 0
@@ -74,19 +74,24 @@ def build_parser() -> argparse.ArgumentParser:
         "run",
         help="resuelve y audita una entrada",
         description=(
-            "Copia la entrada, prepara alternativas, resuelve con CP-SAT, audita y escribe "
-            "metrics.json, diagnostics.json, audit.json y, si hay solución, assignments.csv. "
-            "Códigos: 0 solución auditada; 2 datos o argumentos inválidos; 3 sin solución "
-            "completa; 4 auditoría fallida; 5 MODEL_INVALID o error interno."
+            "Copia la entrada, prepara alternativas, resuelve con CP-SAT o con la heurística "
+            "voraz, audita y escribe metrics.json, diagnostics.json, audit.json y, si hay "
+            "asignaciones, assignments.csv. Códigos: 0 solución completa auditada; 2 datos o "
+            "argumentos inválidos; 3 sin solución completa (incluida la heurística atascada); "
+            "4 auditoría fallida; 5 MODEL_INVALID, integridad o error interno."
         ),
     )
     run.add_argument("--input", required=True, type=Path, help="carpeta con los CSV y config.json")
     run.add_argument(
-        "--solver", default="cp-sat", choices=SOLVER_CHOICES, help="solo cp-sat en este hito"
+        "--solver", default="cp-sat", choices=SOLVER_CHOICES, help="cp-sat o greedy (voraz)"
     )
-    run.add_argument("--time-limit", type=_positive_seconds, help="segundos; sustituye config.json")
     run.add_argument(
-        "--seed", type=_non_negative_int, help="semilla del solver; sustituye config.json"
+        "--time-limit", type=_positive_seconds, help="segundos de CP-SAT; sustituye config.json"
+    )
+    run.add_argument(
+        "--seed",
+        type=_non_negative_int,
+        help="semilla de CP-SAT, no de datos; sustituye config.json",
     )
     run.add_argument("--out", required=True, type=Path, help="carpeta de salida nueva o vacía")
 
@@ -108,6 +113,21 @@ def build_parser() -> argparse.ArgumentParser:
     audit.add_argument(
         "--reported-objective", type=_integer, help="objetivo declarado a contrastar"
     )
+
+    compare = commands.add_parser(
+        "compare",
+        help="compara una corrida greedy con una cp-sat",
+        description=(
+            "Compara dos corridas de los mismos datos y pesos (una greedy y una cp-sat, en "
+            "cualquier orden), volviendo a verificar snapshots y auditorías. Escribe un JSON "
+            "nuevo. Códigos: 0 comparación válida; 2 corridas o argumentos inválidos; 3 no "
+            "comparable por falta de solución completa; 4 auditoría fallida; 5 error interno."
+        ),
+    )
+    compare.add_argument(
+        "--runs", required=True, nargs=2, type=Path, metavar="CORRIDA", help="dos corridas"
+    )
+    compare.add_argument("--out", required=True, type=Path, help="JSON nuevo para el informe")
     return parser
 
 
@@ -127,9 +147,6 @@ def _generate(args: argparse.Namespace) -> int:
 def _run(args: argparse.Namespace) -> int:
     from academic_timetabling_demo.runner import RunInputError, run
 
-    if args.solver != "cp-sat":
-        print(f"error: el solver {args.solver} no está implementado en este hito", file=sys.stderr)
-        return EXIT_INVALID
     try:
         outcome = run(
             args.input, args.out, solver=args.solver, time_limit=args.time_limit, seed=args.seed
@@ -141,7 +158,8 @@ def _run(args: argparse.Namespace) -> int:
     costs = outcome.metrics.get("costs") or {}
     print(
         f"Corrida {outcome.metrics['run_id']} en {outcome.out}: datos {status['data']}, "
-        f"precheck {status['precheck']}, solver {status['solver']}, auditoría {status['audit']}, "
+        f"precheck {status['precheck']}, método {args.solver}, solver {status['solver']}, "
+        f"heurística {status['baseline']}, auditoría {status['audit']}, "
         f"objetivo {costs.get('objective')}, código {outcome.exit_code}"
     )
     if outcome.metrics["error"]:
@@ -179,11 +197,56 @@ def _audit(args: argparse.Namespace) -> int:
     return EXIT_OK if report.passed else EXIT_AUDIT_FAILED
 
 
+def _compare(args: argparse.Namespace) -> int:
+    from academic_timetabling_demo.compare import (
+        EXIT_INTERNAL as COMPARE_INTERNAL,
+    )
+    from academic_timetabling_demo.compare import (
+        OutputError,
+        check_output,
+        compare_runs,
+        write_report,
+    )
+
+    try:
+        check_output(args.out, list(args.runs))
+    except OutputError as error:
+        print(f"error: {error}", file=sys.stderr)
+        return EXIT_INVALID
+    try:
+        code, report = compare_runs(list(args.runs))
+    except Exception as error:
+        # Fallo interno: no se presenta como dato inválido ni se escribe un informe numérico.
+        print(f"error interno: {type(error).__name__}: {error}", file=sys.stderr)
+        code, report = (
+            COMPARE_INTERNAL,
+            {
+                "status": "ERROR",
+                "exit_code": COMPARE_INTERNAL,
+                "reason": f"error interno: {type(error).__name__}: {error}",
+                "runs_read": [str(path) for path in args.runs],
+            },
+        )
+    try:
+        write_report(args.out, report)
+    except OSError as error:
+        print(f"error: no se pudo escribir {args.out}: {error}", file=sys.stderr)
+        return COMPARE_INTERNAL
+    difference = report.get("difference") or {}
+    print(
+        f"Comparación {report['status']} en {args.out}: diferencia {difference.get('absolute')}, "
+        f"porcentaje {difference.get('percent')}, código {code}"
+    )
+    if report.get("reason"):
+        print(f"detalle: {report['reason']}", file=sys.stderr)
+    return code
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     if args.command is None:
         parser.print_help()
         return EXIT_OK
-    handlers = {"generate": _generate, "run": _run, "audit": _audit}
+    handlers = {"generate": _generate, "run": _run, "audit": _audit, "compare": _compare}
     return handlers[args.command](args)

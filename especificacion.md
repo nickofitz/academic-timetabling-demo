@@ -6,7 +6,7 @@ Versión documental 0.2 · 5 de noviembre de 2026 · Academic Timetabling Demo.
 
 Demo local independiente de asignación de secciones a patrones semanales y salas, exclusivamente con datos sintéticos. Esta especificación es la fuente de verdad funcional. `schema.sql` materializa el contrato de datos; `Guia_MVP_Timetabling_Codex.md` organiza la ejecución. Si discrepan, detener el cambio afectado y corregir los documentos antes de implementarlo. Los antecedentes en `local/historico/` no son normativos.
 
-Estado: implementados y revisados los hitos 0 a 3 (datos, candidatos, CP-SAT, auditoría y corridas `run`/`audit`). La heurística, la comparación y el HTML siguen pendientes. Los resultados medidos constan en `docs/entregas/`, no en esta especificación.
+Estado: implementados y revisados los hitos 0 a 3; Hito 4 (heurística voraz, `compare` y procedencia de datos) en revisión. El HTML sigue pendiente. Los resultados medidos constan en `docs/entregas/`, no en esta especificación.
 
 ## 2. Alcance y modelo temporal
 
@@ -78,11 +78,15 @@ El auditor recibe entradas originales, configuración efectiva y asignaciones se
 
 Comprueba identificadores, exactamente una asignación por sección, autorización/frecuencia/duración del patrón, capacidad, equipamiento, disponibilidad, reservas, franjas protegidas y ausencia de choques de sala/docente/grupo. Recalcula ambos costos y contrasta el objetivo informado. Cada hallazgo incluye regla, sección o par, recurso y coordenadas temporales cuando corresponda. Una auditoría fallida impide publicar el horario como válido.
 
-La heurística voraz ordena por menor cantidad de alternativas y luego `section_id`; elige la alternativa compatible de menor costo, con desempate por `pattern_id,room_id`. No retrocede. Si se atasca, `baseline_status=INCOMPLETE`; conservar resultado parcial identificado, sin afirmar infactibilidad. Comparar costos únicamente para asignaciones completas y auditadas de los mismos datos y pesos.
+La heurística voraz usa las mismas `alternative` y `occupancy` de la corrida y los mismos pesos efectivos. Ordena una vez las secciones por menor cantidad inicial de alternativas y luego `section_id`; para cada sección elige la primera alternativa compatible según `(alpha*D+beta*E, pattern_id, room_id)`, considerando sala, docente y todos los grupos por semana/día/bloque. No retrocede. Si se atasca, `status.baseline=INCOMPLETE`, código 3, `assignments.csv` con el prefijo y costos completos `null`; el costo del prefijo se guarda aparte como no comparable. El prefijo se audita con el auditor completo: omisiones esperadas mantienen el código 3; cualquier otro hallazgo da código 4. Sin afirmar infactibilidad. En el voraz, `status.solver` es `null` y no hay cota ni brecha; la semilla, el límite y los trabajadores de CP-SAT no lo afectan.
+
+`compare` recibe una corrida voraz y una CP-SAT, en cualquier orden. Exige el mismo hash global de `input/` (recalculado desde los snapshots), los mismos `alpha` y `beta` efectivos, configuración efectiva coherente con su hash en cada corrida, soluciones completas y una nueva auditoría positiva de ambas. Límite, semilla y trabajadores de CP-SAT pueden diferir y se informan. Diferencia `z_greedy - z_cpsat` (positiva favorece a CP-SAT); porcentaje `100*(z_greedy-z_cpsat)/z_greedy` solo si `z_greedy>0`. Códigos: 0 comparación válida; 2 corridas o argumentos inválidos; 3 `NOT_COMPARABLE` por falta de solución completa; 4 auditoría fallida; 5 error interno.
+
+`metrics.provenance` registra `data_seed`, `case` y `format_version` solo si `generation.json` coincide con las fuentes según su hash normalizado a LF (`VERIFIED`); en otro caso `ABSENT`, `INVALID` o `MISMATCH` con valores `null`. La procedencia no decide la comparabilidad.
 
 ## 7. Corridas, interfaz y métricas
 
-Comandos previstos: `generate`, `run`, `audit`, `compare` del paquete `academic_timetabling_demo`. La guía fija sus invocaciones. Son contratos pendientes de implementación.
+Comandos: `generate`, `run` (`--solver cp-sat` o `greedy`), `audit` y `compare` del paquete `academic_timetabling_demo`. La guía fija sus invocaciones.
 
 Cada corrida usa un directorio nuevo y un `run_id` único; rechazar un directorio de salida no vacío. Conservar snapshot de entradas y configuración efectiva, hashes SHA-256, fecha UTC, revisión Git y estado de cambios si existen, versiones Python/OR-Tools/código, sistema, CPU, semillas, trabajadores y límite temporal.
 

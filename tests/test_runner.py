@@ -7,10 +7,12 @@ from pathlib import Path
 import pytest
 
 from academic_timetabling_demo import runner
+from academic_timetabling_demo.baseline import BaselineResult, Choice
 from academic_timetabling_demo.domain import (
     TABLES,
     Instance,
     SectionGroup,
+    SectionPattern,
     read_instance,
 )
 from academic_timetabling_demo.metrics import combined_hash, relative_gap
@@ -18,6 +20,7 @@ from academic_timetabling_demo.model import Assignment, SolveResult
 from academic_timetabling_demo.synthetic import (
     MANIFEST_FILE,
     GeneratedCase,
+    generate_to_directory,
     manifest,
     source_files,
 )
@@ -97,6 +100,7 @@ def test_micro_run_produces_audited_solution(tmp_path: Path) -> None:
         "data": "VALID",
         "precheck": "READY",
         "solver": "OPTIMAL",
+        "baseline": None,
         "audit": "PASSED",
         "integrity": "VERIFIED",
         "result_valid": True,
@@ -458,7 +462,7 @@ def test_output_inside_input_is_rejected(tmp_path: Path, micro: Instance, relati
 
 def test_other_solvers_are_not_implemented(tmp_path: Path) -> None:
     with pytest.raises(runner.RunInputError, match="no implementado"):
-        runner.run(DATA / "micro", tmp_path / "corrida", solver="greedy")
+        runner.run(DATA / "micro", tmp_path / "corrida", solver="otro")
 
     assert not (tmp_path / "corrida").exists()
 
@@ -484,6 +488,283 @@ def test_parameters_beyond_solver_range_are_invalid(tmp_path: Path) -> None:
     assert outcome.exit_code == 2
     assert "random_seed" in strict_json(out / "metrics.json")["error"]
     assert not (out / "assignments.csv").exists()
+
+
+# Heurística voraz en corridas -----------------------------------------------------------
+
+
+def stuck_instance(micro: Instance) -> Instance:
+    """Igual que en test_baseline: S1 toma P2 y S2, con el mismo docente, queda sin opción."""
+    sections = []
+    for section in micro.sections:
+        if section.id == "S2":
+            section = section.model_copy(
+                update={"teacher_id": "T1", "enrollment": 20, "blocks_per_session": 1}
+            )
+        if section.id != "S3":
+            sections.append(section)
+    return micro.model_copy(
+        update={
+            "sections": tuple(sections),
+            "section_groups": tuple(g for g in micro.section_groups if g.section_id != "S3"),
+            "section_weeks": tuple(w for w in micro.section_weeks if w.section_id != "S3"),
+            "section_patterns": (
+                SectionPattern(section_id="S1", pattern_id="P1"),
+                SectionPattern(section_id="S1", pattern_id="P2"),
+                SectionPattern(section_id="S2", pattern_id="P2"),
+            ),
+            "section_blocked": (),
+        }
+    )
+
+
+def forbid_cpsat(monkeypatch) -> None:
+    def forbidden(*args, **kwargs):
+        raise AssertionError("no debía invocarse CP-SAT")
+
+    monkeypatch.setattr(runner, "build_and_solve", forbidden)
+
+
+def test_greedy_run_is_complete_and_audited(tmp_path: Path, monkeypatch) -> None:
+    forbid_cpsat(monkeypatch)
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out, solver="greedy")
+
+    metrics, diagnostics, audit = outputs(out)
+    assert outcome.exit_code == 0
+    assert metrics["parameters"]["solver"] == "greedy"
+    assert metrics["status"]["solver"] is None
+    assert metrics["status"]["baseline"] == "COMPLETE"
+    assert metrics["status"]["result_valid"] is True
+    assert metrics["costs"] == {
+        "cost_d": 0,
+        "cost_e": 3,
+        "objective": 3,
+        "solver_objective": None,
+        "best_bound": None,
+        "relative_gap": None,
+    }
+    assert "model" not in metrics
+    assert "baseline" in metrics["timings_seconds"]
+    assert not {"build", "solve"} & set(metrics["timings_seconds"])
+    assert audit["status"] == "PASSED"
+    assert diagnostics["baseline"]["partial_costs"] is None
+    assert diagnostics["baseline"]["order"] == ["S2", "S1", "S3"]
+    assert "no usa" in metrics["parameters"]["note"]
+
+
+def test_greedy_ignores_solver_seed_and_time(tmp_path: Path) -> None:
+    runner.run(DATA / "micro", tmp_path / "a", solver="greedy")
+    runner.run(DATA / "micro", tmp_path / "b", solver="greedy", seed=9, time_limit=1.0)
+
+    metrics = strict_json(tmp_path / "b" / "metrics.json")
+    assert metrics["parameters"]["applied_overrides"] == {
+        "time_limit_seconds": 1.0,
+        "random_seed": 9,
+    }
+    assert (tmp_path / "a" / "assignments.csv").read_bytes() == (
+        tmp_path / "b" / "assignments.csv"
+    ).read_bytes()
+
+
+def test_stuck_greedy_keeps_prefix_and_returns_three(tmp_path: Path, micro: Instance) -> None:
+    source = write_input(tmp_path / "entrada", stuck_instance(micro))
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(source, out, solver="greedy")
+
+    metrics, diagnostics, audit = outputs(out)
+    assert outcome.exit_code == 3
+    assert metrics["status"]["baseline"] == "INCOMPLETE"
+    assert metrics["status"]["solver"] is None
+    assert metrics["status"]["result_valid"] is False
+    assert (out / "assignments.csv").read_text(encoding="utf-8") == (
+        "section_id,pattern_id,room_id\nS1,P2,R1\n"
+    )
+    assert metrics["costs"]["objective"] is None
+    assert metrics["counts"]["coverage"] == 0.5
+    assert diagnostics["baseline"]["blocked_section"] == "S2"
+    assert diagnostics["baseline"]["remaining_sections"] == ["S2"]
+    assert diagnostics["baseline"]["partial_costs"]["objective"] == 1
+    assert diagnostics["baseline"]["partial_costs"]["comparable"] is False
+    assert audit["audit_valid"] is False
+    assert [(f["rule"], f["section_ids"]) for f in audit["findings"]] == [
+        ("MISSING_ASSIGNMENT", ["S2"])
+    ]
+
+
+def fake_baseline(status: str, choices: tuple[Choice, ...], objective: int, remaining=()):
+    return lambda connection, config: BaselineResult(
+        status=status,
+        assignments=choices,
+        order=("S2", "S1", "S3"),
+        blocked_section=remaining[0] if remaining else None,
+        remaining_sections=tuple(remaining),
+        cost_d=0,
+        cost_e=objective,
+        objective=objective,
+        seconds=0.0,
+    )
+
+
+def test_empty_prefix_is_kept_as_evidence(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(
+        runner, "run_greedy", fake_baseline("INCOMPLETE", (), 0, remaining=("S2", "S1", "S3"))
+    )
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out, solver="greedy")
+
+    assert outcome.exit_code == 3
+    assert (out / "assignments.csv").read_text(
+        encoding="utf-8"
+    ) == "section_id,pattern_id,room_id\n"
+
+
+@pytest.mark.parametrize("status", ["COMPLETE", "INCOMPLETE"])
+def test_greedy_conflict_is_an_audit_failure(tmp_path: Path, monkeypatch, status: str) -> None:
+    clashing = (Choice("S1", "P1", "R1"), Choice("S3", "P6", "R1"))
+    if status == "COMPLETE":
+        clashing = (*clashing, Choice("S2", "P3", "R2"))
+    remaining = () if status == "COMPLETE" else ("S2",)
+    monkeypatch.setattr(runner, "run_greedy", fake_baseline(status, clashing, 0, remaining))
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / "micro", out, solver="greedy")
+
+    metrics, _, audit = outputs(out)
+    assert outcome.exit_code == 4
+    assert metrics["status"]["baseline"] == status  # el estado del método no se reescribe
+    assert metrics["status"]["result_valid"] is False
+    assert "ROOM_CLASH" in {f["rule"] for f in audit["findings"]}
+
+
+def test_empty_domain_runs_no_algorithm(tmp_path: Path, micro: Instance, monkeypatch) -> None:
+    forbid_cpsat(monkeypatch)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("no debía ejecutarse la heurística")
+
+    monkeypatch.setattr(runner, "run_greedy", forbidden)
+    sections = tuple(
+        s.model_copy(update={"enrollment": 60}) if s.id == "S2" else s for s in micro.sections
+    )
+    source = write_input(tmp_path / "entrada", micro.model_copy(update={"sections": sections}))
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(source, out, solver="greedy")
+
+    metrics = strict_json(out / "metrics.json")
+    assert outcome.exit_code == 3
+    assert (metrics["status"]["baseline"], metrics["status"]["solver"]) == (None, None)
+    assert not (out / "assignments.csv").exists()
+
+
+def test_integrity_check_also_protects_greedy(tmp_path: Path, monkeypatch) -> None:
+    out = tmp_path / "corrida"
+    rooms = out / "input" / "rooms.csv"
+
+    def tamper() -> None:
+        rooms.write_bytes(rooms.read_bytes().replace(b",30\n", b",31\n"))
+
+    audit_then(tamper, monkeypatch)
+
+    outcome = runner.run(DATA / "micro", out, solver="greedy")
+
+    metrics = strict_json(out / "metrics.json")
+    assert outcome.exit_code == 5
+    assert metrics["status"]["baseline"] == "COMPLETE"
+    assert metrics["status"]["integrity"] == "FAILED"
+    assert metrics["status"]["result_valid"] is False
+
+
+# Procedencia de datos --------------------------------------------------------------------
+
+
+def test_data_seed_and_solver_seed_are_separate(tmp_path: Path) -> None:
+    source = tmp_path / "micro-7"
+    generate_to_directory("micro", 7, source)
+    out = tmp_path / "corrida"
+
+    runner.run(source, out, seed=3)
+
+    metrics = strict_json(out / "metrics.json")
+    assert metrics["provenance"]["status"] == "VERIFIED"
+    assert (metrics["provenance"]["data_seed"], metrics["provenance"]["case"]) == (7, "micro")
+    assert metrics["provenance"]["format_version"] == 1
+    digest = hashlib.sha256((source / MANIFEST_FILE).read_bytes()).hexdigest()
+    assert metrics["provenance"]["manifest_sha256"] == digest
+    assert metrics["parameters"]["effective_config"]["random_seed"] == 3
+    assert not (out / "input" / MANIFEST_FILE).exists()
+
+
+def provenance_of(source: Path, out: Path) -> tuple[int, dict]:
+    outcome = runner.run(source, out)
+    return outcome.exit_code, strict_json(out / "metrics.json")["provenance"]
+
+
+def assert_unknown(provenance: dict, status: str) -> None:
+    assert provenance["status"] == status
+    assert (provenance["data_seed"], provenance["case"], provenance["format_version"]) == (
+        None,
+        None,
+        None,
+    )
+    assert provenance["detail"]
+
+
+def test_absent_manifest(tmp_path: Path, micro: Instance) -> None:
+    code, provenance = provenance_of(write_input(tmp_path / "e", micro), tmp_path / "o")
+
+    assert code == 0
+    assert_unknown(provenance, "ABSENT")
+
+
+@pytest.mark.parametrize(
+    "content",
+    [b"{", b'{"case": "micro", "seed": "7", "format_version": 1, "sources": {}}', b"[]"],
+)
+def test_invalid_manifest(tmp_path: Path, micro: Instance, content: bytes) -> None:
+    source = write_input(tmp_path / "e", micro)
+    (source / MANIFEST_FILE).write_bytes(content)
+
+    code, provenance = provenance_of(source, tmp_path / "o")
+
+    assert code == 0
+    assert_unknown(provenance, "INVALID")
+
+
+def test_outdated_manifest_does_not_lend_its_seed(tmp_path: Path) -> None:
+    source = tmp_path / "micro-7"
+    generate_to_directory("micro", 7, source)
+    rooms = source / "rooms.csv"
+    rooms.write_bytes(rooms.read_bytes().replace(b"Sala 1", b"Sala Uno"))
+
+    code, provenance = provenance_of(source, tmp_path / "o")
+
+    assert code == 0
+    assert_unknown(provenance, "MISMATCH")
+    assert "rooms.csv" in provenance["detail"]
+
+
+def test_crlf_sources_still_match_lf_manifest(tmp_path: Path) -> None:
+    source = tmp_path / "micro-crlf"
+    generate_to_directory("micro", 5, source)
+    for path in source.iterdir():
+        if path.name != MANIFEST_FILE:
+            path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
+    out = tmp_path / "o"
+
+    code, provenance = provenance_of(source, out)
+
+    metrics = strict_json(out / "metrics.json")
+    assert code == 0
+    assert provenance["status"] == "VERIFIED"
+    assert provenance["data_seed"] == 5
+    rooms = (out / "input" / "rooms.csv").read_bytes()
+    assert b"\r\n" in rooms
+    assert metrics["input"]["files"]["rooms.csv"] == hashlib.sha256(rooms).hexdigest()
 
 
 # Brecha ---------------------------------------------------------------------------------

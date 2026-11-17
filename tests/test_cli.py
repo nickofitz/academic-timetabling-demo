@@ -39,11 +39,18 @@ def test_generate_help() -> None:
     assert "--case" in result.stdout
 
 
-def test_future_commands_are_rejected() -> None:
-    result = run_python("-m", PROGRAM_NAME, "compare")
+def test_unknown_commands_are_rejected() -> None:
+    result = run_python("-m", PROGRAM_NAME, "html")
 
     assert result.returncode == 2
     assert PROGRAM_NAME in result.stderr
+
+
+def test_compare_requires_its_arguments() -> None:
+    result = run_python("-m", PROGRAM_NAME, "compare")
+
+    assert result.returncode == 2
+    assert "--runs" in result.stderr
 
 
 @pytest.mark.parametrize("command", ["run", "audit"])
@@ -179,7 +186,7 @@ def test_run_rejects_invalid_parameters(tmp_path: Path, extra: list[str]) -> Non
     assert not out.exists()
 
 
-def test_run_greedy_is_not_implemented(tmp_path: Path) -> None:
+def test_run_greedy_produces_audited_solution(tmp_path: Path) -> None:
     out = tmp_path / "corrida"
 
     result = run_python(
@@ -187,9 +194,73 @@ def test_run_greedy_is_not_implemented(tmp_path: Path) -> None:
         "--solver", "greedy", "--out", str(out),
     )  # fmt: skip
 
+    assert result.returncode == 0, result.stderr
+    assert "heurística COMPLETE" in result.stdout
+    assert "solver None" in result.stdout
+    assert (out / "assignments.csv").exists()
+
+
+def test_compare_command_end_to_end(tmp_path: Path) -> None:
+    for solver in ("greedy", "cp-sat"):
+        done = run_python(
+            "-m", PROGRAM_NAME, "run", "--input", str(DATA / "micro"),
+            "--solver", solver, "--out", str(tmp_path / solver),
+        )  # fmt: skip
+        assert done.returncode == 0, done.stderr
+    report = tmp_path / "comparacion.json"
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "compare", "--runs", str(tmp_path / "cp-sat"),
+        str(tmp_path / "greedy"), "--out", str(report),
+    )  # fmt: skip
+
+    assert result.returncode == 0, result.stderr
+    assert '"status": "COMPARED"' in report.read_text(encoding="utf-8")
+
+
+def test_compare_rejects_existing_output(tmp_path: Path) -> None:
+    report = tmp_path / "comparacion.json"
+    report.write_text("anterior", encoding="utf-8")
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "compare", "--runs", str(tmp_path / "a"), str(tmp_path / "b"),
+        "--out", str(report),
+    )  # fmt: skip
+
     assert result.returncode == 2
-    assert "no está implementado" in result.stderr
-    assert not out.exists()
+    assert "ya existe" in result.stderr
+    assert report.read_text(encoding="utf-8") == "anterior"
+
+
+def test_compare_unreadable_run_has_no_traceback(tmp_path: Path) -> None:
+    (tmp_path / "a").mkdir()
+    (tmp_path / "a" / "metrics.json").mkdir()  # existe, pero no se puede leer como archivo
+    (tmp_path / "b").mkdir()
+    report = tmp_path / "comparacion.json"
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "compare", "--runs", str(tmp_path / "a"), str(tmp_path / "b"),
+        "--out", str(report),
+    )  # fmt: skip
+
+    assert result.returncode == 2
+    assert "Traceback" not in result.stderr
+    assert '"status": "INVALID"' in report.read_text(encoding="utf-8")
+
+
+def test_compare_internal_failure_returns_five(tmp_path: Path, monkeypatch) -> None:
+    from academic_timetabling_demo import compare
+
+    def broken(paths):
+        raise RuntimeError("fallo simulado")
+
+    monkeypatch.setattr(compare, "compare_runs", broken)
+    report = tmp_path / "comparacion.json"
+
+    code = cli.main(["compare", "--runs", "a", "b", "--out", str(report)])
+
+    assert code == 5
+    assert '"status": "ERROR"' in report.read_text(encoding="utf-8")
 
 
 MICRO_ASSIGNMENTS = "section_id,pattern_id,room_id\nS1,P2,R1\nS2,P3,R2\nS3,P5,R1\n"

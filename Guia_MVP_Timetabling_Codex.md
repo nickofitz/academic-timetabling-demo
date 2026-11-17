@@ -6,7 +6,7 @@ Academic Timetabling Demo · versión documental 0.2 · 5 de noviembre de 2026.
 
 Reglas, datos, costos, estados y aceptación: `especificacion.md` (fuente de verdad). Esquema: `schema.sql`. Decisiones y alternativas: `docs/decisiones.md`. Reparto y Git: `docs/colaboracion.md`. Esta guía organiza la implementación, sin redefinir esas reglas.
 
-Estado: existen `generate`, `run --solver cp-sat` y `audit` (Hito 3 implementado y revisado). `run --solver greedy` y `compare` siguen pendientes. Los comandos de la sección 4 que aún no existen son interfaces por implementar, no evidencia de software terminado.
+Estado: existen `generate`, `run --solver cp-sat`, `run --solver greedy`, `audit` y `compare` (Hito 4 en revisión). La presentación HTML del Hito 5 sigue pendiente.
 
 ## 2. Secuencia y puertas de salida
 
@@ -39,10 +39,12 @@ uv run python -m academic_timetabling_demo run --input data/synthetic/demo --sol
 uv run python -m academic_timetabling_demo run --input data/synthetic/demo --solver greedy --out runs/demo-greedy
 uv run python -m academic_timetabling_demo audit --input data/synthetic/demo --assignments runs/demo-cpsat/assignments.csv
 uv run python -m academic_timetabling_demo compare --runs runs/demo-greedy runs/demo-cpsat --out runs/comparison.json
-uv run pytest
-uv run ruff check .
-uv run ruff format --check .
+uv run python -m pytest
+uv run ruff check src tests
+uv run ruff format --check src tests
 ```
+
+`uv run python -m pytest` equivale a `uv run pytest` y evita el lanzador `pytest.exe`, bloqueado en algunas carpetas de Windows.
 
 `generate` escribe tablas fuente y config.json en una carpeta nueva. Incorporar además los casos `no-candidates`, `infeasible` y `calendar` para las pruebas. `run` carga, valida, prepara, resuelve, audita y exporta conforme a la especificación. `audit` usa datos originales y configuración de entrada; al auditar una corrida con parámetros distintos, usar su snapshot de configuración efectiva. `compare` exige hashes y pesos iguales y auditorías positivas. No sobrescribir salidas existentes.
 

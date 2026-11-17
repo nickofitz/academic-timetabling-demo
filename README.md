@@ -2,7 +2,7 @@
 
 Demo local de programación académica: asigna cada sección a un patrón semanal y una sala, con datos sintéticos, restricciones obligatorias, preferencias explícitas y auditoría independiente.
 
-> **Estado:** Hito 3 implementado y revisado. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, la preparación de alternativas en SQL, la optimización con CP-SAT y una auditoría independiente. Todavía no hay heurística, comparación ni HTML.
+> **Estado:** Hito 4 en revisión. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, la preparación de alternativas en SQL, la optimización con CP-SAT, una heurística voraz, una auditoría independiente y la comparación entre ambos métodos. Todavía no hay HTML.
 >
 > Prototipo independiente con **datos sintéticos**. No usa información, registros ni sistemas de ninguna institución.
 
@@ -36,11 +36,21 @@ uv run python -m academic_timetabling_demo audit --input data/synthetic/demo --a
 |---|---|
 | 0 | Solución completa y auditada, o auditoría válida |
 | 2 | Argumentos o datos inválidos |
-| 3 | Sin solución completa: `NO_CANDIDATES`, `INFEASIBLE` o `UNKNOWN` |
+| 3 | Sin solución completa: `NO_CANDIDATES`, `INFEASIBLE`, `UNKNOWN` o heurística `INCOMPLETE` |
 | 4 | Auditoría fallida; las asignaciones se conservan solo como evidencia inválida |
 | 5 | `MODEL_INVALID`, error del entorno o error interno |
 
-`audit` imprime su informe en JSON y no modifica la corrida. Solo `cp-sat` está implementado; `greedy` y `compare` se rechazan.
+`audit` imprime su informe en JSON y no modifica la corrida.
+
+## Heurística y comparación
+
+```bash
+uv run python -m academic_timetabling_demo run --input data/synthetic/demo --solver greedy --out runs/demo-greedy
+uv run python -m academic_timetabling_demo run --input data/synthetic/demo --solver cp-sat --time-limit 30 --seed 42 --out runs/demo-cpsat
+uv run python -m academic_timetabling_demo compare --runs runs/demo-greedy runs/demo-cpsat --out runs/comparison.json
+```
+
+La heurística voraz usa las mismas alternativas y pesos que CP-SAT, sin retroceso. Si se atasca, la corrida termina con código 3 y conserva el prefijo elegido, que no es comparable. `compare` acepta las corridas en cualquier orden, recalcula hashes y auditorías, y solo compara soluciones completas de la misma entrada y los mismos `alpha` y `beta`. La diferencia es `z_greedy - z_cpsat`: positiva favorece a CP-SAT. `metrics.json` registra la semilla de datos en `provenance` solo cuando `generation.json` coincide con las fuentes; `--seed` es la semilla de CP-SAT.
 
 **Requisito comprobado:** SQLite 3.44 o posterior, porque la preparación ordena dentro de `json_group_array`. `run` lo verifica al empezar; el entorno de desarrollo usa SQLite 3.53.1.
 
