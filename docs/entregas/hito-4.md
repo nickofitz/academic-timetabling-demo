@@ -1,11 +1,74 @@
 # Entrega del Hito 4: heurística voraz y comparación
 
-Estado: terminado por Claude, pendiente de revisión de Codex y aprobación del autor. Sin push ni integración en `main`.
+Estado: terminado por Claude, con las dos correcciones de la revisión de Codex aplicadas. Pendiente de nueva revisión de Codex y aprobación del autor. Sin push ni integración en `main`.
+
+## Correcciones tras la revisión de Codex
+
+Codex revisó `611e572` y pidió dos correcciones en `compare`. Están en `5a46ac1`, sobre la misma rama. Solo cambiaron `compare.py`, `tests/test_compare.py` y `tests/test_cli.py`, además de esta entrega. No se tocaron la heurística, el runner, el modelo, el auditor, las reglas, los pesos ni los datasets.
+
+### 1. El objetivo comparado ya no elude la auditoría
+
+- **Antes:** si `costs.objective` no era entero, se le pasaba `None` al auditor (sin contraste), y la diferencia se calculaba con el valor guardado. Con `0.0` en greedy, la comparación declaraba una falsa victoria de la heurística.
+- **Ahora:** `validate_costs` revisa la estructura antes de usar los costos.
+  - En una corrida completa, `cost_d`, `cost_e` y `objective` deben ser enteros no negativos, sin aceptar `bool`. Cualquier otro valor (ausente, `null`, flotante, texto, negativo o `costs` que no sea un objeto) da código 2.
+  - En una corrida sin solución completa, los tres deben ser `null`; si no, es corrupción (código 2), no `NOT_COMPARABLE`.
+- **Contraste obligatorio:** el auditor siempre recibe el objetivo registrado. Un entero bien formado pero falso sigue dando código 4.
+- **Diferencia:** se calcula con el objetivo confirmado por la nueva auditoría y los pesos efectivos. Ningún informe con error incluye `difference`.
+
+### 2. Los estados se validan antes de declarar NOT_COMPARABLE
+
+- **Antes:** cualquier estado fuera de los completos se clasificaba como `NOT_COMPARABLE`. Por ejemplo, `ESTADO_INEXISTENTE` daba código 3.
+- **Ahora:** `validate_status` corre antes que cualquier clasificación y exige:
+  - `status.precheck` igual a `READY` o `NO_CANDIDATES`.
+  - Greedy: `status.solver` en `null` y `status.baseline` igual a `COMPLETE` o `INCOMPLETE`.
+  - CP-SAT: `status.baseline` en `null` o ausente (corridas del Hito 3), y `status.solver` entre los cinco estados reales.
+  - Con precheck `NO_CANDIDATES`, el estado del método debe ser `null`; con `READY` no puede faltar.
+- **Resultado:** las etiquetas desconocidas, ausentes o contradictorias dan código 2 `INVALID`. `MODEL_INVALID` también da 2, con un mensaje que lo presenta como error de la corrida y no como búsqueda inconclusa.
+- **Lo que no cambia:** `INCOMPLETE`, `NO_CANDIDATES`, `INFEASIBLE` y `UNKNOWN` legítimos siguen dando código 3, sin fórmulas. Las corridas del Hito 3 sin `baseline` ni `provenance` siguen siendo comparables.
+
+### Regresiones nuevas
+
+24 pruebas nuevas: 23 en `test_compare.py` y 1 en `test_cli.py`. Contra el código de `ab78715`, 21 fallan y 3 pasan. Las 3 que pasan son guardas que deben aprobarse con ambas versiones: entero falso sigue en código 4, la diferencia usa objetivos auditados, y los estados legítimos sin solución siguen dando 3.
+
+| Prueba | Qué comprueba |
+|---|---|
+| `test_reproduction_float_objective_is_not_a_greedy_win` | Reproducción exacta de Codex (`objective=0.0` en greedy): código 2, sin `difference` |
+| `test_malformed_objective_is_invalid` (5 casos) | `2.5`, `null`, `"3"`, `true` y `-3`: código 2 |
+| `test_missing_objective_or_costs_is_invalid` | Clave ausente y `costs` que no es objeto: código 2 |
+| `test_malformed_cost_components_are_invalid` (3 casos) | `cost_d="0"`, `cost_e=3.0` y `cost_e=false`: código 2 |
+| `test_well_formed_false_objective_is_still_an_audit_failure` | Objetivo 2 (entero falso): código 4, sin `difference` |
+| `test_difference_uses_audited_objectives` | La comparación normal se conserva; objetivo auditado igual al registrado |
+| `test_unknown_or_contradictory_states_are_invalid` (9 casos) | CP-SAT desconocido o ausente, greedy desconocido o ausente, greedy con `solver`, CP-SAT con `baseline`, precheck desconocido, estado con precheck vacío y `MODEL_INVALID`: código 2 |
+| `test_incomplete_run_with_full_costs_is_invalid` | Prefijo con costos completos registrados: código 2 |
+| `test_legitimate_no_solution_states_remain_not_comparable` | `INCOMPLETE` frente a `UNKNOWN` legítimo: código 3 |
+| `test_compare_rejects_float_objective_via_cli` (`test_cli.py`) | `compare` por la CLI con `0.0`: código 2, informe `INVALID` sin `difference`, sin traceback |
+
+### Evidencia tras las correcciones
+
+| Comando | Dónde | Código | Resultado |
+|---|---|---|---|
+| `uv run python -m pytest` con los 10 archivos versionados | Carpeta | 0 | 361 aprobadas (337 anteriores y 24 nuevas) |
+| `uv run ruff check src tests` y `format --check` | Carpeta | 0 | 23 archivos sin hallazgos |
+| `uv sync --locked` (`UV_LINK_MODE=copy`) | Clon limpio de `5a46ac1` | 0 | Entorno desde el lock |
+| `uv run python -m pytest -p no:cacheprovider` | Clon | 0 | 361 aprobadas, solo archivos versionados |
+| `uv run ruff check src tests` y `format --check` | Clon | 0 | Sin hallazgos |
+| `run` micro y demo con ambos métodos, más `compare` | Clon | 0 | Demo 21 frente a 17, diferencia 4 (19.05 %); micro 3 frente a 3, empate |
+
+Comparaciones repetidas en la carpeta (`runs/hito4c-*`), con los mismos resultados del primer envío: micro empate (código 0) y demo con diferencia 4, con los argumentos en orden inverso (código 0).
+
+Reproducciones de Codex por la CLI:
+
+| Caso | Antes (`ab78715`) | Ahora (`5a46ac1`) |
+|---|---|---|
+| `objective=0.0` en greedy (`runs/hito4c-repro-objetivo`) | 0, COMPARED, «la heurística obtiene menor costo» | 2, INVALID: «costs.objective debe ser un entero no negativo; hay 0.0», sin `difference` |
+| `status.solver="ESTADO_INEXISTENTE"` (`runs/hito4c-repro-estado`) | 3, NOT_COMPARABLE | 2, INVALID: «status.solver desconocido o ausente: 'ESTADO_INEXISTENTE'», sin `difference` |
+
+Al preparar la primera reproducción con `ConvertTo-Json` de PowerShell, `0.0` se guardó como el entero `0`. Ese intento dio código 4 (`OBJECTIVE_MISMATCH`), que es lo correcto para un entero falso. La reproducción exacta con `0.0` se repitió escribiendo el JSON con Python.
 
 ## Rama y commits
 
 - Rama `hito/4-heuristica`, creada desde `main` en `96fa513`, igual a `origin/main` al empezar.
-- Código, pruebas y documentación en `ab78715`. Esta entrega va en un commit posterior de la misma rama.
+- Código, pruebas y documentación en `ab78715`; primera entrega en `611e572`; correcciones en `5a46ac1`. Esta actualización de la entrega va en un commit posterior.
 - El encargo se copió sin cambios a `docs/encargos/hito-4.md`.
 - No había borradores locales con los nombres de los archivos nuevos, así que no hubo nada que respaldar. Se conservaron el stash, los respaldos anteriores, `demo_run.py` y `tests/test_optimization.py`.
 
@@ -84,7 +147,7 @@ En la carpeta se pasaron explícitamente los 10 archivos versionados, para no re
 
 | Archivo | En `main` | En la rama |
 |---|---|---|
-| `test_cli.py` | 36 | 41 |
+| `test_cli.py` | 36 | 42 |
 | `test_db.py` | 10 | 10 |
 | `test_domain.py` | 66 | 66 |
 | `test_synthetic.py` | 34 | 34 |
@@ -93,8 +156,8 @@ En la carpeta se pasaron explícitamente los 10 archivos versionados, para no re
 | `test_audit.py` | 33 | 33 |
 | `test_runner.py` | 28 | 43 |
 | `test_baseline.py` | — | 17 |
-| `test_compare.py` | — | 34 |
-| **Total** | **266** | **337** |
+| `test_compare.py` | — | 57 |
+| **Total** | **266** | **361** |
 
 Pruebas anteriores ajustadas, sin perder cobertura de errores:
 
@@ -171,6 +234,6 @@ Son los mismos de micro y demo que en el Hito 3, y el clon limpio reprodujo los 
 - **Tiempos:** son de ejecuciones separadas y no son una medición controlada.
 - **Trabajadores:** no se probó CP-SAT con más de uno.
 - **Comparaciones `UNKNOWN` y `FEASIBLE`:** se obtuvieron con un stub o alterando la etiqueta guardada, como permite el encargo, no con un timeout real.
-- **Coherencia de métricas:** `compare` no detecta que alguien reescriba a mano un estado guardado coherente (por ejemplo, cambiar `OPTIMAL` por `FEASIBLE`), porque `metrics.json` no tiene hash propio. Sí detecta snapshot, configuración, asignaciones y costos alterados.
+- **Coherencia de métricas:** tras las correcciones, `compare` rechaza etiquetas desconocidas o contradictorias y costos mal formados. Sigue sin detectar que alguien reescriba a mano un estado guardado coherente (por ejemplo, cambiar `OPTIMAL` por `FEASIBLE`), porque `metrics.json` no tiene hash propio. Sí detecta snapshot, configuración, asignaciones y costos alterados.
 - **Sistema:** solo se probó en Windows.
 - **Fuera de alcance:** HTML, `schedule.csv` y la presentación quedan para el Hito 5.
