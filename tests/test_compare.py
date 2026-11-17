@@ -341,6 +341,134 @@ def test_false_cost_fails_new_audit(pair) -> None:
     assert "OBJECTIVE_MISMATCH" in report["reason"]
 
 
+# Costos y estados mal formados (correcciones de la revisión) -----------------------------
+
+
+def test_reproduction_float_objective_is_not_a_greedy_win(pair) -> None:
+    # Reproducción de la revisión: solo cambia costs.objective de greedy a 0.0.
+    greedy, cpsat = pair
+    edit_metrics(greedy, lambda m: m["costs"].update(objective=0.0))
+
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 2
+    assert report["status"] == "INVALID"
+    assert "costs.objective" in report["reason"]
+    assert "difference" not in report
+
+
+@pytest.mark.parametrize("value", [2.5, None, "3", True, -3])
+def test_malformed_objective_is_invalid(pair, value) -> None:
+    greedy, cpsat = pair
+    edit_metrics(cpsat, lambda m: m["costs"].update(objective=value))
+
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 2, report
+    assert "difference" not in report
+
+
+def test_missing_objective_or_costs_is_invalid(pair) -> None:
+    greedy, cpsat = pair
+    edit_metrics(greedy, lambda m: m["costs"].pop("objective"))
+    assert compare_runs([greedy, cpsat])[0] == 2
+
+    edit_metrics(greedy, lambda m: m.update(costs="tres"))
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 2
+    assert "costs" in report["reason"]
+
+
+@pytest.mark.parametrize(("key", "value"), [("cost_d", "0"), ("cost_e", 3.0), ("cost_e", False)])
+def test_malformed_cost_components_are_invalid(pair, key: str, value) -> None:
+    greedy, cpsat = pair
+    edit_metrics(greedy, lambda m: m["costs"].update({key: value}))
+
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 2
+    assert f"costs.{key}" in report["reason"]
+
+
+def test_well_formed_false_objective_is_still_an_audit_failure(pair) -> None:
+    greedy, cpsat = pair
+    edit_metrics(greedy, lambda m: m["costs"].update(objective=2))
+
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 4
+    assert "OBJECTIVE_MISMATCH" in report["reason"]
+    assert "difference" not in report
+
+
+def test_difference_uses_audited_objectives(pair) -> None:
+    code, report = compare_runs(list(pair))
+
+    assert code == 0
+    for run in report["runs"].values():
+        assert run["audit_recheck"]["objective"] == run["costs"]["objective"] == 3
+    assert report["difference"]["absolute"] == 0
+
+
+@pytest.mark.parametrize(
+    ("target", "change", "message"),
+    [
+        ("cpsat", {"solver": "ESTADO_INEXISTENTE"}, "desconocido"),
+        ("greedy", {"baseline": "CASI_COMPLETO"}, "desconocido"),
+        ("cpsat", {"solver": None}, "desconocido o ausente"),
+        ("greedy", {"baseline": None}, "desconocido o ausente"),
+        ("greedy", {"solver": "OPTIMAL"}, "greedy no puede tener status.solver"),
+        ("cpsat", {"baseline": "COMPLETE"}, "cp-sat no puede tener status.baseline"),
+        ("cpsat", {"precheck": "QUIZAS"}, "status.precheck desconocido"),
+        ("cpsat", {"precheck": "NO_CANDIDATES"}, "aunque el precheck impidió ejecutar"),
+        ("cpsat", {"solver": "MODEL_INVALID"}, "MODEL_INVALID"),
+    ],
+)
+def test_unknown_or_contradictory_states_are_invalid(pair, target, change, message) -> None:
+    greedy, cpsat = pair
+    path = greedy if target == "greedy" else cpsat
+    edit_metrics(path, lambda m: m["status"].update(change))
+
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 2, report["reason"]
+    assert report["status"] == "INVALID"
+    assert message in report["reason"]
+
+
+def test_incomplete_run_with_full_costs_is_invalid(tmp_path: Path, micro: Instance) -> None:
+    source = write_input(tmp_path / "entrada", stuck_instance(micro))
+    greedy = make_run(tmp_path / "g", source, "greedy")
+    cpsat = make_run(tmp_path / "c", source, "cp-sat")
+    edit_metrics(greedy, lambda m: m["costs"].update(cost_d=0, cost_e=1, objective=1))
+
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 2
+    assert "sin tener una solución completa" in report["reason"]
+
+
+def test_legitimate_no_solution_states_remain_not_comparable(
+    tmp_path: Path, micro: Instance
+) -> None:
+    # Las etiquetas válidas sin solución completa siguen siendo NOT_COMPARABLE, no INVALID.
+    source = write_input(tmp_path / "entrada", stuck_instance(micro))
+    greedy = make_run(tmp_path / "g", source, "greedy")
+    cpsat = make_run(tmp_path / "c", source, "cp-sat")
+
+    def to_unknown(metrics: dict) -> None:
+        metrics["status"]["solver"] = "UNKNOWN"
+        metrics["costs"].update(cost_d=None, cost_e=None, objective=None)
+
+    edit_metrics(cpsat, to_unknown)
+
+    code, report = compare_runs([greedy, cpsat])
+
+    assert code == 3
+    assert "INCOMPLETE" in report["reason"] and "UNKNOWN" in report["reason"]
+
+
 def test_stored_failed_audit_is_not_compared(pair) -> None:
     greedy, cpsat = pair
     audit = json.loads((greedy / "audit.json").read_text(encoding="utf-8"))

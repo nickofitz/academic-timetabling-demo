@@ -1,3 +1,4 @@
+import json
 import os
 import subprocess
 import sys
@@ -246,6 +247,31 @@ def test_compare_unreadable_run_has_no_traceback(tmp_path: Path) -> None:
     assert result.returncode == 2
     assert "Traceback" not in result.stderr
     assert '"status": "INVALID"' in report.read_text(encoding="utf-8")
+
+
+def test_compare_rejects_float_objective_via_cli(tmp_path: Path) -> None:
+    for solver in ("greedy", "cp-sat"):
+        done = run_python(
+            "-m", PROGRAM_NAME, "run", "--input", str(DATA / "micro"),
+            "--solver", solver, "--out", str(tmp_path / solver),
+        )  # fmt: skip
+        assert done.returncode == 0, done.stderr
+    metrics_path = tmp_path / "greedy" / "metrics.json"
+    metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+    metrics["costs"]["objective"] = 0.0
+    metrics_path.write_text(json.dumps(metrics), encoding="utf-8")
+    report = tmp_path / "comparacion.json"
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "compare", "--runs", str(tmp_path / "greedy"),
+        str(tmp_path / "cp-sat"), "--out", str(report),
+    )  # fmt: skip
+
+    written = json.loads(report.read_text(encoding="utf-8"))
+    assert result.returncode == 2
+    assert written["status"] == "INVALID"
+    assert "difference" not in written
+    assert "Traceback" not in result.stderr
 
 
 def test_compare_internal_failure_returns_five(tmp_path: Path, monkeypatch) -> None:

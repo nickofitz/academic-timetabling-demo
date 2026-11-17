@@ -23,6 +23,10 @@ from academic_timetabling_demo.validate import AssignmentsError, audit, read_ass
 INPUT_FILES = frozenset((*(spec.file for spec in TABLES), CONFIG_FILE))
 METHODS = ("greedy", "cp-sat")
 CPSAT_SOLUTIONS = ("OPTIMAL", "FEASIBLE")
+CPSAT_STATES = ("OPTIMAL", "FEASIBLE", "INFEASIBLE", "UNKNOWN", "MODEL_INVALID")
+GREEDY_STATES = ("COMPLETE", "INCOMPLETE")
+PRECHECK_STATES = ("READY", "NO_CANDIDATES")
+COST_KEYS = ("cost_d", "cost_e", "objective")
 
 EXIT_OK = 0
 EXIT_INVALID = 2
@@ -53,6 +57,7 @@ class RunEvidence:
     config: RunConfig
     input_sha256: str
     audit_check: dict = field(default_factory=dict)
+    verified_objective: int | None = None
 
     def summary(self) -> dict[str, object]:
         metrics = self.metrics
@@ -172,6 +177,73 @@ def load_run(path: Path) -> RunEvidence:
     return RunEvidence(path, run_id, method, metrics, config, recorded_global)
 
 
+def validate_status(run: RunEvidence) -> None:
+    """Etiquetas admitidas y coherentes con el método y el precheck; si no, código 2."""
+    status = run.metrics["status"]
+    precheck, solver, baseline = (
+        status.get("precheck"),
+        status.get("solver"),
+        status.get("baseline"),
+    )
+    where = f"{run.method} {run.run_id}"
+    if precheck not in PRECHECK_STATES:
+        raise _invalid(f"{where}: status.precheck desconocido {precheck!r}")
+    if run.method == "greedy":
+        if solver is not None:
+            raise _invalid(f"{where}: una corrida greedy no puede tener status.solver={solver!r}")
+        label, allowed, field_name = baseline, GREEDY_STATES, "status.baseline"
+    else:
+        # Las corridas del Hito 3 no tienen la clave baseline: ausente equivale a null.
+        if baseline is not None:
+            raise _invalid(
+                f"{where}: una corrida cp-sat no puede tener status.baseline={baseline!r}"
+            )
+        label, allowed, field_name = solver, CPSAT_STATES, "status.solver"
+    if precheck == "NO_CANDIDATES":
+        if label is not None:
+            raise _invalid(f"{where}: {field_name}={label!r} aunque el precheck impidió ejecutar")
+        return
+    if label not in allowed:
+        raise _invalid(f"{where}: {field_name} desconocido o ausente: {label!r}")
+    if label == "MODEL_INVALID":
+        raise _invalid(
+            f"{where}: CP-SAT terminó con MODEL_INVALID; es un error de la corrida, no una "
+            "búsqueda inconclusa, y no es válida para comparar"
+        )
+
+
+def has_complete_solution(run: RunEvidence) -> bool:
+    status = run.metrics["status"]
+    if run.method == "greedy":
+        return status.get("baseline") == "COMPLETE"
+    return status.get("solver") in CPSAT_SOLUTIONS
+
+
+def _non_negative_int(value: object) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
+
+
+def validate_costs(run: RunEvidence) -> None:
+    """Costos completos: enteros no negativos. Sin solución completa: todos null. Si no, 2."""
+    costs = run.metrics.get("costs")
+    where = f"{run.method} {run.run_id}"
+    if not isinstance(costs, dict):
+        raise _invalid(f"{where}: metrics.json no tiene un objeto costs")
+    if has_complete_solution(run):
+        for key in COST_KEYS:
+            if not _non_negative_int(costs.get(key)):
+                raise _invalid(
+                    f"{where}: costs.{key} debe ser un entero no negativo; hay {costs.get(key)!r}"
+                )
+        return
+    registered = [key for key in COST_KEYS if costs.get(key) is not None]
+    if registered:
+        raise _invalid(
+            f"{where}: registra costos completos ({', '.join(registered)}) sin tener una "
+            "solución completa"
+        )
+
+
 def not_comparable_reason(run: RunEvidence) -> str | None:
     """Motivo por el que una corrida legítima no tiene solución completa, o None."""
     status = run.metrics["status"]
@@ -203,8 +275,8 @@ def recheck(run: RunEvidence) -> None:
     except AssignmentsError as error:
         raise _invalid(f"{run.path}: {error}") from None
     stored = _read_json(run.path / "audit.json")
-    reported = costs.get("objective")
-    report = audit(instance, rows, reported if isinstance(reported, int) else None, run.config)
+    # validate_costs ya garantizó un entero: el objetivo registrado siempre se contrasta.
+    report = audit(instance, rows, costs["objective"], run.config)
     run.audit_check = {
         "status": report.status,
         "cost_d": report.cost_d,
@@ -223,6 +295,7 @@ def recheck(run: RunEvidence) -> None:
         problems.append("la corrida no registra result_valid=true")
     if problems:
         raise CompareError(EXIT_AUDIT_FAILED, f"{run.method} {run.run_id}: {'; '.join(problems)}")
+    run.verified_objective = report.objective
 
 
 def cost_difference(greedy: int, cpsat: int) -> dict[str, object]:
@@ -265,6 +338,8 @@ def compare_runs(paths: list[Path]) -> tuple[int, dict[str, object]]:
             raise _invalid(f"run_id duplicado: {runs[0].run_id}")
         if {run.method for run in runs} != set(METHODS):
             raise _invalid("se necesita una corrida greedy y una cp-sat")
+        for run in runs:
+            validate_status(run)
         by_method = {run.method: run for run in runs}
         greedy, cpsat = by_method["greedy"], by_method["cp-sat"]
         if greedy.input_sha256 != cpsat.input_sha256:
@@ -274,6 +349,8 @@ def compare_runs(paths: list[Path]) -> tuple[int, dict[str, object]]:
             raise _invalid("los pesos efectivos alpha/beta difieren")
         report["input_sha256"] = greedy.input_sha256
         report["weights"] = weights
+        for run in runs:
+            validate_costs(run)
 
         reasons = [r for r in (not_comparable_reason(greedy), not_comparable_reason(cpsat)) if r]
         if reasons:
@@ -295,8 +372,8 @@ def compare_runs(paths: list[Path]) -> tuple[int, dict[str, object]]:
             **report,
         }
 
-    z_greedy = greedy.metrics["costs"]["objective"]
-    z_cpsat = cpsat.metrics["costs"]["objective"]
+    # Solo valores ya cotejados con el auditor y los pesos efectivos.
+    z_greedy, z_cpsat = greedy.verified_objective, cpsat.verified_objective
     env_g, env_c = greedy.metrics.get("environment") or {}, cpsat.metrics.get("environment") or {}
     keys = ("python", "ortools", "sqlite", "package", "git", "system", "machine", "processor")
     differing = [key for key in keys if env_g.get(key) != env_c.get(key)]
