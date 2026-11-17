@@ -1,0 +1,138 @@
+{
+  "costs": {
+    "best_bound": 17.0,
+    "cost_d": 0,
+    "cost_e": 17,
+    "objective": 17,
+    "relative_gap": 0.0,
+    "solver_objective": 17.0
+  },
+  "counts": {
+    "alternatives_after": 120,
+    "assigned_sections": 12,
+    "coverage": 1.0,
+    "discarded_pairs": 312,
+    "occupancy_rows": 3210,
+    "pairs_before": 432,
+    "sections": 12
+  },
+  "created_utc": "2026-11-17T02:33:55Z",
+  "environment": {
+    "cpu_count": 16,
+    "git": {
+      "dirty": false,
+      "revision": "25fae947c60bfa63bd4fb756e4e7fa12f5c46135"
+    },
+    "machine": "AMD64",
+    "ortools": "9.15.6755",
+    "package": "0.1.0",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+    "python": "3.12.16",
+    "sqlite": "3.53.1",
+    "system": "Windows-11-10.0.26300-SP0"
+  },
+  "error": null,
+  "exit_code": 0,
+  "export": {
+    "error": null,
+    "files": {
+      "schedule.csv": "1984dbbd18e31b2b7e103728826fcf8ac3c1260da977d0d291e98ef6ba66c8f1",
+      "schedule.html": "dd4e1f97baf9b2db3eb1ae4ab45a8ef0937d13ed7b137a24cac3d3cfcc005339"
+    },
+    "sessions": 70
+  },
+  "input": {
+    "combined_sha256": "70cc13f51fae64dc4542e8e27a94f0d509a6efedfe156d17540f3373c744c258",
+    "complete": true,
+    "directory": "docs\\demo\\changed\\changed-input",
+    "effective_config_sha256": "26a3b784429dfae063a801f7a8d8e498518a483add880ef10fdfa33581fe695e",
+    "files": {
+      "blocks.csv": "bdf2efe838c52242a7b761cbd635f0f26a511653e7ba63866859c6b7f9cfd31e",
+      "config.json": "5499e259e488a10efc6098c2e8a6796885ef9fd4cd90b6fc3c26b645d8e3e1d9",
+      "days.csv": "36d03effcca659c039a0214fb6bc8b170a71a853fab48ff7363b3c54919097bc",
+      "features.csv": "e0bf910efc10e222be6f900193bda3bf80ba69ece6cd8d07c62acd161dca9337",
+      "groups.csv": "7d9380953e1e98b660d27abb0f247b5545de2e196badfae04a0dedf29da16a57",
+      "pattern_sessions.csv": "89f29c7d97459397e6abe64cbc717a66a3ac2675edfd6e15dd11640b26ebbd14",
+      "patterns.csv": "24877c035ed1861b2950ce6e5496ec8a33aed11ff7a26ac056a041bbcfd63d3f",
+      "room_available.csv": "ba848f6ef0a726a6a5aabcb434878a15c269469feade77106a3bfd793a357dbc",
+      "room_features.csv": "8bab37336d6dea3866e7d424fd0e2cf38d4f4ac12dc946b27680860c44a6e2d0",
+      "room_reservations.csv": "598dba0d1b63acf76abac22e313558d0f6733aaf65c9f42b541c1264a8377d19",
+      "rooms.csv": "254f44cb7533da07e183e992081648a1745b77704679e689777fbc0e29481919",
+      "section_blocked.csv": "65865422d2faa251d3dedfcbb0e6e962f66aec0a507ea07c9a850a81945d2858",
+      "section_features.csv": "d4e8a64bd23988bd9b7b0bba61eff4a483a4daa016c373bfd39ef9583406e88f",
+      "section_groups.csv": "a4499dd8445ac42cf0f187fa5cb095029c468fc82bd9f677f7bc5a505e3c4427",
+      "section_patterns.csv": "d468ca48a2621c218185a04aa076204d19844f3c015e12ca277953f8a791dfb1",
+      "section_weeks.csv": "2ea73f4484c03e1cf2e12927da97d63e6e8fe7b4900bc8297d6b1f02a7266445",
+      "sections.csv": "8c3bb7039eba62780c48e39b660f2f1249688a22b217ea82795063d80e727d60",
+      "teacher_available.csv": "f2dcc47ea3df7c0a552f2a4a880988ad3ebc2a32d1becb9ea150de0378abdfa0",
+      "teacher_penalties.csv": "9d7553c9e126905b41ce6527e34de58a6e33ac55f3aafb5072b4b9e4af1c2cfb",
+      "teachers.csv": "c9b7d61fdaa1ed05fb839b31aa8eda938959f0012ea298ecd6d6fb6cbb0475ae",
+      "weeks.csv": "aa8a2a505df301970200bfd0608e1b6dca5bcacf29b83541a345afca37335174"
+    },
+    "hash_policy": "sha256 de los bytes exactos de cada archivo del snapshot",
+    "missing": [],
+    "snapshot_verified": true,
+    "source_unchanged": true,
+    "unreadable": {}
+  },
+  "model": {
+    "conflict_constraints": 772,
+    "constraints": 784,
+    "variables": 120
+  },
+  "parameters": {
+    "applied_overrides": {
+      "time_limit_seconds": 30.0
+    },
+    "effective_config": {
+      "alpha": 10,
+      "beta": 1,
+      "num_search_workers": 1,
+      "random_seed": 42,
+      "time_limit_seconds": 30.0
+    },
+    "original_config": {
+      "alpha": 10,
+      "beta": 1,
+      "num_search_workers": 1,
+      "random_seed": 42,
+      "time_limit_seconds": 30
+    },
+    "requested_overrides": {
+      "random_seed": null,
+      "time_limit_seconds": 30.0
+    },
+    "solver": "cp-sat"
+  },
+  "provenance": {
+    "case": null,
+    "data_seed": null,
+    "detail": "la entrada no tiene generation.json",
+    "format_version": null,
+    "manifest_sha256": null,
+    "status": "ABSENT"
+  },
+  "run_id": "20261117T023355Z-f38c38d9",
+  "status": {
+    "audit": "PASSED",
+    "baseline": null,
+    "data": "VALID",
+    "deliverable": true,
+    "export": "WRITTEN",
+    "integrity": "VERIFIED",
+    "precheck": "READY",
+    "result_valid": true,
+    "solver": "OPTIMAL"
+  },
+  "timings_seconds": {
+    "audit": 0.0006848000339232385,
+    "build": 0.005154900019988418,
+    "candidates": 0.015510099998209625,
+    "export": 0.054671900055836886,
+    "load": 0.00943919998826459,
+    "snapshot": 0.01140239997766912,
+    "solve": 0.008540600014384836,
+    "total": 0.3172021000063978,
+    "validation": 0.01600409997627139
+  }
+}

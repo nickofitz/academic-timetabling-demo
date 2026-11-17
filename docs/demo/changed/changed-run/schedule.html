@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>Academic Timetabling Demo · 20261117T023355Z-f38c38d9</title>
+<style>
+  :root {
+    --bg: #f6f8fa; --surface: #ffffff; --text: #1b2430; --muted: #4f5b67; --line: #d5dce3;
+    --accent: #1f5f99; --accent-soft: #e5eef7; --green: #23744b; --green-soft: #e3f2ea;
+    --focus: #f0a400;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  header { background: var(--surface); border-bottom: 1px solid var(--line); padding: 16px 24px; }
+  h1 { font-size: 1.35rem; margin: 0 8px 0 0; display: inline-block; }
+  .badge {
+    display: inline-block; vertical-align: middle; padding: 2px 10px; border-radius: 999px;
+    background: var(--green-soft); color: var(--green); font-weight: 600; font-size: .85rem;
+    border: 1px solid #b9dcc8;
+  }
+  main { padding: 16px 24px 40px; max-width: 1400px; margin: 0 auto; }
+  .summary {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px 16px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 16px; margin: 0 0 16px;
+  }
+  .summary div { min-width: 0; }
+  .summary dt { color: var(--muted); font-size: .8rem; }
+  .summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+  .filters {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 12px;
+  }
+  .filters label { display: flex; flex-direction: column; font-size: .8rem; color: var(--muted); }
+  .filters select, .filters button {
+    font: inherit; color: var(--text); padding: 6px 8px; border: 1px solid #9aa7b4;
+    border-radius: 6px; background: #fff; min-width: 150px; max-width: 280px;
+  }
+  .filters button { background: var(--accent); color: #fff; border-color: var(--accent); min-width: 0; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .counter { margin: 4px 0 12px; color: var(--muted); }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 0 0 12px; font-size: .85rem; color: var(--muted); }
+  .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+  .room { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 16px; }
+  .room h2 { font-size: 1rem; margin: 0; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .scroll { overflow-x: auto; }
+  table.grid { border-collapse: collapse; width: 100%; min-width: 640px; table-layout: fixed; }
+  .grid th, .grid td { border: 1px solid var(--line); padding: 4px; vertical-align: top; }
+  .grid thead th { background: var(--accent-soft); font-size: .85rem; }
+  .grid th[scope=row] { width: 120px; font-size: .8rem; font-weight: 600; text-align: left; background: #fafbfc; }
+  .card {
+    border-radius: 6px; padding: 6px 8px; height: 100%; font-size: .8rem;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); overflow-wrap: anywhere;
+  }
+  .card.double { background: var(--green-soft); border-left-color: var(--green); }
+  .card strong { display: block; font-size: .85rem; }
+  .empty { background: var(--surface); border: 1px dashed #9aa7b4; border-radius: 8px; padding: 24px; text-align: center; }
+  table.list { border-collapse: collapse; width: 100%; background: var(--surface); font-size: .85rem; }
+  .list caption { text-align: left; font-weight: 600; padding: 8px 0; }
+  .list th, .list td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; overflow-wrap: anywhere; }
+  .list thead th { background: var(--accent-soft); }
+  footer { color: var(--muted); font-size: .8rem; margin-top: 24px; }
+  @media (max-width: 700px) { header, main { padding-left: 12px; padding-right: 12px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Academic Timetabling Demo</h1>
+  <span class="badge">Datos sintéticos</span>
+</header>
+<main>
+  <dl class="summary" aria-label="Indicadores de la corrida completa">
+    <div><dt>Corrida</dt><dd>20261117T023355Z-f38c38d9</dd></div>
+    <div><dt>Fecha (UTC)</dt><dd>2026-11-17T02:33:55Z</dd></div>
+    <div><dt>Método</dt><dd>CP-SAT</dd></div>
+    <div><dt>Estado</dt><dd>OPTIMAL: óptimo demostrado por CP-SAT para estos datos y pesos</dd></div>
+    <div><dt>Secciones asignadas</dt><dd>12 de 12</dd></div>
+    <div><dt>Auditoría independiente</dt><dd>PASSED</dd></div>
+    <div><dt>Integridad del snapshot</dt><dd>VERIFIED</dd></div>
+    <div><dt>Costo total (α·D + β·E)</dt><dd>17 = 10·0 + 1·17</dd></div>
+    <div><dt>Tiempo de resolución de CP-SAT</dt><dd>0.009 s</dd></div>
+    <div><dt>Semilla de datos</dt><dd>no acreditada</dd></div>
+  </dl>
+
+  <form class="filters" id="filters" aria-label="Filtros">
+    <label for="f-week">Semana<select id="f-week"></select></label>
+    <label for="f-room">Sala<select id="f-room"></select></label>
+    <label for="f-teacher">Docente<select id="f-teacher"></select></label>
+    <label for="f-group">Grupo<select id="f-group"></select></label>
+    <button type="button" id="reset">Restablecer filtros</button>
+  </form>
+  <p class="counter" id="counter" aria-live="polite"></p>
+  <p class="legend">
+    <span><span class="swatch" style="background:#e5eef7;border-left:4px solid #1f5f99"></span>Sesión de 1 bloque</span>
+    <span><span class="swatch" style="background:#e3f2ea;border-left:4px solid #23744b"></span>Sesión de 2 o más bloques (ocupa todas sus filas)</span>
+    <span>Los indicadores superiores son de la corrida completa; los filtros solo cambian lo que se muestra.</span>
+  </p>
+  <div id="grids"></div>
+  <div class="scroll"><table class="list" id="list"></table></div>
+  <footer>Vista generada desde el snapshot y las asignaciones auditadas de la corrida. El navegador solo filtra; las soluciones se calculan en Python. Tiempo total y fases: metrics.json.</footer>
+</main>
+<script type="application/json" id="schedule-data">{"blocks": [{"end": "09:00", "id": 1, "start": "08:00"}, {"end": "10:00", "id": 2, "start": "09:00"}, {"end": "11:00", "id": 3, "start": "10:00"}, {"end": "12:00", "id": 4, "start": "11:00"}, {"end": "13:00", "id": 5, "start": "12:00"}, {"end": "14:00", "id": 6, "start": "13:00"}, {"end": "15:00", "id": 7, "start": "14:00"}], "days": [{"id": 1, "label": "Lunes"}, {"id": 2, "label": "Martes"}, {"id": 3, "label": "Miércoles"}, {"id": 4, "label": "Jueves"}, {"id": 5, "label": "Viernes"}], "groups": [{"id": "G01", "name": "Grupo 01"}, {"id": "G02", "name": "Grupo 02"}, {"id": "G03", "name": "Grupo 03"}, {"id": "G04", "name": "Grupo 04"}], "rooms": [{"capacity": 40, "id": "R01", "name": "Sala 01"}, {"capacity": 40, "id": "R02", "name": "Sala 02"}, {"capacity": 60, "id": "R03", "name": "Sala 03"}, {"capacity": 40, "id": "R04", "name": "Sala 04"}, {"capacity": 85, "id": "R05", "name": "Sala 05"}, {"capacity": 120, "id": "R06", "name": "Sala 06"}], "run": {"alpha": 10, "assigned": 12, "audit": "PASSED", "beta": 1, "cost_d": 0, "cost_e": 17, "created_utc": "2026-11-17T02:33:55Z", "data_seed": null, "integrity": "VERIFIED", "method": "CP-SAT", "objective": 17, "run_id": "20261117T023355Z-f38c38d9", "status": "OPTIMAL: óptimo demostrado por CP-SAT para estos datos y pesos", "timing": {"label": "Tiempo de resolución de CP-SAT", "seconds": 0.008540600014384836}, "total": 12}, "sessions": [{"day": 1, "duration": 2, "end_time": "10:00", "enrollment": 63, "group_ids": ["G03", "G04"], "group_names": ["Grupo 03", "Grupo 04"], "pattern_id": "P1X2-D1-B1", "room_id": "R05", "room_name": "Sala 05", "section_id": "S07", "section_name": "Sección 07", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 1}, {"day": 1, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "1", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 1}, {"day": 1, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "1", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 1}, {"day": 2, "duration": 1, "end_time": "10:00", "enrollment": 49, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X1-D24-B2", "room_id": "R03", "room_name": "Sala 03", "section_id": "S12", "section_name": "Sección 12", "session_id": "1", "start_block": 2, "start_time": "09:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 1}, {"day": 2, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "1", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 1}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 1}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 108, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P1X2-D2-B5", "room_id": "R06", "room_name": "Sala 06", "section_id": "S06", "section_name": "Sección 06", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 1}, {"day": 3, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 1}, {"day": 3, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "2", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 1}, {"day": 3, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 1}, {"day": 3, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "2", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 1}, {"day": 4, "duration": 2, "end_time": "10:00", "enrollment": 111, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P1X2-D4-B1", "room_id": "R06", "room_name": "Sala 06", "section_id": "S05", "section_name": "Sección 05", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T05", "teacher_name": "Docente 05", "week": 1}, {"day": 4, "duration": 1, "end_time": "10:00", "enrollment": 49, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X1-D24-B2", "room_id": "R03", "room_name": "Sala 03", "section_id": "S12", "section_name": "Sección 12", "session_id": "2", "start_block": 2, "start_time": "09:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 1}, {"day": 4, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "2", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 1}, {"day": 4, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 1}, {"day": 5, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "2", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 1}, {"day": 5, "duration": 2, "end_time": "12:00", "enrollment": 112, "group_ids": ["G02", "G03"], "group_names": ["Grupo 02", "Grupo 03"], "pattern_id": "P1X2-D5-B3", "room_id": "R06", "room_name": "Sala 06", "section_id": "S10", "section_name": "Sección 10", "session_id": "1", "start_block": 3, "start_time": "10:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 1}, {"day": 5, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 1}, {"day": 1, "duration": 2, "end_time": "10:00", "enrollment": 63, "group_ids": ["G03", "G04"], "group_names": ["Grupo 03", "Grupo 04"], "pattern_id": "P1X2-D1-B1", "room_id": "R05", "room_name": "Sala 05", "section_id": "S07", "section_name": "Sección 07", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 2}, {"day": 1, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "1", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 2}, {"day": 1, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "1", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 2}, {"day": 2, "duration": 1, "end_time": "10:00", "enrollment": 49, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X1-D24-B2", "room_id": "R03", "room_name": "Sala 03", "section_id": "S12", "section_name": "Sección 12", "session_id": "1", "start_block": 2, "start_time": "09:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 2}, {"day": 2, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "1", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 2}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 2}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 108, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P1X2-D2-B5", "room_id": "R06", "room_name": "Sala 06", "section_id": "S06", "section_name": "Sección 06", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 2}, {"day": 3, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 2}, {"day": 3, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "2", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 2}, {"day": 3, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 2}, {"day": 3, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "2", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 2}, {"day": 4, "duration": 2, "end_time": "10:00", "enrollment": 111, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P1X2-D4-B1", "room_id": "R06", "room_name": "Sala 06", "section_id": "S05", "section_name": "Sección 05", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T05", "teacher_name": "Docente 05", "week": 2}, {"day": 4, "duration": 1, "end_time": "10:00", "enrollment": 49, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X1-D24-B2", "room_id": "R03", "room_name": "Sala 03", "section_id": "S12", "section_name": "Sección 12", "session_id": "2", "start_block": 2, "start_time": "09:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 2}, {"day": 4, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "2", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 2}, {"day": 4, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 2}, {"day": 5, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "2", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 2}, {"day": 5, "duration": 2, "end_time": "12:00", "enrollment": 112, "group_ids": ["G02", "G03"], "group_names": ["Grupo 02", "Grupo 03"], "pattern_id": "P1X2-D5-B3", "room_id": "R06", "room_name": "Sala 06", "section_id": "S10", "section_name": "Sección 10", "session_id": "1", "start_block": 3, "start_time": "10:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 2}, {"day": 5, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 2}, {"day": 1, "duration": 2, "end_time": "10:00", "enrollment": 63, "group_ids": ["G03", "G04"], "group_names": ["Grupo 03", "Grupo 04"], "pattern_id": "P1X2-D1-B1", "room_id": "R05", "room_name": "Sala 05", "section_id": "S07", "section_name": "Sección 07", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 3}, {"day": 1, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "1", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 3}, {"day": 1, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "1", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 3}, {"day": 2, "duration": 2, "end_time": "10:00", "enrollment": 31, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P1X2-D2-B1", "room_id": "R04", "room_name": "Sala 04", "section_id": "S11", "section_name": "Sección 11", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T05", "teacher_name": "Docente 05", "week": 3}, {"day": 2, "duration": 1, "end_time": "10:00", "enrollment": 49, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X1-D24-B2", "room_id": "R03", "room_name": "Sala 03", "section_id": "S12", "section_name": "Sección 12", "session_id": "1", "start_block": 2, "start_time": "09:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 3}, {"day": 2, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "1", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 3}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 3}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 108, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P1X2-D2-B5", "room_id": "R06", "room_name": "Sala 06", "section_id": "S06", "section_name": "Sección 06", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 3}, {"day": 3, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 3}, {"day": 3, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "2", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 3}, {"day": 3, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 3}, {"day": 3, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "2", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 3}, {"day": 4, "duration": 2, "end_time": "10:00", "enrollment": 111, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P1X2-D4-B1", "room_id": "R06", "room_name": "Sala 06", "section_id": "S05", "section_name": "Sección 05", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T05", "teacher_name": "Docente 05", "week": 3}, {"day": 4, "duration": 1, "end_time": "10:00", "enrollment": 49, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X1-D24-B2", "room_id": "R03", "room_name": "Sala 03", "section_id": "S12", "section_name": "Sección 12", "session_id": "2", "start_block": 2, "start_time": "09:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 3}, {"day": 4, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "2", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 3}, {"day": 4, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 3}, {"day": 5, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "2", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 3}, {"day": 5, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 3}, {"day": 1, "duration": 2, "end_time": "10:00", "enrollment": 63, "group_ids": ["G03", "G04"], "group_names": ["Grupo 03", "Grupo 04"], "pattern_id": "P1X2-D1-B1", "room_id": "R05", "room_name": "Sala 05", "section_id": "S07", "section_name": "Sección 07", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 4}, {"day": 1, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "1", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 4}, {"day": 1, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "1", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 4}, {"day": 2, "duration": 2, "end_time": "10:00", "enrollment": 31, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P1X2-D2-B1", "room_id": "R04", "room_name": "Sala 04", "section_id": "S11", "section_name": "Sección 11", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T05", "teacher_name": "Docente 05", "week": 4}, {"day": 2, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "1", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 4}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 4}, {"day": 2, "duration": 2, "end_time": "14:00", "enrollment": 108, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P1X2-D2-B5", "room_id": "R06", "room_name": "Sala 06", "section_id": "S06", "section_name": "Sección 06", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T06", "teacher_name": "Docente 06", "week": 4}, {"day": 3, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 4}, {"day": 3, "duration": 1, "end_time": "12:00", "enrollment": 85, "group_ids": ["G02"], "group_names": ["Grupo 02"], "pattern_id": "P2X1-D13-B4", "room_id": "R05", "room_name": "Sala 05", "section_id": "S02", "section_name": "Sección 02", "session_id": "2", "start_block": 4, "start_time": "11:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 4}, {"day": 3, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "1", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 4}, {"day": 3, "duration": 1, "end_time": "15:00", "enrollment": 23, "group_ids": ["G01", "G02"], "group_names": ["Grupo 01", "Grupo 02"], "pattern_id": "P2X1-D13-B7", "room_id": "R02", "room_name": "Sala 02", "section_id": "S01", "section_name": "Sección 01", "session_id": "2", "start_block": 7, "start_time": "14:00", "teacher_id": "T01", "teacher_name": "Docente 01", "week": 4}, {"day": 4, "duration": 2, "end_time": "10:00", "enrollment": 111, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P1X2-D4-B1", "room_id": "R06", "room_name": "Sala 06", "section_id": "S05", "section_name": "Sección 05", "session_id": "1", "start_block": 1, "start_time": "08:00", "teacher_id": "T05", "teacher_name": "Docente 05", "week": 4}, {"day": 4, "duration": 1, "end_time": "11:00", "enrollment": 23, "group_ids": ["G03"], "group_names": ["Grupo 03"], "pattern_id": "P2X1-D24-B3", "room_id": "R04", "room_name": "Sala 04", "section_id": "S03", "section_name": "Sección 03", "session_id": "2", "start_block": 3, "start_time": "10:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 4}, {"day": 4, "duration": 2, "end_time": "14:00", "enrollment": 49, "group_ids": ["G01"], "group_names": ["Grupo 01"], "pattern_id": "P2X2-D24-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S09", "section_name": "Sección 09", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T03", "teacher_name": "Docente 03", "week": 4}, {"day": 5, "duration": 1, "end_time": "09:00", "enrollment": 60, "group_ids": ["G01", "G04"], "group_names": ["Grupo 01", "Grupo 04"], "pattern_id": "P2X1-D35-B1", "room_id": "R03", "room_name": "Sala 03", "section_id": "S04", "section_name": "Sección 04", "session_id": "2", "start_block": 1, "start_time": "08:00", "teacher_id": "T04", "teacher_name": "Docente 04", "week": 4}, {"day": 5, "duration": 2, "end_time": "14:00", "enrollment": 54, "group_ids": ["G04"], "group_names": ["Grupo 04"], "pattern_id": "P2X2-D35-B5", "room_id": "R03", "room_name": "Sala 03", "section_id": "S08", "section_name": "Sección 08", "session_id": "2", "start_block": 5, "start_time": "12:00", "teacher_id": "T02", "teacher_name": "Docente 02", "week": 4}], "teachers": [{"id": "T01", "name": "Docente 01"}, {"id": "T02", "name": "Docente 02"}, {"id": "T03", "name": "Docente 03"}, {"id": "T04", "name": "Docente 04"}, {"id": "T05", "name": "Docente 05"}, {"id": "T06", "name": "Docente 06"}], "weeks": [1, 2, 3, 4]}</script>
+<script>
+(function () {
+  "use strict";
+  var data = JSON.parse(document.getElementById("schedule-data").textContent);
+  var byId = function (id) { return document.getElementById(id); };
+  var el = function (tag, text, cls) {
+    var node = document.createElement(tag);
+    if (text !== undefined && text !== null) { node.textContent = String(text); }
+    if (cls) { node.className = cls; }
+    return node;
+  };
+  var dayLabel = {};
+  data.days.forEach(function (d) { dayLabel[d.id] = d.label; });
+  var roomInfo = {};
+  data.rooms.forEach(function (r) { roomInfo[r.id] = r; });
+  var blockInfo = {};
+  data.blocks.forEach(function (b) { blockInfo[b.id] = b; });
+
+  function fill(select, items, allLabel) {
+    if (allLabel) { var all = el("option", allLabel); all.value = ""; select.appendChild(all); }
+    items.forEach(function (item) {
+      var option = el("option", item.label);
+      option.value = String(item.value);
+      select.appendChild(option);
+    });
+  }
+  fill(byId("f-week"), data.weeks.map(function (w) { return { value: w, label: "Semana " + w }; }));
+  fill(byId("f-room"), data.rooms.map(function (r) { return { value: r.id, label: r.name + " (" + r.id + ")" }; }), "Todas");
+  fill(byId("f-teacher"), data.teachers.map(function (t) { return { value: t.id, label: t.name + " (" + t.id + ")" }; }), "Todos");
+  fill(byId("f-group"), data.groups.map(function (g) { return { value: g.id, label: g.name + " (" + g.id + ")" }; }), "Todos");
+
+  function current() {
+    return {
+      week: Number(byId("f-week").value),
+      room: byId("f-room").value,
+      teacher: byId("f-teacher").value,
+      group: byId("f-group").value
+    };
+  }
+  function visible(f) {
+    return data.sessions.filter(function (s) {
+      return s.week === f.week &&
+        (!f.room || s.room_id === f.room) &&
+        (!f.teacher || s.teacher_id === f.teacher) &&
+        (!f.group || s.group_ids.indexOf(f.group) !== -1);
+    });
+  }
+  function groupsText(s) {
+    return s.group_names.map(function (name, i) { return name + " (" + s.group_ids[i] + ")"; }).join(", ");
+  }
+  function card(s) {
+    var box = el("div", null, s.duration > 1 ? "card double" : "card");
+    box.appendChild(el("strong", s.section_name + " (" + s.section_id + ")"));
+    box.appendChild(el("div", s.start_time + "–" + s.end_time + " · " + s.duration + (s.duration > 1 ? " bloques" : " bloque")));
+    box.appendChild(el("div", "Sala: " + s.room_name));
+    box.appendChild(el("div", "Docente: " + s.teacher_name));
+    box.appendChild(el("div", "Grupos: " + groupsText(s)));
+    box.title = s.section_name + " · " + dayLabel[s.day] + " " + s.start_time + "–" + s.end_time +
+      " · " + s.room_name + " · " + s.teacher_name + " · " + groupsText(s);
+    return box;
+  }
+  function grid(roomId, sessions) {
+    var room = roomInfo[roomId];
+    var section = el("section", null, "room");
+    section.setAttribute("aria-label", "Sala " + room.name);
+    section.appendChild(el("h2", room.name + " (" + room.id + ") · capacidad " + room.capacity));
+    var wrap = el("div", null, "scroll");
+    var table = el("table", null, "grid");
+    var head = el("thead"); var row = el("tr");
+    row.appendChild(el("th", "Bloque"));
+    data.days.forEach(function (d) { var th = el("th", d.label); th.scope = "col"; row.appendChild(th); });
+    head.appendChild(row); table.appendChild(head);
+    var starts = {};
+    sessions.forEach(function (s) { starts[s.day + ":" + s.start_block] = s; });
+    var covered = {};
+    var body = el("tbody");
+    data.blocks.forEach(function (b) {
+      var tr = el("tr");
+      var th = el("th", "B" + b.id + " · " + b.start + "–" + b.end); th.scope = "row";
+      tr.appendChild(th);
+      data.days.forEach(function (d) {
+        var key = d.id + ":" + b.id;
+        if (covered[key]) { return; }
+        var td = el("td");
+        var s = starts[key];
+        if (s) {
+          td.rowSpan = s.duration;
+          for (var k = 1; k < s.duration; k++) { covered[d.id + ":" + (b.id + k)] = true; }
+          td.appendChild(card(s));
+        }
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+    table.appendChild(body); wrap.appendChild(table); section.appendChild(wrap);
+    return section;
+  }
+  function renderList(sessions, f) {
+    var table = byId("list");
+    while (table.firstChild) { table.removeChild(table.firstChild); }
+    table.appendChild(el("caption", "Sesiones visibles · semana " + f.week));
+    var head = el("thead"); var row = el("tr");
+    ["Día", "Horario", "Bloques", "Sección", "Sala", "Docente", "Grupos"].forEach(function (h) {
+      var th = el("th", h); th.scope = "col"; row.appendChild(th);
+    });
+    head.appendChild(row); table.appendChild(head);
+    var body = el("tbody");
+    sessions.forEach(function (s) {
+      var tr = el("tr");
+      [dayLabel[s.day], s.start_time + "–" + s.end_time, s.duration, s.section_name + " (" + s.section_id + ")",
+       s.room_name + " (" + s.room_id + ")", s.teacher_name + " (" + s.teacher_id + ")", groupsText(s)
+      ].forEach(function (value) { tr.appendChild(el("td", value)); });
+      body.appendChild(tr);
+    });
+    table.appendChild(body);
+  }
+  function render() {
+    var f = current();
+    var sessions = visible(f);
+    var grids = byId("grids");
+    while (grids.firstChild) { grids.removeChild(grids.firstChild); }
+    byId("counter").textContent = sessions.length + (sessions.length === 1 ? " sesión visible" : " sesiones visibles") +
+      " de " + data.sessions.length + " en la corrida (todas las semanas).";
+    if (!sessions.length) {
+      var empty = el("div", null, "empty");
+      empty.appendChild(el("p", "Ninguna sesión cumple los filtros seleccionados en la semana " + f.week + "."));
+      var again = el("button", "Restablecer filtros");
+      again.type = "button";
+      again.addEventListener("click", reset);
+      empty.appendChild(again);
+      grids.appendChild(empty);
+    } else {
+      var rooms = f.room ? [f.room] : data.rooms.map(function (r) { return r.id; }).filter(function (id) {
+        return sessions.some(function (s) { return s.room_id === id; });
+      });
+      rooms.forEach(function (id) {
+        grids.appendChild(grid(id, sessions.filter(function (s) { return s.room_id === id; })));
+      });
+    }
+    renderList(sessions, f);
+  }
+  function reset() {
+    byId("f-week").value = String(data.weeks[0]);
+    byId("f-room").value = ""; byId("f-teacher").value = ""; byId("f-group").value = "";
+    render();
+  }
+  ["f-week", "f-room", "f-teacher", "f-group"].forEach(function (id) { byId(id).addEventListener("change", render); });
+  byId("reset").addEventListener("click", reset);
+  byId("filters").addEventListener("submit", function (event) { event.preventDefault(); });
+  reset();
+})();
+</script>
+</body>
+</html>

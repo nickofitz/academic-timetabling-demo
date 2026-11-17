@@ -2,7 +2,7 @@
 
 Demo local de programación académica: asigna cada sección a un patrón semanal y una sala, con datos sintéticos, restricciones obligatorias, preferencias explícitas y auditoría independiente.
 
-> **Estado:** Hito 4 implementado y revisado. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, la preparación de alternativas en SQL, la optimización con CP-SAT, una heurística voraz, una auditoría independiente y la comparación entre ambos métodos. Todavía no hay HTML.
+> **Estado:** MVP 0.1 implementado y revisado. Existen la validación de datos, la carga en SQLite, la generación de los casos micro y demo, la preparación de alternativas en SQL, la optimización con CP-SAT, una heurística voraz, una auditoría independiente, la comparación entre métodos, la grilla HTML offline y el cambio de disponibilidad reproducible. El alcance y las limitaciones de la versión 0.1 se documentan en las entregas y en la demo.
 >
 > Prototipo independiente con **datos sintéticos**. No usa información, registros ni sistemas de ninguna institución.
 
@@ -30,7 +30,7 @@ uv run python -m academic_timetabling_demo run --input data/synthetic/demo --sol
 uv run python -m academic_timetabling_demo audit --input data/synthetic/demo --assignments runs/demo/assignments.csv --config runs/demo/effective_config.json
 ```
 
-`run` copia la entrada a `input/` y trabaja solo desde esa copia. Escribe `metrics.json`, `diagnostics.json`, `audit.json`, `effective_config.json` y, si CP-SAT encuentra solución, `assignments.csv`. `--time-limit` y `--seed` sustituyen los valores de `config.json` y quedan registrados.
+`run` copia la entrada a `input/` y trabaja solo desde esa copia. Escribe `metrics.json`, `diagnostics.json`, `audit.json`, `effective_config.json` y, si hay asignaciones, `assignments.csv`. Solo si la solución es completa, está auditada y el snapshot se verificó, agrega `schedule.csv` (una fila por sesión y semana) y `schedule.html`. `--time-limit` y `--seed` sustituyen los valores de `config.json` y quedan registrados.
 
 | Código | Significado |
 |---|---|
@@ -38,7 +38,7 @@ uv run python -m academic_timetabling_demo audit --input data/synthetic/demo --a
 | 2 | Argumentos o datos inválidos |
 | 3 | Sin solución completa: `NO_CANDIDATES`, `INFEASIBLE`, `UNKNOWN` o heurística `INCOMPLETE` |
 | 4 | Auditoría fallida; las asignaciones se conservan solo como evidencia inválida |
-| 5 | `MODEL_INVALID`, error del entorno o error interno |
+| 5 | `MODEL_INVALID`, fallo de integridad o de exportación, error del entorno o error interno |
 
 `audit` imprime su informe en JSON y no modifica la corrida.
 
@@ -51,6 +51,22 @@ uv run python -m academic_timetabling_demo compare --runs runs/demo-greedy runs/
 ```
 
 La heurística voraz usa las mismas alternativas y pesos que CP-SAT, sin retroceso. Si se atasca, la corrida termina con código 3 y conserva el prefijo elegido, que no es comparable. `compare` acepta las corridas en cualquier orden, recalcula hashes y auditorías, y solo compara soluciones completas de la misma entrada y los mismos `alpha` y `beta`. La diferencia es `z_greedy - z_cpsat`: positiva favorece a CP-SAT. `metrics.json` registra la semilla de datos en `provenance` solo cuando `generation.json` coincide con las fuentes; `--seed` es la semilla de CP-SAT.
+
+## Grilla HTML
+
+`schedule.html` es un archivo único que se abre con doble clic o arrastrándolo a un navegador, sin servidor ni conexión: CSS, JavaScript y datos van incrustados. Muestra los indicadores reales de la corrida (estado, auditoría, integridad, costo con D/E y pesos, tiempo del método y semilla de datos si está verificada) y una grilla por sala. Se elige una semana a la vez y se puede filtrar por sala, docente y grupo; el botón «Restablecer filtros» vuelve a la primera semana. Los filtros solo cambian lo que se muestra: no recalculan la solución.
+
+## Cambio de disponibilidad
+
+```bash
+uv run python scripts/demo_change.py --base-run runs/demo-cpsat --out runs/demo-change
+```
+
+Revalida una corrida CP-SAT válida, copia sus fuentes a `changed-input/`, retira la disponibilidad del docente en el primer bloque usado por la primera sección asignada y vuelve a resolver con los mismos parámetros efectivos en `changed-run/`. `change.json` registra el cambio exacto y, si la nueva corrida es válida, cuántas secciones mantienen o cambian patrón o sala. No es una comparación de calidad: las entradas difieren y `compare` las rechaza. El código de salida es el de la nueva corrida, o 2 si la base o la salida no son válidas.
+
+## Demostración
+
+`docs/demo/` contiene un conjunto ya generado y auditado (CP-SAT, heurística, comparación y cambio de disponibilidad) con su guion de cinco minutos en [docs/demo/README.md](docs/demo/README.md).
 
 **Requisito comprobado:** SQLite 3.44 o posterior, porque la preparación ordena dentro de `json_group_array`. `run` lo verifica al empezar; el entorno de desarrollo usa SQLite 3.53.1.
 
@@ -95,9 +111,9 @@ La documentación técnica preparada para revisión está organizada así:
 - [Guía de trabajo](Guia_MVP_Timetabling_Codex.md): secuencia, entregables y comandos previstos.
 - [Esquema SQLite](schema.sql): tablas fuente y derivadas; su validación no acredita una aplicación terminada.
 - [Decisiones](docs/decisiones.md) y [colaboración](docs/colaboracion.md).
-- [Encargo del Hito 0 para Claude](docs/encargos/hito-0.md).
+- Encargos y entregas de cada hito en `docs/encargos/` y `docs/entregas/`.
 
-Los comandos funcionales de la guía están pendientes de implementación. Los documentos personales y antecedentes se conservan localmente y quedan fuera del repositorio público.
+Los documentos personales y antecedentes se conservan localmente y quedan fuera del repositorio público.
 
 | Hito | Trabajo | Condición para aprobar |
 |---|---|---|
@@ -108,7 +124,7 @@ Los comandos funcionales de la guía están pendientes de implementación. Los d
 | 4. Comparación | Heurística voraz, métricas y comparación | Mismos datos y pesos; costos comparados solo entre soluciones completas y válidas |
 | 5. Presentación | Exportaciones, HTML filtrable y cambio de disponibilidad | Demo reproducible, sin resultados antiguos ni métricas inventadas |
 
-La demo inicial tendrá cuatro semanas y semilla 42. Los casos de 16 semanas y mayor tamaño llegarán después de verificar el núcleo.
+La demo usa cuatro semanas y semilla de datos 42. Los casos de 16 semanas y mayor tamaño quedan para después de la versión 0.1.
 
 ## Forma de trabajo
 
@@ -130,4 +146,4 @@ La demo inicial tendrá cuatro semanas y semilla 42. Los casos de 16 semanas y m
 - Probar los estados `OPTIMAL`, `FEASIBLE`, `INFEASIBLE`, `UNKNOWN` y `MODEL_INVALID`; extraer soluciones solo en los dos primeros.
 - Ejecutar la demo de 12 secciones y 6 salas, comparar con la heurística y repetir tras cambiar una disponibilidad.
 
-El éxito exige todas las secciones asignadas y cero conflictos auditados en los casos factibles. Los tiempos, costos y mejoras se documentarán después de ejecutarlos.
+El éxito exige todas las secciones asignadas y cero conflictos auditados en los casos factibles. Los tiempos, costos y diferencias medidos están en `docs/entregas/` y `docs/demo/`; son observaciones de estos datos sintéticos, no promesas de rendimiento.

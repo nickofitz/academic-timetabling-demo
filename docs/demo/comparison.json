@@ -1,0 +1,166 @@
+{
+  "conditions": {
+    "environment_differences": [],
+    "timing_note": "tiempos observados en ejecuciones separadas; no son una medición controlada"
+  },
+  "cpsat_status_note": null,
+  "difference": {
+    "absolute": 4,
+    "note": null,
+    "percent": 19.047619047619047,
+    "verdict": "CP-SAT obtiene menor costo"
+  },
+  "exit_code": 0,
+  "input_sha256": "2fd989b234c13f9fbab50ba18ee18d9a782a0782b676b954c18745721e5d27c2",
+  "reason": null,
+  "run_ids": {
+    "cp-sat": "20261117T023351Z-f8af3ea1",
+    "greedy": "20261117T023353Z-633a5e33"
+  },
+  "runs": {
+    "cp-sat": {
+      "audit_recheck": {
+        "cost_d": 0,
+        "cost_e": 17,
+        "findings": [],
+        "objective": 17,
+        "status": "PASSED"
+      },
+      "costs": {
+        "best_bound": 17.0,
+        "cost_d": 0,
+        "cost_e": 17,
+        "objective": 17,
+        "relative_gap": 0.0,
+        "solver_objective": 17.0
+      },
+      "coverage": 1.0,
+      "effective_config": {
+        "alpha": 10,
+        "beta": 1,
+        "num_search_workers": 1,
+        "random_seed": 42,
+        "time_limit_seconds": 30.0
+      },
+      "environment": {
+        "cpu_count": 16,
+        "git": {
+          "dirty": false,
+          "revision": "25fae947c60bfa63bd4fb756e4e7fa12f5c46135"
+        },
+        "machine": "AMD64",
+        "ortools": "9.15.6755",
+        "package": "0.1.0",
+        "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+        "python": "3.12.16",
+        "sqlite": "3.53.1",
+        "system": "Windows-11-10.0.26300-SP0"
+      },
+      "method": "cp-sat",
+      "path": "docs\\demo\\cpsat",
+      "provenance": {
+        "case": "demo",
+        "data_seed": 42,
+        "detail": "generation.json coincide con las 21 fuentes (hash normalizado a LF)",
+        "format_version": 1,
+        "manifest_sha256": "fd8b588d06bd9d39fb7581dbe68edf53c6a36bfb08e6510c57bb6f5698cbd0f4",
+        "status": "VERIFIED"
+      },
+      "run_id": "20261117T023351Z-f8af3ea1",
+      "status": {
+        "audit": "PASSED",
+        "baseline": null,
+        "integrity": "VERIFIED",
+        "result_valid": true,
+        "solver": "OPTIMAL"
+      },
+      "timings_seconds": {
+        "audit": 0.0008514000219292939,
+        "build": 0.006703999999444932,
+        "candidates": 0.019461299991235137,
+        "export": 0.058534300012979656,
+        "load": 0.013440400012768805,
+        "snapshot": 0.023650399991311133,
+        "solve": 0.010810400010086596,
+        "total": 0.4153220999869518,
+        "validation": 0.029205699975136667
+      }
+    },
+    "greedy": {
+      "audit_recheck": {
+        "cost_d": 0,
+        "cost_e": 21,
+        "findings": [],
+        "objective": 21,
+        "status": "PASSED"
+      },
+      "costs": {
+        "best_bound": null,
+        "cost_d": 0,
+        "cost_e": 21,
+        "objective": 21,
+        "relative_gap": null,
+        "solver_objective": null
+      },
+      "coverage": 1.0,
+      "effective_config": {
+        "alpha": 10,
+        "beta": 1,
+        "num_search_workers": 1,
+        "random_seed": 42,
+        "time_limit_seconds": 30
+      },
+      "environment": {
+        "cpu_count": 16,
+        "git": {
+          "dirty": false,
+          "revision": "25fae947c60bfa63bd4fb756e4e7fa12f5c46135"
+        },
+        "machine": "AMD64",
+        "ortools": "9.15.6755",
+        "package": "0.1.0",
+        "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+        "python": "3.12.16",
+        "sqlite": "3.53.1",
+        "system": "Windows-11-10.0.26300-SP0"
+      },
+      "method": "greedy",
+      "path": "docs\\demo\\greedy",
+      "provenance": {
+        "case": "demo",
+        "data_seed": 42,
+        "detail": "generation.json coincide con las 21 fuentes (hash normalizado a LF)",
+        "format_version": 1,
+        "manifest_sha256": "fd8b588d06bd9d39fb7581dbe68edf53c6a36bfb08e6510c57bb6f5698cbd0f4",
+        "status": "VERIFIED"
+      },
+      "run_id": "20261117T023353Z-633a5e33",
+      "status": {
+        "audit": "PASSED",
+        "baseline": "COMPLETE",
+        "integrity": "VERIFIED",
+        "result_valid": true,
+        "solver": null
+      },
+      "timings_seconds": {
+        "audit": 0.0008278000168502331,
+        "baseline": 0.0028623000252991915,
+        "candidates": 0.015804799972102046,
+        "export": 0.052746000001206994,
+        "load": 0.010635700018610805,
+        "snapshot": 0.015045100008137524,
+        "total": 0.3322943999664858,
+        "validation": 0.018153000040911138
+      }
+    }
+  },
+  "runs_read": [
+    "docs\\demo\\greedy",
+    "docs\\demo\\cpsat"
+  ],
+  "status": "COMPARED",
+  "weights": {
+    "alpha": 10,
+    "beta": 1
+  }
+}

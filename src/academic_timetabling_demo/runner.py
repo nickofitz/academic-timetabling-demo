@@ -9,6 +9,7 @@ import csv
 import io
 import json
 import math
+import os
 import re
 import sqlite3
 import time
@@ -17,8 +18,16 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 
+from academic_timetabling_demo import report
 from academic_timetabling_demo.baseline import COMPLETE, BaselineResult, run_greedy
 from academic_timetabling_demo.candidates import build_candidates
+from academic_timetabling_demo.compare import (
+    CompareError,
+    load_run,
+    recheck,
+    validate_costs,
+    validate_status,
+)
 from academic_timetabling_demo.db import connect, load_instance
 from academic_timetabling_demo.domain import (
     CONFIG_FILE,
@@ -44,9 +53,15 @@ from academic_timetabling_demo.model import (
     build_and_solve,
 )
 from academic_timetabling_demo.synthetic import FORMAT_VERSION, MANIFEST_FILE, source_hash
-from academic_timetabling_demo.validate import ASSIGNMENT_COLUMNS, NOT_RUN, audit
+from academic_timetabling_demo.validate import (
+    ASSIGNMENT_COLUMNS,
+    NOT_RUN,
+    audit,
+    read_assignments,
+)
 
 SOLVERS = ("cp-sat", "greedy")
+SCHEDULE_FILES = ("schedule.csv", "schedule.html")
 INPUT_FILES = (*(spec.file for spec in TABLES), CONFIG_FILE)
 HASH_POLICY = "sha256 de los bytes exactos de cada archivo del snapshot"
 GREEDY_NOTE = (
@@ -67,6 +82,10 @@ class RunInputError(ValueError):
 
 class EnvironmentCheckError(RuntimeError):
     """El entorno no admite una función que la preparación necesita."""
+
+
+class ExportError(RuntimeError):
+    """Las exportaciones no pudieron generarse o verificarse."""
 
 
 @dataclass(frozen=True)
@@ -379,6 +398,10 @@ def run(
         if state.status["result_valid"] is True:
             state.status["result_valid"] = False
         exit_code = EXIT_INTERNAL
+
+    # Las exportaciones solo se intentan para una corrida completa, auditada e íntegra.
+    state.status["export"] = "PENDING" if exit_code == EXIT_OK else "NOT_APPLICABLE"
+    state.status["deliverable"] = False
     state.timings["total"] = time.perf_counter() - state.started
     metrics = {
         "run_id": state.run_id,
@@ -391,12 +414,113 @@ def run(
         "input": {"directory": str(input_dir), **snapshot},
         "environment": environment(),
         "timings_seconds": state.timings,
+        "export": {"files": {}, "error": None},
         **result_summary,
     }
     (out / "metrics.json").write_bytes(json_bytes(metrics))
     (out / "diagnostics.json").write_bytes(json_bytes(state.diagnostics))
     (out / "audit.json").write_bytes(json_bytes(state.audit_report))
+    if exit_code == EXIT_OK:
+        exit_code = _export(state, metrics, snapshot)
+        metrics["exit_code"] = exit_code
+        metrics["error"] = state.error
+        state.timings["total"] = time.perf_counter() - state.started
+        (out / "metrics.json").write_bytes(json_bytes(metrics))
     return RunOutcome(exit_code, out, metrics)
+
+
+def _replace(source: Path, target: Path) -> None:
+    os.replace(source, target)
+
+
+EVIDENCE_FILES = ("assignments.csv", "effective_config.json")
+
+
+def _evidence_hashes(out: Path) -> dict[str, str]:
+    return {name: sha256_bytes((out / name).read_bytes()) for name in EVIDENCE_FILES}
+
+
+def _check_evidence(out: Path, captured: dict[str, str], moment: str) -> None:
+    """Las asignaciones y la configuración efectiva siguen siendo las validadas y exportadas."""
+    current = _evidence_hashes(out)
+    changed = sorted(name for name in EVIDENCE_FILES if current[name] != captured[name])
+    if changed:
+        raise ExportError(
+            f"{', '.join(changed)} cambió {moment}: no corresponde a la evidencia validada"
+        )
+
+
+def _export(state: _Run, metrics: dict[str, object], snapshot: dict[str, object]) -> int:
+    """Genera schedule.csv y schedule.html en temporales y los publica solo si todo verifica.
+
+    La corrida se revalida con las mismas comprobaciones públicas de `compare` (integridad,
+    estados, costos enteros y nueva auditoría contra el snapshot). Ante cualquier fallo no queda
+    ningún archivo final de exportación: código 5 y la corrida no es entregable.
+    """
+    out = state.out
+    started = time.perf_counter()
+    staging = {name: out / f".{name}.tmp" for name in SCHEDULE_FILES}
+    created: list[Path] = []
+    try:
+        # Bytes de la evidencia antes de validarla: lo exportado debe corresponder a ellos.
+        captured = _evidence_hashes(out)
+        evidence = load_run(out)
+        validate_status(evidence)
+        validate_costs(evidence)
+        recheck(evidence)
+        instance = read_instance(out / "input")
+        assignments = read_assignments(out / "assignments.csv")
+        _check_evidence(out, captured, "mientras se validaba y leía")
+        rows = report.session_rows(instance, assignments)
+        contents = {
+            "schedule.csv": report.schedule_csv(state.run_id, rows),
+            "schedule.html": report.render_html(
+                report.presentation(instance, rows, evidence.config, metrics)
+            ),
+        }
+        for name in SCHEDULE_FILES:
+            staging[name].write_bytes(contents[name])
+            created.append(staging[name])
+        verified, changed, problem = _compare(out / "input", snapshot["files"])
+        if not verified:
+            raise ExportError(f"el snapshot cambió durante la exportación: {changed or problem}")
+        _check_evidence(out, captured, "durante la exportación")
+        # Contraste explícito con lo exportado: mismos triples y misma configuración efectiva.
+        if sorted(read_assignments(out / "assignments.csv")) != sorted(assignments):
+            raise ExportError("assignments.csv ya no contiene los triples exportados")
+        effective = RunConfig.model_validate_json((out / "effective_config.json").read_bytes())
+        if effective != evidence.config:
+            raise ExportError("effective_config.json ya no es la configuración exportada")
+        for name in SCHEDULE_FILES:
+            if staging[name].read_bytes() != contents[name]:
+                raise ExportError(f"{name} no quedó escrito con los bytes generados")
+        for name in SCHEDULE_FILES:
+            _replace(staging[name], out / name)
+            created.remove(staging[name])
+            created.append(out / name)
+    except Exception as error:
+        # Se eliminan solo los temporales y finales creados por este intento.
+        for path in created:
+            path.unlink(missing_ok=True)
+        detail = error.reason if isinstance(error, CompareError) else str(error)
+        state.status["export"] = "FAILED"
+        state.status["deliverable"] = False
+        state.error = (
+            f"la exportación falló ({type(error).__name__}: {detail}); "
+            "la corrida no está lista para entregar"
+        )
+        metrics["export"] = {"files": {}, "error": state.error}
+        state.timed("export", started)
+        return EXIT_INTERNAL
+    state.status["export"] = "WRITTEN"
+    state.status["deliverable"] = True
+    metrics["export"] = {
+        "files": {name: sha256_bytes(contents[name]) for name in SCHEDULE_FILES},
+        "sessions": len(rows),
+        "error": None,
+    }
+    state.timed("export", started)
+    return EXIT_OK
 
 
 def _execute(

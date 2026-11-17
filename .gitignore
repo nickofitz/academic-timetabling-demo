@@ -78,6 +78,29 @@
 !/tests/test_baseline.py
 !/tests/test_compare.py
 
+# Hito 5: exportaciones y demostración.
+!/docs/encargos/hito-5.md
+!/docs/entregas/hito-5.md
+!/src/academic_timetabling_demo/report.py
+!/src/academic_timetabling_demo/templates/
+/src/academic_timetabling_demo/templates/*
+!/src/academic_timetabling_demo/templates/schedule.html
+!/scripts/
+/scripts/*
+!/scripts/demo_change.py
+!/tests/test_report.py
+!/tests/test_demo_change.py
+!/tests/test_demo_set.py
+# Conjunto de demostración revisado; runs/ sigue ignorado.
+!/docs/demo/
+/docs/demo/*
+!/docs/demo/README.md
+!/docs/demo/preview.png
+!/docs/demo/comparison.json
+!/docs/demo/cpsat/
+!/docs/demo/greedy/
+!/docs/demo/changed/
+
 # Siempre excluidos, aunque una regla anterior abra su carpeta.
 .venv/
 __pycache__/

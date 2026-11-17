@@ -76,9 +76,11 @@ def build_parser() -> argparse.ArgumentParser:
         description=(
             "Copia la entrada, prepara alternativas, resuelve con CP-SAT o con la heurística "
             "voraz, audita y escribe metrics.json, diagnostics.json, audit.json y, si hay "
-            "asignaciones, assignments.csv. Códigos: 0 solución completa auditada; 2 datos o "
+            "asignaciones, assignments.csv. Solo si la solución es completa, está auditada y el "
+            "snapshot está verificado, agrega schedule.csv y schedule.html (grilla offline "
+            "filtrable). Códigos: 0 solución completa auditada y exportada; 2 datos o "
             "argumentos inválidos; 3 sin solución completa (incluida la heurística atascada); "
-            "4 auditoría fallida; 5 MODEL_INVALID, integridad o error interno."
+            "4 auditoría fallida; 5 MODEL_INVALID, integridad, exportación o error interno."
         ),
     )
     run.add_argument("--input", required=True, type=Path, help="carpeta con los CSV y config.json")

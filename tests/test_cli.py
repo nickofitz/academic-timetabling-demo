@@ -187,6 +187,24 @@ def test_run_rejects_invalid_parameters(tmp_path: Path, extra: list[str]) -> Non
     assert not out.exists()
 
 
+def test_run_help_mentions_exports() -> None:
+    result = run_python("-m", PROGRAM_NAME, "run", "--help")
+
+    assert result.returncode == 0
+    assert "schedule.html" in result.stdout
+
+
+def test_run_exports_schedule_files(tmp_path: Path) -> None:
+    out = tmp_path / "corrida"
+
+    result = run_python(
+        "-m", PROGRAM_NAME, "run", "--input", str(DATA / "micro"), "--out", str(out)
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert (out / "schedule.csv").exists() and (out / "schedule.html").exists()
+
+
 def test_run_greedy_produces_audited_solution(tmp_path: Path) -> None:
     out = tmp_path / "corrida"
 

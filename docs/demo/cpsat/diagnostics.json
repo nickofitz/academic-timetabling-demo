@@ -1,0 +1,7719 @@
+{
+  "discarded_alternatives": [
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D13-B4",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B4",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ],
+          [
+            2,
+            3,
+            7
+          ],
+          [
+            3,
+            3,
+            7
+          ],
+          [
+            4,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R06",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D24-B7",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            4
+          ],
+          [
+            2,
+            5,
+            4
+          ],
+          [
+            3,
+            5,
+            4
+          ],
+          [
+            4,
+            5,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S01"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            3,
+            2
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            3,
+            2
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            3,
+            2
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            3,
+            2
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            3,
+            2
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            4,
+            3,
+            2
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X1-D13-B2",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B4",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B4",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B4",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D13-B4",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B4",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            2,
+            2,
+            4
+          ],
+          [
+            3,
+            2,
+            4
+          ],
+          [
+            4,
+            2,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R03",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R05",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B7",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B7",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B7",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 85
+      },
+      "pattern_id": "P2X1-D35-B7",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ],
+          [
+            2,
+            3,
+            7
+          ],
+          [
+            3,
+            3,
+            7
+          ],
+          [
+            4,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B7",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B7",
+      "room_id": "R06",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S02"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R03",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D13-B5",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ],
+          [
+            2,
+            3,
+            7
+          ],
+          [
+            3,
+            3,
+            7
+          ],
+          [
+            4,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R06",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D24-B3",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D24-B7",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S03"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ],
+          [
+            2,
+            3,
+            7
+          ],
+          [
+            3,
+            3,
+            7
+          ],
+          [
+            4,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            7
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B7",
+      "room_id": "R06",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            2,
+            2,
+            4
+          ],
+          [
+            3,
+            2,
+            4
+          ],
+          [
+            4,
+            2,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R03",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D24-B4",
+      "room_id": "R05",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B1",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            4
+          ],
+          [
+            2,
+            5,
+            4
+          ],
+          [
+            3,
+            5,
+            4
+          ],
+          [
+            4,
+            5,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B4",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 60
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D35-B5",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S04"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            6
+          ],
+          [
+            2,
+            3,
+            6
+          ],
+          [
+            3,
+            3,
+            6
+          ],
+          [
+            4,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B1",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B1",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D4-B1",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            3
+          ],
+          [
+            2,
+            4,
+            3
+          ],
+          [
+            3,
+            4,
+            3
+          ],
+          [
+            4,
+            4,
+            3
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            3
+          ],
+          [
+            2,
+            4,
+            3
+          ],
+          [
+            3,
+            4,
+            3
+          ],
+          [
+            4,
+            4,
+            3
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            3
+          ],
+          [
+            2,
+            4,
+            3
+          ],
+          [
+            3,
+            4,
+            3
+          ],
+          [
+            4,
+            4,
+            3
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            3
+          ],
+          [
+            2,
+            4,
+            3
+          ],
+          [
+            3,
+            4,
+            3
+          ],
+          [
+            4,
+            4,
+            3
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R05",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            3
+          ],
+          [
+            2,
+            4,
+            3
+          ],
+          [
+            3,
+            4,
+            3
+          ],
+          [
+            4,
+            4,
+            3
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            3
+          ],
+          [
+            2,
+            4,
+            3
+          ],
+          [
+            3,
+            4,
+            3
+          ],
+          [
+            4,
+            4,
+            3
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B3",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ],
+          [
+            3,
+            5,
+            2
+          ],
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R01",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ],
+          [
+            3,
+            5,
+            2
+          ],
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R02",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ],
+          [
+            3,
+            5,
+            2
+          ],
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R03",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ],
+          [
+            3,
+            5,
+            2
+          ],
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R04",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ],
+          [
+            3,
+            5,
+            2
+          ],
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R05",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ],
+          [
+            3,
+            5,
+            2
+          ],
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R06",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R06",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 111
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S05"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            3
+          ],
+          [
+            2,
+            1,
+            3
+          ],
+          [
+            3,
+            1,
+            3
+          ],
+          [
+            4,
+            1,
+            3
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            1,
+            3
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R04",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            1
+          ],
+          [
+            2,
+            2,
+            1
+          ],
+          [
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            2,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            4
+          ],
+          [
+            2,
+            5,
+            4
+          ],
+          [
+            3,
+            5,
+            4
+          ],
+          [
+            4,
+            5,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 108
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S06"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ],
+        "teacher_id": "T01"
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ],
+        "teacher_id": "T01"
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R03",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ],
+        "teacher_id": "T01"
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ],
+        "teacher_id": "T01"
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ],
+        "teacher_id": "T01"
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ],
+        "teacher_id": "T01"
+      },
+      "pattern_id": "P1X2-D1-B5",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D2-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            6
+          ],
+          [
+            2,
+            3,
+            6
+          ],
+          [
+            3,
+            3,
+            6
+          ],
+          [
+            4,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            4
+          ],
+          [
+            2,
+            5,
+            4
+          ],
+          [
+            3,
+            5,
+            4
+          ],
+          [
+            4,
+            5,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 63
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S07"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            6
+          ],
+          [
+            2,
+            3,
+            6
+          ],
+          [
+            3,
+            3,
+            6
+          ],
+          [
+            4,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R03",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            1
+          ],
+          [
+            2,
+            2,
+            1
+          ],
+          [
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            2,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            4
+          ],
+          [
+            2,
+            2,
+            4
+          ],
+          [
+            3,
+            2,
+            4
+          ],
+          [
+            4,
+            2,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D24-B3",
+      "room_id": "R03",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D24-B3",
+      "room_id": "R05",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D24-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            1,
+            5,
+            1
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            2,
+            5,
+            1
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            3,
+            5,
+            1
+          ],
+          [
+            4,
+            3,
+            2
+          ],
+          [
+            4,
+            5,
+            1
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            1,
+            5,
+            1
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            2,
+            5,
+            1
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            3,
+            5,
+            1
+          ],
+          [
+            4,
+            3,
+            2
+          ],
+          [
+            4,
+            5,
+            1
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            1,
+            5,
+            1
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            2,
+            5,
+            1
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            3,
+            5,
+            1
+          ],
+          [
+            4,
+            3,
+            2
+          ],
+          [
+            4,
+            5,
+            1
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            1,
+            5,
+            1
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            2,
+            5,
+            1
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            3,
+            5,
+            1
+          ],
+          [
+            4,
+            3,
+            2
+          ],
+          [
+            4,
+            5,
+            1
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            1,
+            5,
+            1
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            2,
+            5,
+            1
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            3,
+            5,
+            1
+          ],
+          [
+            4,
+            3,
+            2
+          ],
+          [
+            4,
+            5,
+            1
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R06",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            2
+          ],
+          [
+            1,
+            5,
+            1
+          ],
+          [
+            2,
+            3,
+            2
+          ],
+          [
+            2,
+            5,
+            1
+          ],
+          [
+            3,
+            3,
+            2
+          ],
+          [
+            3,
+            5,
+            1
+          ],
+          [
+            4,
+            3,
+            2
+          ],
+          [
+            4,
+            5,
+            1
+          ]
+        ],
+        "teacher_id": "T02"
+      },
+      "pattern_id": "P2X2-D35-B1",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D35-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            6
+          ],
+          [
+            2,
+            3,
+            6
+          ],
+          [
+            3,
+            3,
+            6
+          ],
+          [
+            4,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D35-B5",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D35-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 54
+      },
+      "pattern_id": "P2X2-D35-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            5
+          ],
+          [
+            2,
+            5,
+            5
+          ],
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D35-B5",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S08"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X2-D13-B1",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B1",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ],
+          [
+            4,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B1",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            3
+          ],
+          [
+            2,
+            1,
+            3
+          ],
+          [
+            3,
+            1,
+            3
+          ],
+          [
+            4,
+            1,
+            3
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B3",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            1,
+            3
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B3",
+      "room_id": "R04",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X2-D13-B3",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B3",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R01",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            6
+          ],
+          [
+            2,
+            3,
+            6
+          ],
+          [
+            3,
+            3,
+            6
+          ],
+          [
+            4,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R02",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R03",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R03",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R04",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R05",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            5
+          ],
+          [
+            2,
+            1,
+            5
+          ],
+          [
+            3,
+            1,
+            5
+          ],
+          [
+            4,
+            1,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            6
+          ],
+          [
+            2,
+            1,
+            6
+          ],
+          [
+            3,
+            1,
+            6
+          ],
+          [
+            4,
+            1,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R06",
+      "rule": "PROTECTED_SLOT",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            5
+          ],
+          [
+            2,
+            3,
+            5
+          ],
+          [
+            3,
+            3,
+            5
+          ],
+          [
+            4,
+            3,
+            5
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D13-B5",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            1
+          ],
+          [
+            2,
+            2,
+            1
+          ],
+          [
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            2,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            2,
+            2
+          ],
+          [
+            3,
+            2,
+            2
+          ],
+          [
+            4,
+            2,
+            2
+          ]
+        ],
+        "teacher_id": "T03"
+      },
+      "pattern_id": "P2X2-D24-B1",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D24-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D24-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D24-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X2-D24-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D35-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D35-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            4
+          ],
+          [
+            2,
+            5,
+            4
+          ],
+          [
+            3,
+            5,
+            4
+          ],
+          [
+            4,
+            5,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D35-B3",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X2-D35-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P2X2-D35-B3",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ],
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P2X2-D35-B3",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S09"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B1",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            1,
+            3
+          ],
+          [
+            2,
+            1,
+            3
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D1-B3",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            2,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            6
+          ],
+          [
+            2,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ]
+        ],
+        "teacher_id": "T04"
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ]
+        ],
+        "teacher_id": "T04"
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ]
+        ],
+        "teacher_id": "T04"
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ]
+        ],
+        "teacher_id": "T04"
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ]
+        ],
+        "teacher_id": "T04"
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            2
+          ],
+          [
+            2,
+            5,
+            2
+          ]
+        ],
+        "teacher_id": "T04"
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            5,
+            4
+          ],
+          [
+            2,
+            5,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 60,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R03",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "capacity": 85,
+        "enrollment": 112
+      },
+      "pattern_id": "P1X2-D5-B3",
+      "room_id": "R05",
+      "rule": "CAPACITY",
+      "section_id": "S10"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            2,
+            1
+          ],
+          [
+            4,
+            2,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D2-B1",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            3,
+            4
+          ],
+          [
+            4,
+            3,
+            4
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B3",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            3,
+            6
+          ],
+          [
+            4,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D3-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            4,
+            4,
+            5
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B5",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            4,
+            4,
+            5
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B5",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            4,
+            4,
+            5
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B5",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            4,
+            4,
+            5
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B5",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D4-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            4,
+            4,
+            5
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B5",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            4,
+            4,
+            5
+          ]
+        ],
+        "teacher_id": "T05"
+      },
+      "pattern_id": "P1X2-D4-B5",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            4,
+            5,
+            2
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B1",
+      "room_id": "R06",
+      "rule": "ROOM_RESERVED",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            3,
+            5,
+            5
+          ],
+          [
+            4,
+            5,
+            5
+          ]
+        ]
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R04",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "missing": [
+          "F01"
+        ]
+      },
+      "pattern_id": "P1X2-D5-B5",
+      "room_id": "R05",
+      "rule": "FEATURES",
+      "section_id": "S11"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D13-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D13-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D13-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B1",
+      "room_id": "R05",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            1
+          ],
+          [
+            2,
+            3,
+            1
+          ],
+          [
+            3,
+            3,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B1",
+      "room_id": "R06",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D13-B6",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            3,
+            6
+          ],
+          [
+            2,
+            3,
+            6
+          ],
+          [
+            3,
+            3,
+            6
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D13-B6",
+      "room_id": "R01",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D13-B6",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D13-B6",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            1
+          ],
+          [
+            2,
+            4,
+            1
+          ],
+          [
+            3,
+            4,
+            1
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R01",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            2,
+            1
+          ],
+          [
+            2,
+            2,
+            1
+          ],
+          [
+            3,
+            2,
+            1
+          ]
+        ]
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R02",
+      "rule": "ROOM_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            1
+          ],
+          [
+            2,
+            4,
+            1
+          ],
+          [
+            3,
+            4,
+            1
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R02",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            1
+          ],
+          [
+            2,
+            4,
+            1
+          ],
+          [
+            3,
+            4,
+            1
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R03",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            1
+          ],
+          [
+            2,
+            4,
+            1
+          ],
+          [
+            3,
+            4,
+            1
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R04",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            1
+          ],
+          [
+            2,
+            4,
+            1
+          ],
+          [
+            3,
+            4,
+            1
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R05",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "slots": [
+          [
+            1,
+            4,
+            1
+          ],
+          [
+            2,
+            4,
+            1
+          ],
+          [
+            3,
+            4,
+            1
+          ]
+        ],
+        "teacher_id": "T06"
+      },
+      "pattern_id": "P2X1-D24-B1",
+      "room_id": "R06",
+      "rule": "TEACHER_UNAVAILABLE",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B2",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B3",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B3",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B3",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R01",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R02",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    },
+    {
+      "evidence": {
+        "capacity": 40,
+        "enrollment": 49
+      },
+      "pattern_id": "P2X1-D24-B6",
+      "room_id": "R04",
+      "rule": "CAPACITY",
+      "section_id": "S12"
+    }
+  ],
+  "integrity": {
+    "snapshot_changed": [],
+    "snapshot_check_error": null,
+    "source_changed": [],
+    "source_check_error": null
+  },
+  "precheck": {
+    "alternatives_after": 125,
+    "discarded_pairs": 307,
+    "discards_by_rule": {
+      "CAPACITY": 210,
+      "FEATURES": 30,
+      "PROTECTED_SLOT": 12,
+      "ROOM_RESERVED": 13,
+      "ROOM_UNAVAILABLE": 64,
+      "TEACHER_UNAVAILABLE": 84
+    },
+    "empty_sections": {},
+    "occupancy_rows": 3370,
+    "pairs_before": 432,
+    "sections": [
+      {
+        "alternatives_after": 24,
+        "authorized_patterns": 6,
+        "discarded_pairs": 12,
+        "discards_by_rule": {
+          "CAPACITY": 0,
+          "FEATURES": 6,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 1,
+          "ROOM_UNAVAILABLE": 6,
+          "TEACHER_UNAVAILABLE": 0
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S01"
+      },
+      {
+        "alternatives_after": 7,
+        "authorized_patterns": 6,
+        "discarded_pairs": 29,
+        "discards_by_rule": {
+          "CAPACITY": 24,
+          "FEATURES": 0,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 2,
+          "ROOM_UNAVAILABLE": 4,
+          "TEACHER_UNAVAILABLE": 6
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S02"
+      },
+      {
+        "alternatives_after": 13,
+        "authorized_patterns": 6,
+        "discarded_pairs": 23,
+        "discards_by_rule": {
+          "CAPACITY": 0,
+          "FEATURES": 6,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 1,
+          "ROOM_UNAVAILABLE": 4,
+          "TEACHER_UNAVAILABLE": 18
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S03"
+      },
+      {
+        "alternatives_after": 12,
+        "authorized_patterns": 6,
+        "discarded_pairs": 24,
+        "discards_by_rule": {
+          "CAPACITY": 18,
+          "FEATURES": 0,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 2,
+          "ROOM_UNAVAILABLE": 7,
+          "TEACHER_UNAVAILABLE": 0
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S04"
+      },
+      {
+        "alternatives_after": 4,
+        "authorized_patterns": 6,
+        "discarded_pairs": 32,
+        "discards_by_rule": {
+          "CAPACITY": 30,
+          "FEATURES": 6,
+          "PROTECTED_SLOT": 6,
+          "ROOM_RESERVED": 2,
+          "ROOM_UNAVAILABLE": 2,
+          "TEACHER_UNAVAILABLE": 6
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S05"
+      },
+      {
+        "alternatives_after": 4,
+        "authorized_patterns": 6,
+        "discarded_pairs": 32,
+        "discards_by_rule": {
+          "CAPACITY": 30,
+          "FEATURES": 0,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 1,
+          "ROOM_UNAVAILABLE": 5,
+          "TEACHER_UNAVAILABLE": 6
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S06"
+      },
+      {
+        "alternatives_after": 9,
+        "authorized_patterns": 6,
+        "discarded_pairs": 27,
+        "discards_by_rule": {
+          "CAPACITY": 24,
+          "FEATURES": 0,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 0,
+          "ROOM_UNAVAILABLE": 5,
+          "TEACHER_UNAVAILABLE": 6
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S07"
+      },
+      {
+        "alternatives_after": 10,
+        "authorized_patterns": 6,
+        "discarded_pairs": 26,
+        "discards_by_rule": {
+          "CAPACITY": 18,
+          "FEATURES": 0,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 2,
+          "ROOM_UNAVAILABLE": 9,
+          "TEACHER_UNAVAILABLE": 12
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S08"
+      },
+      {
+        "alternatives_after": 5,
+        "authorized_patterns": 6,
+        "discarded_pairs": 31,
+        "discards_by_rule": {
+          "CAPACITY": 18,
+          "FEATURES": 6,
+          "PROTECTED_SLOT": 6,
+          "ROOM_RESERVED": 1,
+          "ROOM_UNAVAILABLE": 10,
+          "TEACHER_UNAVAILABLE": 12
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S09"
+      },
+      {
+        "alternatives_after": 4,
+        "authorized_patterns": 6,
+        "discarded_pairs": 32,
+        "discards_by_rule": {
+          "CAPACITY": 30,
+          "FEATURES": 0,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 0,
+          "ROOM_UNAVAILABLE": 4,
+          "TEACHER_UNAVAILABLE": 6
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S10"
+      },
+      {
+        "alternatives_after": 20,
+        "authorized_patterns": 6,
+        "discarded_pairs": 16,
+        "discards_by_rule": {
+          "CAPACITY": 0,
+          "FEATURES": 6,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 1,
+          "ROOM_UNAVAILABLE": 4,
+          "TEACHER_UNAVAILABLE": 6
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S11"
+      },
+      {
+        "alternatives_after": 13,
+        "authorized_patterns": 6,
+        "discarded_pairs": 23,
+        "discards_by_rule": {
+          "CAPACITY": 18,
+          "FEATURES": 0,
+          "PROTECTED_SLOT": 0,
+          "ROOM_RESERVED": 0,
+          "ROOM_UNAVAILABLE": 4,
+          "TEACHER_UNAVAILABLE": 6
+        },
+        "pairs_before": 36,
+        "reasons": [],
+        "section_id": "S12"
+      }
+    ],
+    "status": "READY"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "base": {
+    "input_sha256": "2fd989b234c13f9fbab50ba18ee18d9a782a0782b676b954c18745721e5d27c2",
+    "objective": 17,
+    "path": "docs\\demo\\cpsat",
+    "run_id": "20261117T023351Z-f8af3ea1",
+    "solver_status": "OPTIMAL"
+  },
+  "change": {
+    "block_id": 7,
+    "day_id": 2,
+    "description": "se retira una disponibilidad docente usada por la solución base",
+    "file": "teacher_available.csv",
+    "pattern_id": "P2X1-D24-B7",
+    "removed_row": "T01,1,2,7",
+    "room_id": "R04",
+    "section_id": "S01",
+    "session_id": "1",
+    "teacher_id": "T01",
+    "week_id": 1
+  },
+  "changed_input": {
+    "combined_sha256": "70cc13f51fae64dc4542e8e27a94f0d509a6efedfe156d17540f3373c744c258",
+    "path": "docs\\demo\\changed\\changed-input"
+  },
+  "changed_run": {
+    "error": null,
+    "exit_code": 0,
+    "objective": 17,
+    "path": "docs\\demo\\changed\\changed-run",
+    "provenance_status": "ABSENT",
+    "run_id": "20261117T023355Z-f38c38d9",
+    "status": {
+      "audit": "PASSED",
+      "baseline": null,
+      "data": "VALID",
+      "deliverable": true,
+      "export": "WRITTEN",
+      "integrity": "VERIFIED",
+      "precheck": "READY",
+      "result_valid": true,
+      "solver": "OPTIMAL"
+    }
+  },
+  "note": "Recuento de reasignaciones entre entradas distintas; no es una comparación de calidad ni minimiza cambios.",
+  "parameters": {
+    "effective_config": {
+      "alpha": 10,
+      "beta": 1,
+      "num_search_workers": 1,
+      "random_seed": 42,
+      "time_limit_seconds": 30.0
+    },
+    "overrides_for_run": {
+      "seed": null,
+      "time_limit": 30.0
+    }
+  },
+  "reassignments": {
+    "counts": {
+      "both_changed": 1,
+      "pattern_changed": 4,
+      "room_changed": 0,
+      "unchanged": 7
+    },
+    "sections": {
+      "both_changed": [
+        {
+          "after": {
+            "pattern_id": "P2X1-D13-B7",
+            "room_id": "R02"
+          },
+          "before": {
+            "pattern_id": "P2X1-D24-B7",
+            "room_id": "R04"
+          },
+          "section_id": "S01"
+        }
+      ],
+      "pattern_changed": [
+        {
+          "after": {
+            "pattern_id": "P2X1-D35-B1",
+            "room_id": "R03"
+          },
+          "before": {
+            "pattern_id": "P2X1-D13-B7",
+            "room_id": "R03"
+          },
+          "section_id": "S04"
+        },
+        {
+          "after": {
+            "pattern_id": "P1X2-D1-B1",
+            "room_id": "R05"
+          },
+          "before": {
+            "pattern_id": "P1X2-D2-B5",
+            "room_id": "R05"
+          },
+          "section_id": "S07"
+        },
+        {
+          "after": {
+            "pattern_id": "P2X2-D24-B5",
+            "room_id": "R03"
+          },
+          "before": {
+            "pattern_id": "P2X2-D35-B3",
+            "room_id": "R03"
+          },
+          "section_id": "S09"
+        },
+        {
+          "after": {
+            "pattern_id": "P1X2-D5-B3",
+            "room_id": "R06"
+          },
+          "before": {
+            "pattern_id": "P1X2-D3-B5",
+            "room_id": "R06"
+          },
+          "section_id": "S10"
+        }
+      ],
+      "room_changed": [],
+      "unchanged": [
+        {
+          "after": {
+            "pattern_id": "P2X1-D13-B4",
+            "room_id": "R05"
+          },
+          "before": {
+            "pattern_id": "P2X1-D13-B4",
+            "room_id": "R05"
+          },
+          "section_id": "S02"
+        },
+        {
+          "after": {
+            "pattern_id": "P2X1-D24-B3",
+            "room_id": "R04"
+          },
+          "before": {
+            "pattern_id": "P2X1-D24-B3",
+            "room_id": "R04"
+          },
+          "section_id": "S03"
+        },
+        {
+          "after": {
+            "pattern_id": "P1X2-D4-B1",
+            "room_id": "R06"
+          },
+          "before": {
+            "pattern_id": "P1X2-D4-B1",
+            "room_id": "R06"
+          },
+          "section_id": "S05"
+        },
+        {
+          "after": {
+            "pattern_id": "P1X2-D2-B5",
+            "room_id": "R06"
+          },
+          "before": {
+            "pattern_id": "P1X2-D2-B5",
+            "room_id": "R06"
+          },
+          "section_id": "S06"
+        },
+        {
+          "after": {
+            "pattern_id": "P2X2-D35-B5",
+            "room_id": "R03"
+          },
+          "before": {
+            "pattern_id": "P2X2-D35-B5",
+            "room_id": "R03"
+          },
+          "section_id": "S08"
+        },
+        {
+          "after": {
+            "pattern_id": "P1X2-D2-B1",
+            "room_id": "R04"
+          },
+          "before": {
+            "pattern_id": "P1X2-D2-B1",
+            "room_id": "R04"
+          },
+          "section_id": "S11"
+        },
+        {
+          "after": {
+            "pattern_id": "P2X1-D24-B2",
+            "room_id": "R03"
+          },
+          "before": {
+            "pattern_id": "P2X1-D24-B2",
+            "room_id": "R03"
+          },
+          "section_id": "S12"
+        }
+      ]
+    },
+    "total_sections": 12
+  }
+}

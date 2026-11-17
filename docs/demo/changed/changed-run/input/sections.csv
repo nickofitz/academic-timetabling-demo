@@ -1,0 +1,13 @@
+id,name,teacher_id,enrollment,sessions_per_week,blocks_per_session
+S01,Sección 01,T01,23,2,1
+S02,Sección 02,T02,85,2,1
+S03,Sección 03,T03,23,2,1
+S04,Sección 04,T04,60,2,1
+S05,Sección 05,T05,111,1,2
+S06,Sección 06,T06,108,1,2
+S07,Sección 07,T01,63,1,2
+S08,Sección 08,T02,54,2,2
+S09,Sección 09,T03,49,2,2
+S10,Sección 10,T04,112,1,2
+S11,Sección 11,T05,31,1,2
+S12,Sección 12,T06,49,2,1

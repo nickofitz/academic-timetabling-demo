@@ -1,3 +1,5 @@
 # Los datasets versionados se conservan con finales LF en todo sistema operativo.
 data/synthetic/**/*.csv text eol=lf
 data/synthetic/**/*.json text eol=lf
+# El conjunto de demostración guarda hashes de bytes exactos: Git no convierte nada en él.
+docs/demo/** -text

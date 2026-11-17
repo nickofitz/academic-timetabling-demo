@@ -6,7 +6,7 @@ Academic Timetabling Demo · versión documental 0.2 · 5 de noviembre de 2026.
 
 Reglas, datos, costos, estados y aceptación: `especificacion.md` (fuente de verdad). Esquema: `schema.sql`. Decisiones y alternativas: `docs/decisiones.md`. Reparto y Git: `docs/colaboracion.md`. Esta guía organiza la implementación, sin redefinir esas reglas.
 
-Estado: existen `generate`, `run --solver cp-sat`, `run --solver greedy`, `audit` y `compare` (Hito 4 implementado y revisado). La presentación HTML del Hito 5 sigue pendiente.
+Estado: existen `generate`, `run --solver cp-sat`, `run --solver greedy` (con `schedule.csv` y `schedule.html` para corridas válidas), `audit`, `compare` y `scripts/demo_change.py` (Hito 5 implementado y revisado).
 
 ## 2. Secuencia y puertas de salida
 
@@ -23,13 +23,13 @@ Codex prepara el encargo de cada hito y revisa la entrega; Claude lo implementa;
 
 ## 3. Organización prevista
 
-Paquete `src/academic_timetabling_demo/`: dominio, base/carga, generación sintética, candidatos, solver, auditoría, línea base, métricas, reportes y CLI. `tests/` contiene casos independientes y de integración. `data/synthetic/` conserva CSV generados aprobados; `runs/` contiene corridas locales no versionadas. Una corrida pública seleccionada podrá incluirse en `docs/demo/` en Hito 5, tras revisión.
+Paquete `src/academic_timetabling_demo/`: dominio, base/carga, generación sintética, candidatos, solver, auditoría, línea base, métricas, reportes y CLI. `tests/` contiene casos independientes y de integración. `data/synthetic/` conserva CSV generados aprobados; `runs/` contiene corridas locales no versionadas. El conjunto revisado de corridas de demostración está en `docs/demo/`.
 
 El esquema raíz sigue siendo canónico. Si la distribución del paquete necesita copiar SQL o plantillas como recursos, automatizar la copia y comprobar igualdad; no mantener dos esquemas editados a mano.
 
-## 4. Contrato de ejecución futuro
+## 4. Contrato de ejecución
 
-Estos comandos deben existir al cerrar Hito 5. Hito 0 solo implementa ayuda general.
+Todos estos comandos existen desde el Hito 5.
 
 ```bash
 uv sync --locked
@@ -39,9 +39,10 @@ uv run python -m academic_timetabling_demo run --input data/synthetic/demo --sol
 uv run python -m academic_timetabling_demo run --input data/synthetic/demo --solver greedy --out runs/demo-greedy
 uv run python -m academic_timetabling_demo audit --input data/synthetic/demo --assignments runs/demo-cpsat/assignments.csv
 uv run python -m academic_timetabling_demo compare --runs runs/demo-greedy runs/demo-cpsat --out runs/comparison.json
+uv run python scripts/demo_change.py --base-run runs/demo-cpsat --out runs/demo-change
 uv run python -m pytest
-uv run ruff check src tests
-uv run ruff format --check src tests
+uv run ruff check src tests scripts
+uv run ruff format --check src tests scripts
 ```
 
 `uv run python -m pytest` equivale a `uv run pytest` y evita el lanzador `pytest.exe`, bloqueado en algunas carpetas de Windows.
@@ -54,7 +55,9 @@ uv run ruff format --check src tests
 2. Ejecutar CP-SAT y mostrar estado real, cobertura y auditoría.
 3. Comparar con la heurística, o explicar por qué no corresponde comparar costos.
 4. Filtrar la grilla por semana, sala, docente y grupo.
-5. Copiar las entradas, retirar una disponibilidad utilizada y ejecutar en otra carpeta. Mostrar diagnóstico si no hay solución y medir cambios si la hay.
+5. Copiar las entradas, retirar una disponibilidad utilizada y ejecutar en otra carpeta con `scripts/demo_change.py`. Mostrar diagnóstico si no hay solución y el recuento de reasignaciones si la hay.
+
+El guion de cinco minutos y el conjunto ya generado están en `docs/demo/README.md`.
 
 Cada entrega incluye diff, comandos, resultados y limitaciones. Las pruebas de aceptación están en la especificación. No afirmar rendimiento institucional ni superioridad entre métodos con estos casos.
 

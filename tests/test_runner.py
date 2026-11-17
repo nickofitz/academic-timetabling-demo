@@ -1,6 +1,8 @@
 """Corridas: salidas, estados, códigos, snapshots y hashes."""
 
+import csv
 import hashlib
+import io
 import json
 from pathlib import Path
 
@@ -92,6 +94,8 @@ def test_micro_run_produces_audited_solution(tmp_path: Path) -> None:
         "effective_config.json",
         "input",
         "metrics.json",
+        "schedule.csv",
+        "schedule.html",
     ]
     assert (out / "assignments.csv").read_text(encoding="utf-8") == (
         "section_id,pattern_id,room_id\nS1,P2,R1\nS2,P3,R2\nS3,P5,R1\n"
@@ -104,6 +108,8 @@ def test_micro_run_produces_audited_solution(tmp_path: Path) -> None:
         "audit": "PASSED",
         "integrity": "VERIFIED",
         "result_valid": True,
+        "export": "WRITTEN",
+        "deliverable": True,
     }
     assert metrics["input"]["snapshot_verified"] is True
     assert strict_json(out / "diagnostics.json")["integrity"] == {
@@ -677,6 +683,272 @@ def test_integrity_check_also_protects_greedy(tmp_path: Path, monkeypatch) -> No
     assert metrics["status"]["baseline"] == "COMPLETE"
     assert metrics["status"]["integrity"] == "FAILED"
     assert metrics["status"]["result_valid"] is False
+
+
+# Exportaciones del Hito 5 ---------------------------------------------------------------
+
+SCHEDULE = ("schedule.csv", "schedule.html")
+
+
+def no_export(out: Path) -> dict:
+    metrics = strict_json(out / "metrics.json")
+    assert not any((out / name).exists() for name in SCHEDULE)
+    assert not list(out.glob(".*.tmp"))
+    assert metrics["status"]["deliverable"] is False
+    return metrics
+
+
+@pytest.mark.parametrize(
+    ("case", "solver"), [("micro", "cp-sat"), ("micro", "greedy"), ("demo", "greedy")]
+)
+def test_valid_runs_export_consistent_files(tmp_path: Path, case: str, solver: str) -> None:
+    out = tmp_path / "corrida"
+
+    outcome = runner.run(DATA / case, out, solver=solver)
+
+    metrics = strict_json(out / "metrics.json")
+    assert outcome.exit_code == 0
+    assert (metrics["status"]["export"], metrics["status"]["deliverable"]) == ("WRITTEN", True)
+    for name in SCHEDULE:
+        content = (out / name).read_bytes()
+        assert metrics["export"]["files"][name] == hashlib.sha256(content).hexdigest()
+    rows = list(csv.DictReader(io.StringIO((out / "schedule.csv").read_text(encoding="utf-8"))))
+    assert {r["run_id"] for r in rows} == {metrics["run_id"]}
+    assert len(rows) == metrics["export"]["sessions"]
+    assigned = {
+        line.split(",")[0] for line in (out / "assignments.csv").read_text("utf-8").split()[1:]
+    }
+    assert {r["section_id"] for r in rows} == assigned
+    html = (out / "schedule.html").read_text(encoding="utf-8")
+    assert metrics["run_id"] in html
+    assert f"{metrics['costs']['objective']} = " in html
+    assert "export" in metrics["timings_seconds"]
+    assert metrics["timings_seconds"]["total"] >= metrics["timings_seconds"]["export"]
+    assert not list(out.glob(".*.tmp"))
+
+
+def test_no_export_for_empty_domain(tmp_path: Path, micro: Instance) -> None:
+    sections = tuple(
+        s.model_copy(update={"enrollment": 60}) if s.id == "S2" else s for s in micro.sections
+    )
+    source = write_input(tmp_path / "entrada", micro.model_copy(update={"sections": sections}))
+
+    assert runner.run(source, tmp_path / "o").exit_code == 3
+    assert no_export(tmp_path / "o")["status"]["export"] == "NOT_APPLICABLE"
+
+
+def test_no_export_for_infeasible(tmp_path: Path, micro: Instance) -> None:
+    groups = (*micro.section_groups, SectionGroup(section_id="S1", group_id="G2"))
+    source = write_input(tmp_path / "entrada", micro.model_copy(update={"section_groups": groups}))
+
+    assert runner.run(source, tmp_path / "o").exit_code == 3
+    no_export(tmp_path / "o")
+
+
+def test_no_export_for_incomplete_greedy(tmp_path: Path, micro: Instance) -> None:
+    source = write_input(tmp_path / "entrada", stuck_instance(micro))
+
+    assert runner.run(source, tmp_path / "o", solver="greedy").exit_code == 3
+    no_export(tmp_path / "o")
+
+
+@pytest.mark.parametrize(("status", "code"), [("UNKNOWN", 3), ("MODEL_INVALID", 5)])
+def test_no_export_without_solution(tmp_path: Path, monkeypatch, status: str, code: int) -> None:
+    monkeypatch.setattr(runner, "build_and_solve", lambda c, config: fake_result(status))
+
+    assert runner.run(DATA / "micro", tmp_path / "o").exit_code == code
+    no_export(tmp_path / "o")
+
+
+def test_no_export_after_failed_audit(tmp_path: Path, monkeypatch) -> None:
+    clashing = (
+        Assignment("S1", "P1", "R1"),
+        Assignment("S2", "P3", "R2"),
+        Assignment("S3", "P6", "R1"),
+    )
+    monkeypatch.setattr(
+        runner, "build_and_solve", lambda c, config: fake_result("OPTIMAL", clashing, 3)
+    )
+
+    assert runner.run(DATA / "micro", tmp_path / "o").exit_code == 4
+    no_export(tmp_path / "o")
+
+
+def test_no_export_after_integrity_failure(tmp_path: Path, monkeypatch) -> None:
+    out = tmp_path / "o"
+    rooms = out / "input" / "rooms.csv"
+    audit_then(
+        lambda: rooms.write_bytes(rooms.read_bytes().replace(b",30\n", b",31\n")), monkeypatch
+    )
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+    no_export(out)
+
+
+def assert_export_failed(out: Path) -> dict:
+    metrics = no_export(out)
+    assert metrics["exit_code"] == 5
+    assert metrics["status"]["export"] == "FAILED"
+    # Fallo de exportación, no matemático: solver y auditoría conservan su estado real.
+    assert (metrics["status"]["solver"], metrics["status"]["audit"]) == ("OPTIMAL", "PASSED")
+    assert (out / "assignments.csv").exists()
+    assert (out / "audit.json").exists()
+    assert "no está lista para entregar" in metrics["error"]
+    return metrics
+
+
+def test_render_failure_leaves_no_export(tmp_path: Path, monkeypatch) -> None:
+    def broken(data):
+        raise RuntimeError("fallo de plantilla simulado")
+
+    monkeypatch.setattr(runner.report, "render_html", broken)
+    out = tmp_path / "o"
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+    assert "fallo de plantilla simulado" in assert_export_failed(out)["error"]
+
+
+def test_failure_between_both_files_removes_the_first(tmp_path: Path, monkeypatch) -> None:
+    real = runner._replace
+    calls = []
+
+    def second_fails(source: Path, target: Path) -> None:
+        calls.append(target.name)
+        if target.name == "schedule.html":
+            raise OSError(28, "No space left on device")
+        real(source, target)
+
+    monkeypatch.setattr(runner, "_replace", second_fails)
+    out = tmp_path / "o"
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+    assert calls == ["schedule.csv", "schedule.html"]
+    assert_export_failed(out)
+
+
+def test_snapshot_changed_during_presentation(tmp_path: Path, monkeypatch) -> None:
+    out = tmp_path / "o"
+    real = runner.report.render_html
+
+    def tamper_then_render(data):
+        rooms = out / "input" / "rooms.csv"
+        rooms.write_bytes(rooms.read_bytes().replace(b",30\n", b",31\n"))
+        return real(data)
+
+    monkeypatch.setattr(runner.report, "render_html", tamper_then_render)
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+    assert "snapshot cambió" in assert_export_failed(out)["error"]
+
+
+def tamper_during_render(monkeypatch, action) -> None:
+    """Llama al render real y altera la evidencia antes de devolver el HTML."""
+    real = runner.report.render_html
+
+    def wrapped(data):
+        html = real(data)
+        action()
+        return html
+
+    monkeypatch.setattr(runner.report, "render_html", wrapped)
+
+
+@pytest.mark.parametrize(
+    ("content", "kind"),
+    [
+        # Reproducción de la revisión: triples con choques.
+        ("section_id,pattern_id,room_id\nS1,P1,R1\nS2,P3,R2\nS3,P6,R1\n", "inválido"),
+        # Otro horario válido (S1 en P1, costo 23): tampoco puede quedar desacoplado del export.
+        ("section_id,pattern_id,room_id\nS1,P1,R1\nS2,P3,R2\nS3,P5,R1\n", "válido"),
+    ],
+)
+def test_assignments_changed_during_render_block_export(
+    tmp_path: Path, monkeypatch, content: str, kind: str
+) -> None:
+    out = tmp_path / "o"
+    tamper_during_render(
+        monkeypatch, lambda: (out / "assignments.csv").write_text(content, encoding="utf-8")
+    )
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+
+    metrics = assert_export_failed(out)
+    assert "assignments.csv cambió durante la exportación" in metrics["error"]
+    # La evidencia alterada se conserva para diagnóstico; el resultado auditado era otro.
+    assert (out / "assignments.csv").read_text(encoding="utf-8") == content
+    assert metrics["status"]["result_valid"] is True
+    assert metrics["export"]["files"] == {}
+
+
+def test_effective_config_changed_during_render_blocks_export(tmp_path: Path, monkeypatch) -> None:
+    out = tmp_path / "o"
+
+    def tamper() -> None:
+        path = out / "effective_config.json"
+        path.write_bytes(path.read_bytes().replace(b'"alpha": 10', b'"alpha": 1'))
+
+    tamper_during_render(monkeypatch, tamper)
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+    assert (
+        "effective_config.json cambió durante la exportación" in assert_export_failed(out)["error"]
+    )
+
+
+def test_assignments_changed_before_validation_reading_is_detected(
+    tmp_path: Path, monkeypatch
+) -> None:
+    # Cambio entre la captura inicial y la lectura de las asignaciones a presentar.
+    out = tmp_path / "o"
+    real = runner.read_assignments
+    calls = []
+
+    def tamper_on_read(path: Path):
+        calls.append(path)
+        rows = real(path)
+        if len(calls) == 1:
+            (out / "assignments.csv").write_text(
+                "section_id,pattern_id,room_id\nS1,P1,R1\nS2,P3,R2\nS3,P5,R1\n", encoding="utf-8"
+            )
+        return rows
+
+    monkeypatch.setattr(runner, "read_assignments", tamper_on_read)
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+    assert "mientras se validaba y leía" in assert_export_failed(out)["error"]
+
+
+def test_manipulated_assignments_are_not_presented(tmp_path: Path, monkeypatch) -> None:
+    out = tmp_path / "o"
+
+    def tamper() -> None:
+        (out / "assignments.csv").write_text(
+            "section_id,pattern_id,room_id\nS1,P1,R1\nS2,P3,R2\nS3,P6,R1\n", encoding="utf-8"
+        )
+
+    audit_then(tamper, monkeypatch)
+
+    assert runner.run(DATA / "micro", out).exit_code == 5
+    assert "ROOM_CLASH" in assert_export_failed(out)["error"]
+
+
+def test_export_reads_the_snapshot_not_the_source(
+    tmp_path: Path, micro: Instance, monkeypatch
+) -> None:
+    source = write_input(tmp_path / "entrada", micro)
+    out = tmp_path / "o"
+    rooms = source / "rooms.csv"
+    audit_then(
+        lambda: rooms.write_bytes(rooms.read_bytes().replace(b"Sala 1", b"Sala Cambiada")),
+        monkeypatch,
+    )
+
+    assert runner.run(source, out).exit_code == 0
+
+    csv_text = (out / "schedule.csv").read_text(encoding="utf-8")
+    assert "Sala Cambiada" not in csv_text
+    assert "Sala 1" in csv_text
+    assert strict_json(out / "metrics.json")["input"]["source_unchanged"] is False
 
 
 # Procedencia de datos --------------------------------------------------------------------

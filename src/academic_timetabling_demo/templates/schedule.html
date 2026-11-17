@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>Academic Timetabling Demo · {{ run.run_id }}</title>
+<style>
+  :root {
+    --bg: #f6f8fa; --surface: #ffffff; --text: #1b2430; --muted: #4f5b67; --line: #d5dce3;
+    --accent: #1f5f99; --accent-soft: #e5eef7; --green: #23744b; --green-soft: #e3f2ea;
+    --focus: #f0a400;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  header { background: var(--surface); border-bottom: 1px solid var(--line); padding: 16px 24px; }
+  h1 { font-size: 1.35rem; margin: 0 8px 0 0; display: inline-block; }
+  .badge {
+    display: inline-block; vertical-align: middle; padding: 2px 10px; border-radius: 999px;
+    background: var(--green-soft); color: var(--green); font-weight: 600; font-size: .85rem;
+    border: 1px solid #b9dcc8;
+  }
+  main { padding: 16px 24px 40px; max-width: 1400px; margin: 0 auto; }
+  .summary {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px 16px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 16px; margin: 0 0 16px;
+  }
+  .summary div { min-width: 0; }
+  .summary dt { color: var(--muted); font-size: .8rem; }
+  .summary dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+  .filters {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 12px;
+  }
+  .filters label { display: flex; flex-direction: column; font-size: .8rem; color: var(--muted); }
+  .filters select, .filters button {
+    font: inherit; color: var(--text); padding: 6px 8px; border: 1px solid #9aa7b4;
+    border-radius: 6px; background: #fff; min-width: 150px; max-width: 280px;
+  }
+  .filters button { background: var(--accent); color: #fff; border-color: var(--accent); min-width: 0; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .counter { margin: 4px 0 12px; color: var(--muted); }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 0 0 12px; font-size: .85rem; color: var(--muted); }
+  .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+  .room { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 16px; }
+  .room h2 { font-size: 1rem; margin: 0; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .scroll { overflow-x: auto; }
+  table.grid { border-collapse: collapse; width: 100%; min-width: 640px; table-layout: fixed; }
+  .grid th, .grid td { border: 1px solid var(--line); padding: 4px; vertical-align: top; }
+  .grid thead th { background: var(--accent-soft); font-size: .85rem; }
+  .grid th[scope=row] { width: 120px; font-size: .8rem; font-weight: 600; text-align: left; background: #fafbfc; }
+  .card {
+    border-radius: 6px; padding: 6px 8px; height: 100%; font-size: .8rem;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); overflow-wrap: anywhere;
+  }
+  .card.double { background: var(--green-soft); border-left-color: var(--green); }
+  .card strong { display: block; font-size: .85rem; }
+  .empty { background: var(--surface); border: 1px dashed #9aa7b4; border-radius: 8px; padding: 24px; text-align: center; }
+  table.list { border-collapse: collapse; width: 100%; background: var(--surface); font-size: .85rem; }
+  .list caption { text-align: left; font-weight: 600; padding: 8px 0; }
+  .list th, .list td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; overflow-wrap: anywhere; }
+  .list thead th { background: var(--accent-soft); }
+  footer { color: var(--muted); font-size: .8rem; margin-top: 24px; }
+  @media (max-width: 700px) { header, main { padding-left: 12px; padding-right: 12px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Academic Timetabling Demo</h1>
+  <span class="badge">Datos sintéticos</span>
+</header>
+<main>
+  <dl class="summary" aria-label="Indicadores de la corrida completa">
+    <div><dt>Corrida</dt><dd>{{ run.run_id }}</dd></div>
+    <div><dt>Fecha (UTC)</dt><dd>{{ run.created_utc }}</dd></div>
+    <div><dt>Método</dt><dd>{{ run.method }}</dd></div>
+    <div><dt>Estado</dt><dd>{{ run.status }}</dd></div>
+    <div><dt>Secciones asignadas</dt><dd>{{ run.assigned }} de {{ run.total }}</dd></div>
+    <div><dt>Auditoría independiente</dt><dd>{{ run.audit }}</dd></div>
+    <div><dt>Integridad del snapshot</dt><dd>{{ run.integrity }}</dd></div>
+    <div><dt>Costo total (α·D + β·E)</dt><dd>{{ run.objective }} = {{ run.alpha }}·{{ run.cost_d }} + {{ run.beta }}·{{ run.cost_e }}</dd></div>
+    <div><dt>{{ run.timing.label }}</dt><dd>{% if run.timing.seconds is not none %}{{ "%.3f"|format(run.timing.seconds) }} s{% else %}no registrado{% endif %}</dd></div>
+    <div><dt>Semilla de datos</dt><dd>{% if run.data_seed is not none %}{{ run.data_seed }} (verificada por el manifiesto){% else %}no acreditada{% endif %}</dd></div>
+  </dl>
+
+  <form class="filters" id="filters" aria-label="Filtros">
+    <label for="f-week">Semana<select id="f-week"></select></label>
+    <label for="f-room">Sala<select id="f-room"></select></label>
+    <label for="f-teacher">Docente<select id="f-teacher"></select></label>
+    <label for="f-group">Grupo<select id="f-group"></select></label>
+    <button type="button" id="reset">Restablecer filtros</button>
+  </form>
+  <p class="counter" id="counter" aria-live="polite"></p>
+  <p class="legend">
+    <span><span class="swatch" style="background:#e5eef7;border-left:4px solid #1f5f99"></span>Sesión de 1 bloque</span>
+    <span><span class="swatch" style="background:#e3f2ea;border-left:4px solid #23744b"></span>Sesión de 2 o más bloques (ocupa todas sus filas)</span>
+    <span>Los indicadores superiores son de la corrida completa; los filtros solo cambian lo que se muestra.</span>
+  </p>
+  <div id="grids"></div>
+  <div class="scroll"><table class="list" id="list"></table></div>
+  <footer>Vista generada desde el snapshot y las asignaciones auditadas de la corrida. El navegador solo filtra; las soluciones se calculan en Python. Tiempo total y fases: metrics.json.</footer>
+</main>
+<script type="application/json" id="schedule-data">{{ data_json|safe }}</script>
+<script>
+(function () {
+  "use strict";
+  var data = JSON.parse(document.getElementById("schedule-data").textContent);
+  var byId = function (id) { return document.getElementById(id); };
+  var el = function (tag, text, cls) {
+    var node = document.createElement(tag);
+    if (text !== undefined && text !== null) { node.textContent = String(text); }
+    if (cls) { node.className = cls; }
+    return node;
+  };
+  var dayLabel = {};
+  data.days.forEach(function (d) { dayLabel[d.id] = d.label; });
+  var roomInfo = {};
+  data.rooms.forEach(function (r) { roomInfo[r.id] = r; });
+  var blockInfo = {};
+  data.blocks.forEach(function (b) { blockInfo[b.id] = b; });
+
+  function fill(select, items, allLabel) {
+    if (allLabel) { var all = el("option", allLabel); all.value = ""; select.appendChild(all); }
+    items.forEach(function (item) {
+      var option = el("option", item.label);
+      option.value = String(item.value);
+      select.appendChild(option);
+    });
+  }
+  fill(byId("f-week"), data.weeks.map(function (w) { return { value: w, label: "Semana " + w }; }));
+  fill(byId("f-room"), data.rooms.map(function (r) { return { value: r.id, label: r.name + " (" + r.id + ")" }; }), "Todas");
+  fill(byId("f-teacher"), data.teachers.map(function (t) { return { value: t.id, label: t.name + " (" + t.id + ")" }; }), "Todos");
+  fill(byId("f-group"), data.groups.map(function (g) { return { value: g.id, label: g.name + " (" + g.id + ")" }; }), "Todos");
+
+  function current() {
+    return {
+      week: Number(byId("f-week").value),
+      room: byId("f-room").value,
+      teacher: byId("f-teacher").value,
+      group: byId("f-group").value
+    };
+  }
+  function visible(f) {
+    return data.sessions.filter(function (s) {
+      return s.week === f.week &&
+        (!f.room || s.room_id === f.room) &&
+        (!f.teacher || s.teacher_id === f.teacher) &&
+        (!f.group || s.group_ids.indexOf(f.group) !== -1);
+    });
+  }
+  function groupsText(s) {
+    return s.group_names.map(function (name, i) { return name + " (" + s.group_ids[i] + ")"; }).join(", ");
+  }
+  function card(s) {
+    var box = el("div", null, s.duration > 1 ? "card double" : "card");
+    box.appendChild(el("strong", s.section_name + " (" + s.section_id + ")"));
+    box.appendChild(el("div", s.start_time + "–" + s.end_time + " · " + s.duration + (s.duration > 1 ? " bloques" : " bloque")));
+    box.appendChild(el("div", "Sala: " + s.room_name));
+    box.appendChild(el("div", "Docente: " + s.teacher_name));
+    box.appendChild(el("div", "Grupos: " + groupsText(s)));
+    box.title = s.section_name + " · " + dayLabel[s.day] + " " + s.start_time + "–" + s.end_time +
+      " · " + s.room_name + " · " + s.teacher_name + " · " + groupsText(s);
+    return box;
+  }
+  function grid(roomId, sessions) {
+    var room = roomInfo[roomId];
+    var section = el("section", null, "room");
+    section.setAttribute("aria-label", "Sala " + room.name);
+    section.appendChild(el("h2", room.name + " (" + room.id + ") · capacidad " + room.capacity));
+    var wrap = el("div", null, "scroll");
+    var table = el("table", null, "grid");
+    var head = el("thead"); var row = el("tr");
+    row.appendChild(el("th", "Bloque"));
+    data.days.forEach(function (d) { var th = el("th", d.label); th.scope = "col"; row.appendChild(th); });
+    head.appendChild(row); table.appendChild(head);
+    var starts = {};
+    sessions.forEach(function (s) { starts[s.day + ":" + s.start_block] = s; });
+    var covered = {};
+    var body = el("tbody");
+    data.blocks.forEach(function (b) {
+      var tr = el("tr");
+      var th = el("th", "B" + b.id + " · " + b.start + "–" + b.end); th.scope = "row";
+      tr.appendChild(th);
+      data.days.forEach(function (d) {
+        var key = d.id + ":" + b.id;
+        if (covered[key]) { return; }
+        var td = el("td");
+        var s = starts[key];
+        if (s) {
+          td.rowSpan = s.duration;
+          for (var k = 1; k < s.duration; k++) { covered[d.id + ":" + (b.id + k)] = true; }
+          td.appendChild(card(s));
+        }
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+    table.appendChild(body); wrap.appendChild(table); section.appendChild(wrap);
+    return section;
+  }
+  function renderList(sessions, f) {
+    var table = byId("list");
+    while (table.firstChild) { table.removeChild(table.firstChild); }
+    table.appendChild(el("caption", "Sesiones visibles · semana " + f.week));
+    var head = el("thead"); var row = el("tr");
+    ["Día", "Horario", "Bloques", "Sección", "Sala", "Docente", "Grupos"].forEach(function (h) {
+      var th = el("th", h); th.scope = "col"; row.appendChild(th);
+    });
+    head.appendChild(row); table.appendChild(head);
+    var body = el("tbody");
+    sessions.forEach(function (s) {
+      var tr = el("tr");
+      [dayLabel[s.day], s.start_time + "–" + s.end_time, s.duration, s.section_name + " (" + s.section_id + ")",
+       s.room_name + " (" + s.room_id + ")", s.teacher_name + " (" + s.teacher_id + ")", groupsText(s)
+      ].forEach(function (value) { tr.appendChild(el("td", value)); });
+      body.appendChild(tr);
+    });
+    table.appendChild(body);
+  }
+  function render() {
+    var f = current();
+    var sessions = visible(f);
+    var grids = byId("grids");
+    while (grids.firstChild) { grids.removeChild(grids.firstChild); }
+    byId("counter").textContent = sessions.length + (sessions.length === 1 ? " sesión visible" : " sesiones visibles") +
+      " de " + data.sessions.length + " en la corrida (todas las semanas).";
+    if (!sessions.length) {
+      var empty = el("div", null, "empty");
+      empty.appendChild(el("p", "Ninguna sesión cumple los filtros seleccionados en la semana " + f.week + "."));
+      var again = el("button", "Restablecer filtros");
+      again.type = "button";
+      again.addEventListener("click", reset);
+      empty.appendChild(again);
+      grids.appendChild(empty);
+    } else {
+      var rooms = f.room ? [f.room] : data.rooms.map(function (r) { return r.id; }).filter(function (id) {
+        return sessions.some(function (s) { return s.room_id === id; });
+      });
+      rooms.forEach(function (id) {
+        grids.appendChild(grid(id, sessions.filter(function (s) { return s.room_id === id; })));
+      });
+    }
+    renderList(sessions, f);
+  }
+  function reset() {
+    byId("f-week").value = String(data.weeks[0]);
+    byId("f-room").value = ""; byId("f-teacher").value = ""; byId("f-group").value = "";
+    render();
+  }
+  ["f-week", "f-room", "f-teacher", "f-group"].forEach(function (id) { byId(id).addEventListener("change", render); });
+  byId("reset").addEventListener("click", reset);
+  byId("filters").addEventListener("submit", function (event) { event.preventDefault(); });
+  reset();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "alpha": 10,
+  "beta": 1,
+  "num_search_workers": 1,
+  "random_seed": 42,
+  "time_limit_seconds": 30.0
+}

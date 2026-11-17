@@ -6,7 +6,7 @@ Versión documental 0.2 · 5 de noviembre de 2026 · Academic Timetabling Demo.
 
 Demo local independiente de asignación de secciones a patrones semanales y salas, exclusivamente con datos sintéticos. Esta especificación es la fuente de verdad funcional. `schema.sql` materializa el contrato de datos; `Guia_MVP_Timetabling_Codex.md` organiza la ejecución. Si discrepan, detener el cambio afectado y corregir los documentos antes de implementarlo. Los antecedentes en `local/historico/` no son normativos.
 
-Estado: implementados y revisados los hitos 0 a 4, incluida la heurística voraz, `compare` y la procedencia de datos. El HTML sigue pendiente. Los resultados medidos constan en `docs/entregas/`, no en esta especificación.
+Estado: implementados y revisados los hitos 0 a 5, incluidas exportaciones, grilla HTML y cambio de disponibilidad reproducible. Los resultados medidos constan en `docs/entregas/`, no en esta especificación.
 
 ## 2. Alcance y modelo temporal
 
@@ -90,13 +90,13 @@ Comandos: `generate`, `run` (`--solver cp-sat` o `greedy`), `audit` y `compare` 
 
 Cada corrida usa un directorio nuevo y un `run_id` único; rechazar un directorio de salida no vacío. Conservar snapshot de entradas y configuración efectiva, hashes SHA-256, fecha UTC, revisión Git y estado de cambios si existen, versiones Python/OR-Tools/código, sistema, CPU, semillas, trabajadores y límite temporal.
 
-Salidas: `diagnostics.json`, `metrics.json`, `audit.json`; con asignaciones, también `assignments.csv`. Solo una solución completa auditada produce `schedule.csv` y `schedule.html` válidos. Las salidas parciales se identifican expresamente. Con error de datos, dominio vacío o sin solución, costo y brecha son `null`; no reutilizar horarios previos. `audit.json` indica `NOT_RUN` si no hubo asignaciones que auditar.
+Salidas: `diagnostics.json`, `metrics.json`, `audit.json`; con asignaciones, también `assignments.csv`. Solo una solución completa (CP-SAT `OPTIMAL`/`FEASIBLE` o heurística `COMPLETE`), auditada y con snapshot verificado produce `schedule.csv` y `schedule.html`; se generan desde el snapshot, la configuración efectiva y las asignaciones de la propia corrida, en temporales que solo se publican si la evidencia se revalida y el snapshot no cambió. Si la exportación falla, código 5, `status.export=FAILED`, `status.deliverable=false` y ningún archivo final de exportación; los estados del método y de la auditoría no se reescriben. `schedule.csv` (UTF-8, LF) tiene una fila por sesión y semana activa, con columnas `run_id,section_id,section_name,pattern_id,session_id,week_id,day_id,start_block_id,duration_blocks,start_time,end_time,room_id,room_name,teacher_id,teacher_name,group_ids,enrollment,room_capacity`; una sesión doble es una sola fila de duración 2 y `group_ids` es un array JSON ordenado en una celda. Orden: semana, día, bloque inicial, sala, sección y sesión. Las salidas parciales se identifican expresamente. Con error de datos, dominio vacío o sin solución, costo y brecha son `null`; no reutilizar horarios previos. `audit.json` indica `NOT_RUN` si no hubo asignaciones que auditar.
 
 Medir carga, preprocesamiento, solver, auditoría y total; cobertura, alternativas antes/después, variables, estados, costos desglosados y mejor cota. Brecha relativa con solución y cota finita: `max(0,z-L)/max(1,abs(z))`. Mejora porcentual: `100*(z_base-z)/z_base` solo si ambas soluciones son válidas y `z_base>0`; si base cero, usar diferencia absoluta. `compare` rechaza hashes de entradas o pesos distintos.
 
-Códigos CLI: 0 éxito completo auditado (o generación/comparación válida); 2 argumentos/datos inválidos; 3 sin solución completa (`NO_CANDIDATES`, `INFEASIBLE`, `UNKNOWN`, heurística incompleta); 4 auditoría fallida; 5 error interno o `MODEL_INVALID`. Los detalles quedan en JSON cuando se haya podido crear el directorio de corrida.
+Códigos CLI: 0 éxito completo auditado (o generación/comparación válida); 2 argumentos/datos inválidos; 3 sin solución completa (`NO_CANDIDATES`, `INFEASIBLE`, `UNKNOWN`, heurística incompleta); 4 auditoría fallida; 5 error interno, `MODEL_INVALID`, fallo de integridad o fallo de exportación. Los detalles quedan en JSON cuando se haya podido crear el directorio de corrida.
 
-HTML autocontenido sin CDN ni red, con etiqueta Datos sintéticos, estado, fecha, métricas y filtros por semana, sala, docente y grupo. Sesiones de varios bloques muestran toda su duración. Escapar texto y serializar de forma segura. El navegador filtra resultados; Python reoptimiza.
+HTML autocontenido sin CDN ni red, con etiqueta Datos sintéticos, estado, fecha, métricas y filtros por semana, sala, docente y grupo. Sesiones de varios bloques muestran toda su duración. Escapar texto y serializar de forma segura. El navegador filtra resultados; Python reoptimiza. Una semana a la vez y filtros opcionales de sala, docente y grupo (por membresía) combinados por intersección; una grilla día/bloque por sala y una tabla accesible de sesiones visibles. Los indicadores de la corrida no se recalculan con los filtros.
 
 ## 8. Pruebas y aceptación
 
